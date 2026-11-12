@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="按《中国居民膳食指南（2022）》和《你是你吃出来的》七大营养素整理的家常菜和汤：可按冰箱里现有食材配菜，同类食材可互换，选一餐、勾一天，看哪种营养素还缺。">
+<title>七大营养素家常菜搭配（第一版）</title>
+<style>
+:root{
+  --bg:#f7f7f5;--paper:#ffffff;--text:#1d1d1f;--text2:#55575c;--text3:#8a8c91;
+  --border:#e3e3e0;--border2:#d0d0cc;--accent:#1f6feb;--accent-bg:#e8f0fe;
+  --ok:#1a7f37;--ok-bg:#e6f4ea;--warn:#b35900;--warn-bg:#fff3e0;--neutral-bg:#efefec;
+  --info-bg:#eef4ff;--radius:14px;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#121314;--paper:#1b1c1e;--text:#ececec;--text2:#b5b7bb;--text3:#8a8c91;
+    --border:#2c2d30;--border2:#3a3b3f;--accent:#6ea8ff;--accent-bg:#1c2a40;
+    --ok:#56d364;--ok-bg:#14301c;--warn:#f0a050;--warn-bg:#3a2610;--neutral-bg:#26272a;
+    --info-bg:#18233a;
+  }
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans CJK SC","Source Han Sans SC",sans-serif;
+  font-size:15px;line-height:1.65}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:28px 20px 60px;padding-left:max(20px,env(safe-area-inset-left));padding-right:max(20px,env(safe-area-inset-right))}
+header h1{font-size:28px;line-height:1.3;margin:0 0 10px}
+header .summary{color:var(--text2);margin:0 0 8px;font-size:16px}
+header .edition{display:inline-block;font-size:13px;color:var(--text2);background:var(--neutral-bg);border-radius:8px;padding:4px 10px;margin:4px 0 0}
+nav.toc{margin:22px 0 8px;display:flex;flex-wrap:wrap;gap:8px}
+nav.toc a{font-size:14px;padding:6px 12px;border:1px solid var(--border);border-radius:999px;background:var(--paper);color:var(--text)}
+section{margin-top:36px;scroll-margin-top:12px}
+section>h2{font-size:21px;margin:0 0 14px}
+h3{font-size:16px;margin:0 0 12px}
+p{margin:12px 0}
+.note{color:var(--text2);font-size:14px}
+.card{background:var(--paper);border:1px solid var(--border);border-radius:var(--radius);padding:18px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media (max-width:860px){.grid4{grid-template-columns:1fr 1fr}}
+@media (max-width:640px){.grid2,.grid4,.grid3{grid-template-columns:1fr}header h1{font-size:23px}.wrap{padding-top:20px}}
+.tbl{overflow-x:auto;-webkit-overflow-scrolling:touch;background:var(--paper);border:1px solid var(--border);border-radius:var(--radius)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:top}
+th{font-weight:600;color:var(--text2);background:var(--paper);white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td:first-child{font-weight:500}
+.wide-tbl table{min-width:760px}
+.mid-tbl table{min-width:560px}
+.pill{display:inline-block;font-size:13px;padding:1px 9px;border-radius:999px;white-space:nowrap}
+.pill.ok{background:var(--ok-bg);color:var(--ok)}
+.pill.warn{background:var(--warn-bg);color:var(--warn)}
+.pill.neutral{background:var(--neutral-bg);color:var(--text2)}
+.rows{background:var(--paper);border:1px solid var(--border);border-radius:var(--radius);margin-top:16px}
+.rows .r{padding:12px 16px;border-bottom:1px solid var(--border)}
+.rows .r:last-child{border-bottom:none}
+.rows .t{font-weight:600}
+.rows .d{color:var(--text2);font-size:14px}
+label.sel{display:block;font-size:13px;color:var(--text2)}
+select{width:100%;margin-top:4px;font:inherit;font-size:15px;color:var(--text);background:var(--paper);border:1px solid var(--border2);border-radius:10px;padding:9px 10px;appearance:auto}
+.seg{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0}
+.seg button{font:inherit;font-size:14px;border:1px solid var(--border2);background:var(--paper);color:var(--text);border-radius:999px;padding:6px 13px;cursor:pointer}
+.seg button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.toggles{display:flex;flex-wrap:wrap;gap:10px 12px}
+.tg{display:flex;align-items:center;gap:8px;background:var(--paper);border:1px solid var(--border);border-radius:12px;padding:8px 12px;cursor:pointer;user-select:none;font-size:14px}
+.tg input{position:absolute;opacity:0;pointer-events:none}
+.tg .sw{flex:none;width:34px;height:20px;border-radius:999px;background:var(--border2);position:relative;transition:background .15s}
+.tg .sw::after{content:"";position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:left .15s}
+.tg input:checked+.sw{background:var(--accent)}
+.tg input:checked+.sw::after{left:16px}
+.tg input:focus-visible+.sw{outline:2px solid var(--accent);outline-offset:2px}
+.btns{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.btn{font:inherit;font-size:14px;border:1px solid var(--border2);background:var(--paper);color:var(--text);border-radius:10px;padding:8px 14px;cursor:pointer}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+@media (max-width:640px){.metrics{grid-template-columns:1fr}}
+.metric{background:var(--paper);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px}
+.metric .v{font-size:26px;font-weight:600;line-height:1.2}
+.metric .v.ok{color:var(--ok)}
+.metric .l{font-size:14px;color:var(--text2)}
+.metric .dt{font-size:12px;color:var(--text3)}
+.groups{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.props{background:var(--paper);border:1px solid var(--border);border-radius:var(--radius);margin:14px 0}
+.props .p{display:flex;gap:16px;padding:10px 16px;border-bottom:1px solid var(--border)}
+.props .p:last-child{border-bottom:none}
+.props .k{flex:none;width:96px;color:var(--text2);font-size:14px}
+ol.steps{list-style:none;margin:0;padding:0;counter-reset:s}
+ol.steps li{position:relative;padding:0 0 14px 42px;counter-increment:s}
+ol.steps li::before{content:counter(s);position:absolute;left:0;top:0;width:28px;height:28px;border-radius:50%;border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--text2);background:var(--paper)}
+ol.steps li .st{font-weight:600}
+ol.steps li .sd{color:var(--text2);font-size:14px}
+.callout{background:var(--info-bg);border-radius:var(--radius);padding:14px 16px;font-size:14px}
+.callout b{display:block;margin-bottom:4px}
+.links{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px}
+@media (max-width:640px){.links{grid-template-columns:1fr}}
+.links a{display:block;background:var(--paper);border:1px solid var(--border);border-radius:12px;padding:12px 14px;color:var(--text)}
+.links a .s{display:block;font-size:12px;color:var(--text3)}
+.links a:hover{text-decoration:none;border-color:var(--accent)}
+footer{margin-top:44px;color:var(--text3);font-size:13px}
+.totop{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));width:42px;height:42px;border-radius:50%;border:1px solid var(--border2);background:var(--paper);color:var(--text2);font-size:18px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+
+/* fridge module */
+nav.toc a.featured{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+nav.toc a.featured:hover{text-decoration:none;opacity:.92}
+input[type=text],.field{width:100%;margin-top:4px;font:inherit;font-size:15px;color:var(--text);background:var(--paper);border:1px solid var(--border2);border-radius:10px;padding:9px 12px}
+.fridge-bar{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end}
+.fridge-bar .grow{flex:1;min-width:200px}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 4px;min-height:8px}
+.tag{display:inline-flex;align-items:center;gap:4px;background:var(--accent-bg);color:var(--accent);border-radius:999px;padding:3px 6px 3px 10px;font-size:14px}
+.tag button{font:inherit;font-size:16px;line-height:1;border:0;background:transparent;color:inherit;cursor:pointer;padding:2px 6px;border-radius:50%}
+.tag button:hover{background:rgba(0,0,0,.06)}
+.chip-block{margin-top:14px}
+.chip-block .lab{font-size:13px;color:var(--text2);margin:0 0 6px}
+.chip-row{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font:inherit;font-size:13px;border:1px solid var(--border2);background:var(--paper);color:var(--text);border-radius:999px;padding:4px 11px;cursor:pointer}
+.chip.on{background:var(--accent-bg);border-color:var(--accent);color:var(--accent)}
+.pantry-row{margin-top:12px}
+.dish-cards{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+@media (max-width:640px){.dish-cards{grid-template-columns:1fr}}
+.dish-card{background:var(--paper);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px}
+.dish-card h3{margin:0 0 8px;font-size:16px}
+.dish-card .meta,.dish-card .links{font-size:14px;color:var(--text2);margin-top:6px}
+.dish-card .miss{color:var(--warn);font-size:14px;margin-top:6px}
+.kicker{font-size:12px;color:var(--text3);margin:0 0 4px}
+.combo-card{background:var(--paper);border:1px solid var(--accent);border-radius:var(--radius);padding:16px 18px;margin-top:14px}
+.combo-card h3{margin:0 0 10px;font-size:17px}
+.combo-card ol{margin:8px 0 10px;padding-left:22px}
+.combo-card li{margin:4px 0}
+.combo-note{color:var(--text2);font-size:14px;margin:8px 0}
+.fallback{background:var(--warn-bg);border-radius:var(--radius);padding:14px 16px;margin-top:14px}
+.fallback b{display:block;margin-bottom:4px}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>七大营养素家常菜搭配（第一版）</h1>
+  <p class="summary">按《中国居民膳食指南（2022）》的每日推荐量和《你是你吃出来的》的七大营养素，把家常菜和汤归类：可按冰箱里的现有食材配菜；同类食材可互换，选一餐、勾一天，马上看出哪种营养素还缺。</p>
+  <span class="edition">指南版本：现行为2022版；第六版修订中尚未发布（截至2026-11）。</span>
+  <nav class="toc" aria-label="目录">
+    <a class="featured" href="#fridge">冰箱里有啥</a><a href="#overview">营养素框架总览</a><a href="#swap">同类食材怎么互换</a><a href="#meal">一餐搭配器</a><a href="#today">今天吃了什么</a><a href="#library">菜谱库</a><a href="#detail">查看一道菜的做法</a><a href="#sources">数据来源与说明</a>
+  </nav>
+</header>
+
+<section id="fridge">
+  <h2>冰箱里有啥 · 按现有食材配菜</h2>
+  <p class="note">输入或点选家里现成的食材，先看能做的菜和汤；再点「配一餐」，按蔬菜、蛋白质、碳水尽量配齐。同类食材可以互换，缺一两样也会标出来。</p>
+  <div class="card">
+    <div class="fridge-bar">
+      <label class="sel grow">输入食材（用顿号、逗号或空格分开）
+        <input type="text" id="fridgeInput" placeholder="例如：西红柿、鸡蛋、剩米饭" autocomplete="off">
+      </label>
+      <button type="button" class="btn primary" id="fridgeAdd">加入</button>
+      <button type="button" class="btn" id="fridgeClear">清空</button>
+    </div>
+    <div class="tags" id="fridgeTags" aria-live="polite"></div>
+    <div class="pantry-row">
+      <label class="tg"><input type="checkbox" id="fridgePantry" checked><span class="sw"></span><span>家里有油盐酱醋、葱姜蒜、生抽、淀粉、糖（默认已备好）</span></label>
+    </div>
+    <div id="fridgeChips"></div>
+    <div class="btns">
+      <button type="button" class="btn primary" id="fridgePropose">配一餐</button>
+      <button type="button" class="btn" id="fridgeSwap">换一组</button>
+      <button type="button" class="btn" id="exFridge1">示例：西红柿 鸡蛋 米饭</button>
+      <button type="button" class="btn" id="exFridge2">示例：土豆 剩米饭 青菜</button>
+    </div>
+  </div>
+  <div id="fridgeCombo"></div>
+  <p id="fridgeHint" class="note"></p>
+  <div id="fridgeReady"></div>
+  <div id="fridgeAlmost"></div>
+  <div id="fridgeFallback"></div>
+</section>
+
+
+<section id="overview">
+  <h2>营养素框架总览</h2>
+  <div class="tbl wide-tbl"><table id="overviewTbl"></table></div>
+  <p>餐盘原则：每餐有谷薯、蔬菜、鱼禽肉蛋或豆制品，水果和一杯奶在一天内补齐。书中建议动物蛋白占一半、脂类动物和植物各一半，并按一周平衡，不必每天精确到克。</p>
+</section>
+
+<section id="swap">
+  <h2>同类食材怎么互换</h2>
+  <div class="grid2">
+    <div class="card"><h3>蛋白质：每份约7g</h3><div class="tbl" style="border:none"><table id="protTbl"></table></div></div>
+    <div class="card"><h3>碳水：每份约20g</h3><div class="tbl" style="border:none"><table id="carbTbl"></table></div></div>
+  </div>
+  <div class="rows">
+    <div class="r"><div class="t">脂类：每份约10g</div><div class="d">植物油10g = 猪油10g ≈ 花生或核桃约20g（坚果指南建议每天约10g，别吃过量）</div></div>
+    <div class="r"><div class="t">豆制品（指南原文）</div><div class="d">20g大豆 ≈ 北豆腐60g ≈ 南豆腐110g ≈ 内酯豆腐140g ≈ 豆浆300g ≈ 豆腐干45g</div></div>
+    <div class="r"><div class="t">注意</div><div class="d">按蛋白质能互换，但书中强调豆浆不能代替牛奶，豆类代替不了肉蛋奶鱼；补钙首选奶</div></div>
+  </div>
+  <p class="note">除豆制品一行来自中国营养学会原文外，其余换算是按《中国食物成分表》常见值估算，误差约20%，只用于判断“这类有没有吃到”。</p>
+</section>
+
+<section id="meal">
+  <h2>一餐搭配器</h2>
+  <div class="grid4">
+    <label class="sel">主食（碳水）<select id="selStaple"></select></label>
+    <label class="sel">荤菜/蛋/豆（蛋白质）<select id="selMain"></select></label>
+    <label class="sel">素菜（维生素/纤维）<select id="selVeg"></select></label>
+    <label class="sel">汤粥（水）<select id="selSoup"></select></label>
+  </div>
+  <div class="seg" id="segFat"></div>
+  <div class="tbl mid-tbl"><table id="mealTbl"></table></div>
+  <p id="mealNote"></p>
+</section>
+
+<section id="today">
+  <h2>今天吃了什么</h2>
+  <div class="toggles" id="toggles"></div>
+  <div class="btns">
+    <button class="btn primary" id="ex1">示例：没吃鸡蛋，吃了瘦肉和牛奶</button>
+    <button class="btn" id="ex2">示例：只吃了米饭和炒青菜</button>
+    <button class="btn" id="clr">清空</button>
+  </div>
+  <p id="protNote"></p>
+  <div class="metrics" id="metrics"></div>
+  <div class="tbl wide-tbl"><table id="dayTbl"></table></div>
+  <div class="groups" id="groups"></div>
+  <p class="note">每个开关按一份常见量计；蛋白质克数是粗估，只用来看大方向。</p>
+</section>
+
+<section id="library">
+  <h2>菜谱库</h2>
+  <div class="seg" id="segNut"></div>
+  <div class="seg" id="segCat"></div>
+  <div class="tbl wide-tbl"><table id="libTbl"></table></div>
+  <p class="note" id="libNote"></p>
+</section>
+
+<section id="detail">
+  <h2>查看一道菜的做法</h2>
+  <label class="sel" style="max-width:360px">选一道菜<select id="selPick"></select></label>
+  <div class="props" id="props"></div>
+  <ol class="steps" id="steps"></ol>
+</section>
+
+<section id="sources">
+  <h2>数据来源与说明</h2>
+  <div class="callout"><b>核实情况</b>宝塔各层推荐量、饮水量、豆制品换算均来自中国营养学会官方页面。七大营养素的列法与书中目录（博客来）一致，具体说法来自读书笔记转述，未逐字核对原书。该书引用的是2016版指南。现行指南为2022版；第六版修订中尚未发布（截至2026-11）。</div>
+  <div class="links" id="links"></div>
+</section>
+
+<footer>本页内容仅供家庭饮食参考，不构成医疗或营养诊疗建议。</footer>
+</div>
+<a class="totop" href="#" aria-label="回到顶部">↑</a>
+
+<script>
+(function(){
+"use strict";
+var NUTS=[{k:"C",name:"碳水化合物"},{k:"P",name:"蛋白质"},{k:"F",name:"脂类"},{k:"V",name:"维生素"},{k:"M",name:"矿物质"},{k:"D",name:"膳食纤维"},{k:"W",name:"水"}];
+var NUT_NAME={C:"碳水",P:"蛋白质",F:"脂类",V:"维生素",M:"矿物质",D:"膳食纤维",W:"水"};
+var FOODS=[
+ {id:"rice",label:"米饭/馒头/面条",grp:"谷薯",nut:["C"],prot:10,portion:"一天2–3碗(个)"},
+ {id:"whole",label:"小米/燕麦/玉米",grp:"谷薯",nut:["C","D"],prot:5,portion:"约50g"},
+ {id:"tuber",label:"红薯/土豆/藕/山药",grp:"谷薯",nut:["C","D"],prot:2,portion:"约100g"},
+ {id:"egg",label:"鸡蛋",grp:"鱼禽肉蛋",nut:["P","F","V"],prot:6,portion:"1个"},
+ {id:"meat",label:"瘦猪肉/牛肉",grp:"鱼禽肉蛋",nut:["P","F","M"],prot:15,portion:"约75g"},
+ {id:"poultry",label:"鸡肉",grp:"鱼禽肉蛋",nut:["P","F"],prot:15,portion:"约75g"},
+ {id:"fish",label:"鱼虾",grp:"鱼禽肉蛋",nut:["P","F","M"],prot:13,portion:"约75g"},
+ {id:"milk",label:"牛奶/酸奶",grp:"奶",nut:["P","M"],prot:9,portion:"300ml"},
+ {id:"tofu",label:"豆腐/香干/豆浆",grp:"大豆坚果",nut:["P","M"],prot:12,portion:"豆腐约100g"},
+ {id:"nuts",label:"坚果",grp:"大豆坚果",nut:["F","M"],prot:2,portion:"约10g"},
+ {id:"leafy",label:"深绿叶菜/西兰花",grp:"蔬菜",nut:["V","M","D"],prot:3,portion:"约200g"},
+ {id:"veg",label:"西红柿/黄瓜/包菜等",grp:"蔬菜",nut:["V","D"],prot:2,portion:"约200g"},
+ {id:"fungi",label:"木耳/香菇/紫菜",grp:"蔬菜",nut:["D","M"],prot:1,portion:"一小份"},
+ {id:"fruit",label:"水果",grp:"水果",nut:["V","D","C"],prot:1,portion:"200–350g"},
+ {id:"oil",label:"植物油(做菜)",grp:"油",nut:["F"],prot:0,portion:"25–30g/天"},
+ {id:"lard",label:"猪油等动物油",grp:"油",nut:["F"],prot:0,portion:"少量"},
+ {id:"water",label:"白开水/茶水/汤粥",grp:"水",nut:["W"],prot:0,portion:"1500–1700ml"}
+];
+var FOOD={};FOODS.forEach(function(f){FOOD[f.id]=f;});
+var GROUPS=["谷薯","蔬菜","水果","鱼禽肉蛋","奶","大豆坚果","水"];
+var SUG={
+ C:"加一份主食：米饭、馒头、玉米或红薯",
+ P:"任选其一：鸡蛋1个、瘦肉/鸡肉/鱼虾一掌心、牛奶300ml、豆腐100g",
+ F:"做菜正常用油即可，或加一小把坚果(约10g)",
+ V:"加一盘深色蔬菜(西兰花/菠菜/小油菜)或一个水果",
+ M:"喝一杯牛奶(钙)，或吃瘦肉(铁锌)、豆腐、紫菜木耳",
+ D:"加蔬菜水果，或把白米饭换成杂粮、玉米、红薯",
+ W:"喝一杯白开水(约200ml)，或配一碗汤粥"
+};
+var D=[
+ {n:"西红柿炒鸡蛋",c:"蛋",f:["egg","veg","oil"],ing:"西红柿、鸡蛋",t:10,s:["西红柿切块，鸡蛋加少许盐打散","热油炒蛋至凝固，盛出","原锅炒西红柿至出汁","鸡蛋回锅，加盐、少许糖翻匀"],gh:"vegetable_dish/西红柿炒鸡蛋.md",bv:"BV1SW4y1f7Tc",up:"超子美食"},
+ {n:"鸡蛋羹",c:"蛋",f:["egg"],ing:"鸡蛋、温水",t:15,s:["2个鸡蛋打散，加约3g盐","加1–1.5倍约70℃温水搅匀、过滤浮沫","盖盘，水开后中火蒸10分钟再焖5分钟","淋香油、生抽"],gh:"vegetable_dish/鸡蛋羹/鸡蛋羹.md",bv:"BV1Wt411Z7td",up:"小高姐的魔法调料"},
+ {n:"韭菜炒鸡蛋",c:"蛋",f:["egg","veg","oil"],ing:"韭菜、鸡蛋",t:10,s:["韭菜洗净沥干，切3cm段","蛋液炒至成块，盛出","少油大火炒韭菜30秒","鸡蛋回锅，加盐炒匀"],gh:"vegetable_dish/韭菜炒蛋/韭菜炒蛋.md",bv:"BV1n44y1g7d9",up:"老东北美食"},
+ {n:"菠菜炒鸡蛋",c:"蛋",f:["egg","leafy","oil"],ing:"菠菜、鸡蛋",t:10,s:["菠菜去根洗净，焯水","鸡蛋煎成蛋饼切块，盛出","少油大火炒菠菜15秒，鸡蛋回锅","加盐和少许水翻匀"],gh:"vegetable_dish/菠菜炒鸡蛋/菠菜炒鸡蛋.md",bv:"BV16v4y1s77M",up:"超子美食"},
+ {n:"茶叶蛋",c:"蛋",f:["egg"],ing:"鸡蛋、红茶、八角、桂皮、生抽",t:40,s:["冷水下锅煮蛋约8分钟，过冷水","轻敲蛋壳出裂缝","加茶叶、香料、生抽老抽，水没过鸡蛋","煮开转小火15分钟，泡一会更入味"],gh:"breakfast/茶叶蛋.md",bv:"BV1Hv411i7qv",up:"品诺美食开课啦"},
+ {n:"青椒土豆炒肉",c:"肉禽",f:["meat","tuber","veg","oil"],ing:"猪瘦肉、土豆、青椒",t:20,s:["土豆切薄片，肉切片，青椒切块","热油炒肉片变色，加酱油、盐","下葱姜蒜和土豆片，炒至断生","大火下青椒炒1分钟，水淀粉勾芡"],gh:"meat_dish/青椒土豆炒肉/青椒土豆炒肉.md",bv:"BV1Mnd2BDEoJ",up:"村驴"},
+ {n:"黄瓜炒肉",c:"肉禽",f:["meat","veg","oil"],ing:"猪瘦肉、黄瓜",t:20,s:["瘦肉切片，用生抽和少许油腌10分钟","黄瓜斜切薄片","爆香蒜末、小米辣，炒肉至变色","下黄瓜大火翻炒约半分钟出锅"],gh:"meat_dish/黄瓜炒肉.md",bv:"BV1WS4y1r7Tx",up:"老隐记"},
+ {n:"香干芹菜炒肉",c:"肉禽",f:["meat","tofu","veg","oil"],ing:"猪肉、香干、芹菜",t:20,s:["芹菜切段，香干切条","爆香花椒大蒜，炒肉变色、老抽上色","加香干炒2分钟，再加辣椒","下芹菜加盐炒1分钟，加蚝油出锅"],gh:"meat_dish/香干芹菜炒肉/香干芹菜炒肉.md",bv:"BV14U4y1W7sA",up:"超子美食"},
+ {n:"鱼香肉丝",c:"肉禽",f:["meat","veg","fungi","oil"],ing:"里脊、木耳、胡萝卜、青椒",t:30,s:["肉丝用生抽、料酒、淀粉、蛋清腌15分钟","调香汁：生抽、醋、糖、盐、淀粉、水","滑炒肉丝至变白，盛出","炒葱姜蒜、豆瓣酱和配菜2分钟，肉丝回锅","倒香汁快速翻匀出锅"],gh:"meat_dish/鱼香肉丝.md",bv:"BV1QV4y1y7tx",up:"老饭骨"},
+ {n:"宫保鸡丁",c:"肉禽",f:["poultry","nuts","oil"],ing:"鸡腿肉/鸡胸、花生、干辣椒",t:30,s:["鸡肉切1.5cm丁，用盐、料酒、淀粉腌制","小火焙香干辣椒和花椒","大火煎炒鸡丁，加葱粒和葱姜水焖2分钟","下花生、辣椒，加醋糖，水淀粉收汁"],gh:"meat_dish/宫保鸡丁/宫保鸡丁.md",bv:"BV1ai4y1o7EL",up:"超子美食"},
+ {n:"香菇滑鸡",c:"肉禽",f:["poultry","fungi","oil"],ing:"鸡腿、干香菇",t:30,s:["香菇温水泡发，泡香菇的水留用","鸡腿肉切块焯水，用料酒、生抽、老抽抓匀","煸炒鸡肉至金黄，盛出","炒香葱姜蒜和香菇，鸡肉回锅、倒香菇水","中火收汁2分钟"],gh:"meat_dish/香菇滑鸡/香菇滑鸡.md",bv:"BV1554y1J7g4",up:"美食作家王刚R"},
+ {n:"可乐鸡翅",c:"肉禽",f:["poultry","oil"],ing:"鸡翅、可乐",t:35,s:["鸡翅焯水，划刀后用生抽腌10分钟","小火煎至两面金黄","倒可乐没过鸡翅，加盐、生抽","中火收汁至挂汁"],gh:"meat_dish/可乐鸡翅.md",bv:"BV1vE411h7VP",up:"美食作家王刚R",tip:"可乐含糖多，偶尔吃"},
+ {n:"西红柿土豆炖牛肉",c:"肉禽",f:["meat","tuber","veg","oil"],ing:"牛肉、西红柿、土豆、洋葱",t:90,s:["牛肉泡去血水，高压锅压约20分钟","牛肉切块，炒香葱姜和香料","加西红柿、洋葱炒至软烂，倒入牛肉汤","小火炖，出锅前30–40分钟加土豆并调味"],gh:"meat_dish/西红柿土豆炖牛肉/西红柿土豆炖牛肉.md",bv:"BV1KwNvzqECx",up:"村驴"},
+ {n:"土豆炖排骨",c:"肉禽",f:["meat","tuber","oil"],ing:"肋排、土豆",t:70,s:["土豆切块泡水防氧化","排骨冷水下锅焯水，热水洗净、擦干","炒糖色，下排骨和香料翻炒","加酱汁和开水炖，再下土豆炖软"],gh:"meat_dish/土豆炖排骨/土豆炖排骨.md",bv:"BV19z4y1S7iE",up:"此次野花金子"},
+ {n:"清蒸鲈鱼",c:"水产",f:["fish","oil"],ing:"鲈鱼、葱、姜、蒸鱼豉油",t:25,s:["鲈鱼洗净擦干划刀，抹盐腌10分钟","鱼肚和鱼身放姜葱，水开后入锅","大火蒸10分钟，去掉旧姜葱","浇蒸鱼豉油，铺葱丝，淋热油"],gh:"aquatic/清蒸鲈鱼/清蒸鲈鱼.md",bv:"BV1QU4y1j7T4",up:"美食作家王刚R"},
+ {n:"白灼虾",c:"水产",f:["fish"],ing:"鲜虾、姜、洋葱",t:15,s:["洋葱、姜片铺锅底，鲜虾铺在上面","倒料酒盖盖，中火1分钟、小火5分钟，再焖5分钟","葱蒜加酱油、醋调蘸料，淋热油"],gh:"aquatic/白灼虾/白灼虾.md",bv:"BV1eT4y157of",up:"超子美食"},
+ {n:"红烧鱼",c:"水产",f:["fish","oil"],ing:"鱼、姜蒜、酱油",t:35,s:["鱼擦干水分，小火两面煎","下姜蒜辣椒炒香，烹料酒和醋","加糖、老抽和冷水没过鱼，盖盖焖，中途翻面","加盐、蚝油，收汁后撒葱花"],gh:"aquatic/红烧鱼.md",bv:"BV1dW411v7ku",up:"小雄美食"},
+ {n:"鳊鱼炖豆腐",c:"水产",f:["fish","tofu","oil"],ing:"鳊鱼、老豆腐",t:35,s:["鳊鱼改刀，用姜片料酒腌5–10分钟","擦干两面煎，炒香葱姜蒜和香料","加料酒、生抽、老抽、冰糖和热水","放豆腐，小火炖10–15分钟再收汁"],gh:"aquatic/鳊鱼炖豆腐/鳊鱼炖豆腐.md",bv:"BV1Qh4xz3E4E",up:"杰西不妙厨房s"},
+ {n:"麻婆豆腐",c:"豆奶",f:["tofu","meat","oil"],ing:"豆腐、肉末、辣酱",t:20,s:["肉末加盐、酱油拌匀，豆腐切块","小火炒香蒜姜、辣椒、花椒和酱","中火炒肉末至变色","下豆腐调味，沿锅边加开水，中火煮约10分钟收汁"],gh:"meat_dish/麻婆豆腐/麻婆豆腐.md",bv:"BV1it4y1X75m",up:"老饭骨"},
+ {n:"葱煎豆腐",c:"豆奶",f:["tofu","oil"],ing:"豆腐、小葱",t:20,s:["豆腐切约5mm厚片","小火煎至两面金黄，盛出","炒辣椒，豆腐回锅加盐","加少许水收汁，撒葱花"],gh:"vegetable_dish/葱煎豆腐.md",bv:"BV1ha41177h3",up:"只想取一个昵称"},
+ {n:"牛奶燕麦配煎蛋",c:"豆奶",f:["milk","whole","egg"],ing:"牛奶、燕麦、鸡蛋",t:5,s:["燕麦水煮2分钟(快煮燕麦可直接加奶微波)","捞出燕麦倒入约280ml牛奶","另煎一个鸡蛋搭配"],gh:"breakfast/牛奶燕麦.md",bv:"BV1FD4y1q7ch",up:"桔子北琪"},
+ {n:"清炒小油菜",c:"蔬菜",f:["leafy","oil"],ing:"小油菜/青菜、蒜",t:8,s:["青菜掰开洗净","热油下青菜炒软约1分钟","加蒜末、少量水和盐再炒1分钟","盖盖小火1–2分钟出锅"],gh:"vegetable_dish/炒青菜.md",bv:"BV1g64y1t748",up:"开心欢乐妈"},
+ {n:"蒜蓉西兰花",c:"蔬菜",f:["leafy","oil"],ing:"西兰花、大蒜",t:12,s:["西兰花切小朵洗净","开水煮2–3分钟至翠绿，捞出摆盘","小火炒香蒜末，加生抽、蚝油、糖和少量水烧开","汁浇在西兰花上"],gh:"vegetable_dish/蒜蓉西兰花.md",bv:"BV1fy4y1W7z5",up:"小高姐的魔法调料"},
+ {n:"蚝油生菜",c:"蔬菜",f:["leafy","oil"],ing:"生菜、蒜、蚝油",t:8,s:["生菜洗净","水里加少许油盐烧开，生菜焯10秒捞出","调生抽、蚝油、盐、糖和水","炒香蒜泥倒汁煮沸，浇在生菜上"],gh:"vegetable_dish/蚝油生菜.md",bv:"BV1bS4y1r7jR",up:"美食作家王刚R"},
+ {n:"白灼菜心",c:"蔬菜",f:["leafy","oil"],ing:"菜心、蒜、生抽",t:10,s:["菜心去老根洗净","调生抽、蚝油、糖、水的料汁","水加盐油烧开，先烫根茎再整棵烫1分钟","炒香蒜末加料汁煮开，浇上"],gh:"vegetable_dish/白灼菜心/白灼菜心.md",bv:"BV1LE41157Xb",up:"潮州山哥"},
+ {n:"手撕包菜",c:"蔬菜",f:["veg","meat","oil"],ing:"包菜、少量五花肉",t:15,s:["包菜手撕成片，淡盐水洗净沥干","大火炒包菜约3分钟，盛出","炒五花肉片和姜蒜辣椒","包菜回锅，加醋、料酒炒2分钟"],gh:"vegetable_dish/手撕包菜/手撕包菜.md",bv:"BV1HD4y1A7ke",up:"美食作家王刚R"},
+ {n:"拍黄瓜",c:"蔬菜",f:["veg"],ing:"黄瓜、蒜、醋",t:20,s:["黄瓜拍扁切3cm段","加少许糖腌15分钟","加醋、酱油、盐、蚝油、蒜末拌匀","淋香油"],gh:"vegetable_dish/凉拌黄瓜.md",bv:"BV1RV41167WV",up:"小高姐的魔法调料"},
+ {n:"凉拌木耳",c:"蔬菜",f:["fungi"],ing:"干木耳、蒜、小米辣",t:60,s:["干木耳泡发约45分钟，去根洗净","开水煮1.5–2分钟，沥干","蒜末、小米辣加盐、糖、生抽、醋、香油","拌匀即可"],gh:"vegetable_dish/凉拌木耳/凉拌木耳.md",bv:"BV1Hy4y1Y7FV",up:"随手做美食",tip:"木耳现泡现吃，别泡过夜"},
+ {n:"地三鲜",c:"蔬菜",f:["tuber","veg","oil"],ing:"土豆、茄子、青椒",t:30,s:["土豆茄子切块，尖椒撕块擦干","调生抽、糖、淀粉、水的料汁","分别煎土豆、茄子、尖椒","炒香葱姜蒜和豆瓣酱，倒料汁和全部食材翻匀"],gh:"vegetable_dish/地三鲜/地三鲜.md",bv:"BV1st4y1Y73H",up:"马壮实Hera",tip:"传统做法用油多，可改少油煎"},
+ {n:"清蒸南瓜",c:"蔬菜",f:["veg"],ing:"南瓜",t:25,s:["南瓜洗净去瓤，切2cm厚片","摆盘，水开后上锅","大火蒸15–20分钟，筷子能轻松穿透即可"],gh:"vegetable_dish/清蒸南瓜.md",bv:"BV13t411L7TD",up:"人形自走干电池"},
+ {n:"米饭",c:"谷薯",f:["rice"],ing:"大米(可掺小米/糙米)",t:45,s:["淘米","加水：手指触米，水约没过第一指节","电饭煲煮约30分钟","跳保温后再焖10–15分钟"],gh:"staple/米饭/电饭煲蒸米饭.md",bv:"BV1N142187kp",up:"我是一粥"},
+ {n:"馒头/花卷",c:"谷薯",f:["rice"],ing:"面粉或速冻花卷",t:20,s:["花卷平铺在盘中","锅中加约400ml水，放蒸架","大火烧开转中火蒸15分钟","摸着热透即可"],gh:"breakfast/蒸花卷.md",bv:"BV1CQ4y1j7or",up:"品诺美食开课啦",tip:"文字为蒸速冻花卷，视频教自己发面蒸馒头"},
+ {n:"西红柿鸡蛋面",c:"谷薯",f:["rice","egg","veg","oil"],ing:"挂面、西红柿、鸡蛋",t:20,s:["鸡蛋炒散，盛出","底油炒葱蒜和西红柿出汁，加酱油、糖","加水煮开，鸡蛋回锅成臊子","另煮挂面，捞出浇臊子"],gh:"staple/西红柿鸡蛋挂面/西红柿鸡蛋挂面.md",bv:"BV1AW41127SZ",up:"迷迭香美食"},
+ {n:"炸酱面",c:"谷薯",f:["rice","meat","veg","oil"],ing:"面条、肉丁、黄酱/甜面酱、黄瓜丝",t:30,s:["黄瓜等菜码切丝","炒葱和肉至熟透","加豆瓣酱、甜面酱炒至微稠","面煮熟过凉水，加酱和菜码拌匀"],gh:"staple/炸酱面.md",bv:"BV1WT4y137Xr",up:"品诺美食开课啦",tip:"酱偏咸，少放盐"},
+ {n:"酸辣土豆丝",c:"谷薯",f:["tuber","veg","oil"],ing:"土豆、青红椒、醋",t:15,s:["土豆切丝，洗去淀粉，焯水10秒","爆香葱蒜、干辣椒","下青红椒和土豆丝炒至变色","加生抽、陈醋、盐和蒜末快速翻匀"],gh:"vegetable_dish/酸辣土豆丝.md",bv:"BV1554y1f7jK",up:"超子美食"},
+ {n:"小炒藕丁",c:"谷薯",f:["tuber","oil"],ing:"莲藕、大葱、小米辣",t:15,s:["莲藕去皮切丁，泡水防发黑","开水焯2分钟","爆香葱和小米辣","下藕丁大火炒，加生抽、老抽、蚝油炒2分钟"],gh:"vegetable_dish/小炒藕丁/小炒藕丁.md",bv:"BV13s411P7H3",up:"三德子美食"},
+ {n:"蒸红薯",c:"谷薯",f:["tuber"],ing:"红薯",t:35,s:["红薯洗净，大的切段","水开后上锅","中大火蒸25–30分钟，筷子能轻松插透即可"],bv:"BV1QY411V7XQ",up:"美食小汐",tip:"暂无文字菜谱，步骤为通用做法"},
+ {n:"水煮玉米",c:"谷薯",f:["whole"],ing:"鲜玉米",t:25,s:["玉米剥皮，留几片内皮一起煮","加水没过，放少许盐","水开后小火加盖煮15–20分钟"],gh:"breakfast/水煮玉米.md",bv:"BV1DM411j7Q4",up:"向阳生活技能"},
+ {n:"小米粥",c:"汤粥",f:["whole","water"],ing:"小米",t:30,s:["小米轻淘一遍，不要搓洗","水烧开后再下米","大火6–10分钟，期间搅拌","转小火15–20分钟，锅盖留缝"],gh:"soup/小米粥.md",bv:"BV1iv411r72L",up:"美厨娘小君姐"},
+ {n:"紫菜蛋花汤",c:"汤粥",f:["fungi","egg","water"],ing:"紫菜、鸡蛋",t:10,s:["紫菜泡15分钟，沥干","水加少许油盐烧开，下紫菜煮3分钟","慢慢淋入蛋液，30秒后关火","撒葱花，滴香油"],gh:"soup/紫菜蛋花汤.md",bv:"BV1ct4y1H7sh",up:"超子美食"},
+ {n:"西红柿豆腐蛋汤",c:"汤粥",f:["tofu","egg","veg","water"],ing:"西红柿、豆腐、鸡蛋",t:15,s:["西红柿切丁，豆腐切块，鸡蛋打散","姜片爆香，炒西红柿30秒","加开水烧开，倒蛋液和豆腐","再开后勾薄芡，加盐、葱花"],gh:"vegetable_dish/西红柿豆腐汤羹/西红柿豆腐汤羹.md",bv:"BV14w411s7na",up:"阿光美食记"},
+ {n:"排骨山药玉米汤",c:"汤粥",f:["meat","tuber","whole","veg","water"],ing:"排骨、山药、玉米、胡萝卜",t:60,s:["胡萝卜、玉米、山药切块","排骨冷水焯3分钟，温水洗净","姜片爆香，翻炒排骨1分钟","加水和蔬菜，小火炖40分钟，加盐"],gh:"soup/排骨山药玉米汤/排骨山药玉米汤.md",bv:"BV1JA4y1f7zk",up:"小柒的美食"},
+ {n:"西红柿鸡蛋汤",c:"汤粥",f:["egg","veg","water"],ing:"西红柿、鸡蛋",t:15,s:["西红柿洗净切块，葱姜蒜切末，鸡蛋打散","热油爆香葱姜蒜，下西红柿炒约1分钟出汁","加水没过食材，加盐烧开","淋入蛋液，轻轻拨散，滴香油后关火"],gh:"soup/西红柿鸡蛋汤.md",bq:"西红柿鸡蛋汤"},
+ {n:"玉米排骨汤",c:"汤粥",f:["meat","whole","veg","water"],ing:"排骨、玉米、胡萝卜",t:90,s:["玉米切块，胡萝卜滚刀块，排骨切小段","排骨冷水下锅，加葱姜料酒焯水，撇沫捞出","排骨和姜片略炒，加开水烧开","先下玉米小火炖20分钟，再下胡萝卜炖约40分钟","出锅前加盐，撒葱花"],gh:"soup/玉米排骨汤/玉米排骨汤.md",bq:"玉米排骨汤"},
+ {n:"菌菇汤",c:"汤粥",f:["fungi","water"],ing:"香菇或金针菇、蘑菇",t:25,s:["香菇切片（金针菇去根掰散）","可选：少油把菌菇两面略煎","加水烧开，中火煮3–5分钟","可勾薄芡，加盐，撒葱花出锅"],gh:"soup/勾芡香菇汤/勾芡香菇汤.md",bq:"香菇汤",tip:"文字菜谱是香菇勾芡汤；有金针菇、蘑菇同样能做。"},
+ {n:"白萝卜丝清汤",c:"汤粥",f:["veg","water"],ing:"白萝卜",t:10,s:["白萝卜去皮擦丝或切细丝","锅中加水，同时下萝卜丝","加盐、白胡椒，大火烧开","转中小火煮约5分钟至萝卜丝变软，滴香油或一点猪油"],gh:"soup/白萝卜丝清汤.md",bq:"白萝卜丝汤"},
+ {n:"黄瓜皮蛋汤",c:"汤粥",f:["egg","veg","water"],ing:"黄瓜、皮蛋",t:10,s:["黄瓜洗净切片，皮蛋去壳切块，蒜拍破","少油小火把皮蛋和蒜煎至略焦","加水烧开，下黄瓜片","再次沸腾后关火，加盐，撒葱花"],gh:"soup/黄瓜皮蛋汤.md",bq:"黄瓜皮蛋汤"},
+ {n:"冬瓜排骨汤",c:"汤粥",f:["meat","veg","water"],ing:"冬瓜、排骨",t:50,s:["冬瓜去皮切块，排骨切段","排骨冷水下锅焯烫，撇去血沫，捞出洗净","姜片略炒排骨，加水烧开再撇一次沫","小火炖30–40分钟至排骨软，下冬瓜再炖10–15分钟，加盐出锅"],bq:"冬瓜排骨汤",tip:"暂无文字菜谱，步骤为通用家常做法"},
+ {n:"豆腐青菜汤",c:"汤粥",f:["tofu","leafy","water"],ing:"豆腐、青菜",t:15,s:["豆腐切块，青菜洗净切段","清水或高汤烧开，下豆腐煮约2分钟","下青菜烫至翠绿","加盐，可淋香油、撒葱花"],bq:"豆腐青菜汤",tip:"暂无文字菜谱，步骤为通用家常做法"},
+ {n:"丝瓜蛋汤",c:"汤粥",f:["egg","veg","water"],ing:"丝瓜、鸡蛋",t:15,s:["丝瓜去皮切滚刀块，鸡蛋打散","热油略炒丝瓜至出汁","加水烧开，煮2–3分钟至丝瓜软透","淋入蛋液，加盐、葱花出锅"],bq:"丝瓜蛋汤",tip:"暂无文字菜谱，步骤为通用家常做法"},
+ {n:"酸辣汤",c:"汤粥",f:["tofu","egg","fungi","water"],ing:"豆腐、鸡蛋、木耳",t:20,s:["豆腐切丝，木耳、胡萝卜切丝，鸡蛋打散","清水或高汤烧开，下配菜煮约3分钟","加盐、生抽、醋、白胡椒，水淀粉勾薄芡","淋入蛋液，滴香油出锅"],bq:"酸辣汤",tip:"暂无文字菜谱，步骤为通用家常做法"},
+ {n:"萝卜排骨汤",c:"汤粥",f:["meat","veg","water"],ing:"白萝卜、排骨",t:60,s:["白萝卜切块，排骨切段后冷水焯烫去血沫","姜片和排骨加水烧开，撇沫","小火炖30–40分钟","下萝卜再炖15–20分钟至软，加盐出锅"],bq:"萝卜排骨汤",tip:"暂无文字菜谱，步骤为通用家常做法"},
+ {n:"白菜豆腐汤",c:"汤粥",f:["tofu","veg","water"],ing:"白菜、豆腐",t:20,s:["白菜掰块，豆腐切块","少量油炒白菜至略软","加水烧开，下豆腐煮约5分钟","加盐，可撒葱花、滴香油"],bq:"白菜豆腐汤",tip:"暂无文字菜谱，步骤为通用家常做法"},
+ {n:"疙瘩汤",c:"汤粥",f:["rice","egg","veg","water"],ing:"面粉、鸡蛋、西红柿或青菜",t:20,s:["面粉加少量水，用筷子搅成不规则小疙瘩","有西红柿则切块炒出汁，再加水烧开","下入面疙瘩，煮至全部浮起","可淋蛋液或加青菜，加盐出锅"],bq:"疙瘩汤",tip:"暂无文字菜谱，步骤为通用家常做法。剩面粉、鸡蛋和蔬菜就能做。"},
+ {n:"杂菜汤",c:"汤粥",f:["veg","water"],ing:"任意剩菜（可加豆腐或鸡蛋）",t:20,s:["把剩下的蔬菜洗净切块","葱姜爆香，先下耐煮的菜（萝卜、土豆、白菜帮）","加水烧开，再下嫩菜；有豆腐或鸡蛋就一起下","加盐调味，随意成汤"],bq:"杂菜汤",tip:"暂无文字菜谱，步骤为通用剩菜做法"},
+ {n:"蛋炒饭",c:"谷薯",f:["rice","egg","oil"],ing:"剩米饭、鸡蛋",t:25,s:["冷饭先铲散成小块，鸡蛋打散，配菜切丁","热油先炒蛋，盛出","原锅下配菜略炒，再下米饭大火翻炒散开","蛋和饭拌匀，加盐、生抽，最后下葱花"],gh:"staple/蛋炒饭.md",bq:"蛋炒饭",tip:"隔夜冷饭最好炒；有胡萝卜、黄瓜或剩菜都可以一起下。"},
+ {n:"炒方便面",c:"谷薯",f:["rice","egg","oil"],ing:"方便面、鸡蛋",t:15,s:["水完全煮沸后下面饼，煮约45秒挑散即捞出，过凉水沥干","留少许面汤把调料包化开，粉包少放以免过咸","热油炒蛋盛出，可加火腿肠略炒","下面条和调料翻炒，再下鸡蛋炒匀"],gh:"staple/炒方便面/炒方便面.md",bq:"炒方便面"},
+ {n:"汤面",c:"谷薯",f:["rice","water"],ing:"面条（可加菜、蛋或肉）",t:20,s:["菜切小块；有生肉可先焯水去沫","水烧开，先下耐煮的食材，再下面条煮约5分钟","快熟时下青菜或叶菜烫熟","加盐、胡椒、香油，按家里现有荤素自由搭配"],gh:"staple/汤面.md",bq:"家常汤面",tip:"挂面、鲜切面或泡面面饼都可以；剩菜和鸡蛋最适合下锅。"}
+];
+var SOURCES=[
+ {title:"中国居民平衡膳食宝塔、餐盘（2022）图示修订和解析说明",site:"中国营养学会",href:"https://www.cnsoc.org/notice/152220200.html"},
+ {title:"《中国居民膳食指南（2022）》一图读懂",site:"中国营养学会",href:"https://www.cnsoc.org/notice/442220200.html"},
+ {title:"准则六 规律进餐，足量饮水",site:"中国居民膳食指南",href:"http://dg.cnsoc.org/article/04/wDCyy7cWSJCN6pwKHOo5Dw.html"},
+ {title:"中国居民增豆核心信息十条（豆制品互换）",site:"中国营养学会",href:"https://www.cnsoc.org/ctransmissions/0524102014.html?num=10"},
+ {title:"你是你吃出來的（书目与目录）",site:"博客來",href:"https://www.books.com.tw/products/0010981102"},
+ {title:"《你是你吃出来的》读书笔记",site:"简书",href:"https://www.jianshu.com/p/0b7240a50382"},
+ {title:"《你是你吃出来的》读书笔记",site:"太傅博客",href:"https://taifua.com/how-to-eat-notes.html"},
+ {title:"HowToCook 程序员做饭指南（文字菜谱）",site:"GitHub",href:"https://github.com/Anduin2017/HowToCook"}
+];
+var OVERVIEW=[
+ ["碳水化合物","给细胞提供能量","米饭、馒头、面条、小米、燕麦、玉米、红薯、土豆、藕","谷类200–300g（全谷和杂豆50–150g）+ 薯类50–100g"],
+ ["蛋白质","构成细胞结构，参与调节代谢","鸡蛋、瘦猪肉/牛肉、鸡肉、鱼虾、牛奶、豆腐","鱼禽肉蛋共120–200g（每天1个鸡蛋）；奶300ml以上；大豆15–25g"],
+ ["脂类","构成细胞(细胞膜)，供能，帮助吸收维生素A、D、E、K","植物油、猪油等动物油、坚果、蛋黄、鱼","烹调油25–30g；坚果每周约70g（每天约10g）"],
+ ["维生素","调节细胞代谢","深色蔬菜、西红柿、水果、鸡蛋、全谷物","蔬菜至少300g（深色占一半）；水果200–350g"],
+ ["矿物质","调节细胞代谢","牛奶(钙)、瘦肉(铁锌)、豆腐、绿叶菜、紫菜木耳","奶300ml以上；食盐不超过5g"],
+ ["膳食纤维","喂养肠道菌群","蔬菜、水果、全谷杂粮、薯类、菌藻","靠全谷+薯类+蔬果达成（指南未单列克数）"],
+ ["水","书中单列“水平衡”，看口渴和尿色判断","白开水、茶水、汤粥","低身体活动成年男1700ml、女1500ml"]
+];
+var PROT=[["鸡蛋","1个（约50g，约6g蛋白）"],["瘦猪肉 / 牛肉","35g"],["鸡胸肉","35g"],["鱼、虾","40g"],["牛奶","230ml"],["北豆腐","60g"],["南豆腐","110g"],["豆浆","300g"],["豆腐干","45g"]];
+var CARB=[["大米 / 小米（生）","26g"],["米饭（熟）","75g"],["馒头","45g"],["挂面（生）","27g"],["燕麦片","30g"],["鲜玉米（可食部）","90g"],["土豆","110g"],["莲藕","120g"],["红薯","80–130g（品种差异大）"]];
+
+function $(id){return document.getElementById(id);}
+function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c];});}
+function link(href,label){return '<a href="'+esc(href)+'" target="_blank" rel="noopener noreferrer">'+esc(label)+'</a>';}
+function pill(text,tone){return '<span class="pill '+tone+'">'+esc(text)+'</span>';}
+function table(el,cols,rows,rawCols){
+  rawCols=rawCols||[];
+  var h='<thead><tr>'+cols.map(function(c){return '<th>'+esc(c)+'</th>';}).join('')+'</tr></thead><tbody>';
+  h+=rows.map(function(r){return '<tr>'+r.map(function(c,i){return '<td>'+(rawCols.indexOf(i)>=0?c:esc(c))+'</td>';}).join('')+'</tr>';}).join('');
+  el.innerHTML=h+'</tbody>';
+}
+function nutsOf(ids){
+  var s={};ids.forEach(function(id){var f=FOOD[id];if(f)f.nut.forEach(function(k){s[k]=1;});});
+  return NUTS.map(function(x){return x.k;}).filter(function(k){return s[k];});
+}
+function fromWhich(ids,k){
+  var out=[];ids.forEach(function(id){var f=FOOD[id];if(f&&f.nut.indexOf(k)>=0&&out.indexOf(f.label)<0)out.push(f.label);});return out;
+}
+var PREF={C:["谷薯"],P:["蛋","豆奶","肉禽","水产"],F:["肉禽"],V:["蔬菜"],M:["豆奶","水产"],D:["蔬菜","谷薯"],W:["汤粥"]};
+function dishesFor(k,n){
+  return D.filter(function(d){return PREF[k].indexOf(d.c)>=0&&nutsOf(d.f).indexOf(k)>=0;}).slice(0,n).map(function(d){return d.n;}).join("、");
+}
+function ghUrl(p){return "https://github.com/Anduin2017/HowToCook/blob/master/dishes/"+encodeURI(p);}
+function bvUrl(b){return "https://www.bilibili.com/video/"+b+"/";}
+function videoHref(d){
+  if(d.bv)return bvUrl(d.bv);
+  var q=d.bq||d.n;
+  return "https://search.bilibili.com/all?keyword="+encodeURIComponent(q);
+}
+function videoLabel(d){return d.up?("B站 · "+d.up):"B站搜索";}
+function byName(n){for(var i=0;i<D.length;i++){if(D[i].n===n)return D[i];}return null;}
+function fillSelect(el,list,value,extra){
+  var h=(extra||[]).map(function(o){return '<option value="'+esc(o.value)+'">'+esc(o.label)+'</option>';}).join('');
+  h+=list.map(function(d){return '<option value="'+esc(d.n)+'">'+esc(d.n)+'</option>';}).join('');
+  el.innerHTML=h;el.value=value;
+}
+function segmented(el,opts,value,onChange){
+  function draw(){
+    el.innerHTML=opts.map(function(o){return '<button type="button" data-v="'+esc(o.value)+'" class="'+(o.value===value?'on':'')+'" aria-pressed="'+(o.value===value)+'">'+esc(o.label)+'</button>';}).join('');
+  }
+  el.addEventListener('click',function(e){
+    var b=e.target.closest('button');if(!b)return;value=b.getAttribute('data-v');draw();onChange(value);
+  });
+  draw();
+}
+
+/* static tables */
+table($("overviewTbl"),["营养素","主要作用（书中说法）","好获取、好加工的食材","指南每日参考量（成人）"],OVERVIEW);
+table($("protTbl"),["食材","一份的量"],PROT);
+table($("carbTbl"),["食材","一份的量"],CARB);
+
+/* meal builder */
+var STAPLES=D.filter(function(d){return d.c==="谷薯"||d.n==="牛奶燕麦配煎蛋";});
+var MAINS=D.filter(function(d){return ["蛋","肉禽","水产","豆奶"].indexOf(d.c)>=0;});
+var VEGS=D.filter(function(d){return d.c==="蔬菜";});
+var SOUPS=D.filter(function(d){return d.c==="汤粥";});
+var meal={staple:"米饭",main:"青椒土豆炒肉",veg:"蒜蓉西兰花",soup:"none",fat:"oil"};
+fillSelect($("selStaple"),STAPLES,meal.staple);
+fillSelect($("selMain"),MAINS,meal.main);
+fillSelect($("selVeg"),VEGS,meal.veg);
+fillSelect($("selSoup"),SOUPS,meal.soup,[{value:"none",label:"不喝汤"}]);
+function renderMeal(){
+  var ids=[];
+  [meal.staple,meal.main,meal.veg,meal.soup].forEach(function(n){var d=byName(n);if(d)d.f.forEach(function(id){if(ids.indexOf(id)<0)ids.push(id);});});
+  if(meal.fat==="lard"&&ids.indexOf("lard")<0)ids.push("lard");
+  if(meal.fat==="nuts"&&ids.indexOf("nuts")<0)ids.push("nuts");
+  var cov=nutsOf(ids);
+  table($("mealTbl"),["营养素","这一餐","来自","缺的话补什么"],NUTS.map(function(x){
+    var ok=cov.indexOf(x.k)>=0;
+    return [esc(x.name),ok?pill("已覆盖","ok"):pill("缺","warn"),ok?esc(fromWhich(ids,x.k).join("、")):"—",ok?"":esc(SUG[x.k])];
+  }),[0,1,2,3]);
+  $("mealNote").textContent="本餐覆盖 "+cov.length+"/7。"+(cov.indexOf("W")>=0?"":"没配汤时，饭后或两餐间喝一杯白开水即可。")+" 水果和牛奶不在餐盘里，放到加餐补。";
+}
+$("selStaple").addEventListener("change",function(e){meal.staple=e.target.value;renderMeal();});
+$("selMain").addEventListener("change",function(e){meal.main=e.target.value;renderMeal();});
+$("selVeg").addEventListener("change",function(e){meal.veg=e.target.value;renderMeal();});
+$("selSoup").addEventListener("change",function(e){meal.soup=e.target.value;renderMeal();});
+segmented($("segFat"),[{value:"oil",label:"只用植物油"},{value:"lard",label:"加少量动物油"},{value:"nuts",label:"加一小把坚果"}],meal.fat,function(v){meal.fat=v;renderMeal();});
+renderMeal();
+
+/* today */
+var eaten=["rice","meat","milk","leafy","oil","water"];
+$("toggles").innerHTML=FOODS.map(function(f){
+  return '<label class="tg"><input type="checkbox" data-id="'+f.id+'"><span class="sw"></span><span>'+esc(f.label+"（"+f.portion+"）")+'</span></label>';
+}).join('');
+$("toggles").addEventListener("change",function(e){
+  var id=e.target.getAttribute("data-id");if(!id)return;
+  if(e.target.checked){if(eaten.indexOf(id)<0)eaten.push(id);}else{eaten=eaten.filter(function(x){return x!==id;});}
+  renderDay();
+});
+function setEaten(list){eaten=list.slice();renderDay();}
+$("ex1").addEventListener("click",function(){setEaten(["rice","meat","milk","leafy","oil","water"]);});
+$("ex2").addEventListener("click",function(){setEaten(["rice","leafy","oil"]);});
+$("clr").addEventListener("click",function(){setEaten([]);});
+function renderDay(){
+  Array.prototype.forEach.call($("toggles").querySelectorAll("input"),function(inp){inp.checked=eaten.indexOf(inp.getAttribute("data-id"))>=0;});
+  var cov=nutsOf(eaten);
+  var prot=eaten.reduce(function(s,id){return s+(FOOD[id]?FOOD[id].prot:0);},0);
+  var hit=GROUPS.filter(function(g){return eaten.some(function(id){return FOOD[id]&&FOOD[id].grp===g;});});
+  var pf=fromWhich(eaten,"P");
+  $("protNote").textContent=pf.length>0?"蛋白质已由"+pf.join("、")+"补上，少了哪一种都可以用同类替代。":"今天还没有优质蛋白：鸡蛋、瘦肉、鱼虾、牛奶、豆腐任选其一即可。";
+  $("metrics").innerHTML=
+    '<div class="metric"><div class="v'+(cov.length===7?' ok':'')+'">'+cov.length+'/7</div><div class="l">七大营养素已覆盖</div></div>'+
+    '<div class="metric"><div class="v">'+prot+' g</div><div class="l">蛋白质粗估</div><div class="dt">成人参考约55–65g/天</div></div>'+
+    '<div class="metric"><div class="v">'+hit.length+'/7</div><div class="l">宝塔食物类别</div><div class="dt">谷薯、蔬菜、水果、鱼禽肉蛋、奶、大豆坚果、水</div></div>';
+  table($("dayTbl"),["营养素","状态","今天来自","建议补","推荐菜"],NUTS.map(function(x){
+    var ok=cov.indexOf(x.k)>=0;
+    return [esc(x.name),ok?pill("已覆盖","ok"):pill("还缺","warn"),ok?esc(fromWhich(eaten,x.k).join("、")):"—",ok?"":esc(SUG[x.k]),ok?"":esc(dishesFor(x.k,3))];
+  }),[0,1,2,3,4]);
+  $("groups").innerHTML=GROUPS.map(function(g){var on=hit.indexOf(g)>=0;return pill(g+(on?" 有":" 未吃"),on?"ok":"neutral");}).join('');
+}
+renderDay();
+
+/* library */
+var lib={nut:"all",cat:"全部"};
+function renderLib(){
+  var rows=D.filter(function(d){return (lib.nut==="all"||nutsOf(d.f).indexOf(lib.nut)>=0)&&(lib.cat==="全部"||d.c===lib.cat);}).map(function(d){
+    return [esc(d.n),esc(d.c),esc(nutsOf(d.f).map(function(k){return NUT_NAME[k];}).join("、")),esc(d.ing),esc(d.t+" 分钟"),d.gh?link(ghUrl(d.gh),"文字"):"—",link(videoHref(d),"视频")];
+  });
+  table($("libTbl"),["菜名","类别","主要营养素","主要食材","用时","文字","视频"],rows,[0,1,2,3,4,5,6]);
+  $("libNote").textContent="当前显示 "+rows.length+" 道，共 "+D.length+" 道。用时为估算；文字菜谱来自开源项目 HowToCook，视频来自B站。";
+}
+segmented($("segNut"),[{value:"all",label:"全部营养素"}].concat(NUTS.map(function(x){return {value:x.k,label:x.name};})),lib.nut,function(v){lib.nut=v;renderLib();});
+segmented($("segCat"),["全部","蛋","肉禽","水产","豆奶","蔬菜","谷薯","汤粥"].map(function(c){return {value:c,label:c};}),lib.cat,function(v){lib.cat=v;renderLib();});
+renderLib();
+
+/* detail */
+fillSelect($("selPick"),D,"西红柿炒鸡蛋");
+function renderDetail(){
+  var pd=byName($("selPick").value)||D[0];
+  var items=[
+    ["主要食材",esc(pd.ing)],
+    ["覆盖营养素",esc(nutsOf(pd.f).map(function(k){return NUT_NAME[k];}).join("、"))],
+    ["用时",esc("约 "+pd.t+" 分钟")],
+    ["文字菜谱",pd.gh?link(ghUrl(pd.gh),"HowToCook 原文"):"暂无"],
+    ["视频菜谱",link(videoHref(pd),videoLabel(pd))]
+  ];
+  if(pd.tip)items.push(["提示",esc(pd.tip)]);
+  $("props").innerHTML=items.map(function(p){return '<div class="p"><div class="k">'+p[0]+'</div><div>'+p[1]+'</div></div>';}).join('');
+  $("steps").innerHTML=pd.s.map(function(s,i){return '<li><div class="st">第'+(i+1)+'步</div><div class="sd">'+esc(s)+'</div></li>';}).join('');
+}
+$("selPick").addEventListener("change",renderDetail);
+renderDetail();
+
+/* sources */
+$("links").innerHTML=SOURCES.map(function(l){return '<a href="'+esc(l.href)+'" target="_blank" rel="noopener noreferrer">'+esc(l.title)+'<span class="s">'+esc(l.site)+'</span></a>';}).join('');
+
+var INGS={
+  "西红柿炒鸡蛋":{main:["西红柿","鸡蛋"]},
+  "鸡蛋羹":{main:["鸡蛋"]},
+  "韭菜炒鸡蛋":{main:["韭菜","鸡蛋"]},
+  "菠菜炒鸡蛋":{main:["菠菜","鸡蛋"]},
+  "茶叶蛋":{main:["鸡蛋"],opt:["红茶"]},
+  "青椒土豆炒肉":{main:["猪肉","土豆","青椒"]},
+  "黄瓜炒肉":{main:["猪肉","黄瓜"]},
+  "香干芹菜炒肉":{main:["猪肉","香干","芹菜"]},
+  "鱼香肉丝":{main:["猪肉"],opt:["木耳","胡萝卜","青椒","豆瓣酱"]},
+  "宫保鸡丁":{main:["鸡肉","花生"],opt:["干辣椒"]},
+  "香菇滑鸡":{main:["鸡肉","香菇"]},
+  "可乐鸡翅":{main:["鸡翅","可乐"]},
+  "西红柿土豆炖牛肉":{main:["牛肉","西红柿","土豆"],opt:["洋葱"]},
+  "土豆炖排骨":{main:["排骨","土豆"]},
+  "清蒸鲈鱼":{main:["鱼"]},
+  "白灼虾":{main:["虾"],opt:["洋葱"]},
+  "红烧鱼":{main:["鱼"]},
+  "鳊鱼炖豆腐":{main:["鱼","豆腐"]},
+  "麻婆豆腐":{main:["豆腐","猪肉"],opt:["豆瓣酱"]},
+  "葱煎豆腐":{main:["豆腐"]},
+  "牛奶燕麦配煎蛋":{main:["牛奶","燕麦","鸡蛋"]},
+  "清炒小油菜":{main:["青菜"]},
+  "蒜蓉西兰花":{main:["西兰花"]},
+  "蚝油生菜":{main:["生菜"],opt:["蚝油"]},
+  "白灼菜心":{main:["菜心"]},
+  "手撕包菜":{main:["包菜"],opt:["猪肉"]},
+  "拍黄瓜":{main:["黄瓜"]},
+  "凉拌木耳":{main:["木耳"]},
+  "地三鲜":{main:["土豆","茄子","青椒"]},
+  "清蒸南瓜":{main:["南瓜"]},
+  "米饭":{main:["米饭"]},
+  "馒头/花卷":{main:[["面粉","馒头"]]},
+  "西红柿鸡蛋面":{main:["面条","西红柿","鸡蛋"]},
+  "炸酱面":{main:["面条","猪肉"],opt:["黄酱","黄瓜"]},
+  "酸辣土豆丝":{main:["土豆"],opt:["青椒"]},
+  "小炒藕丁":{main:["莲藕"]},
+  "蒸红薯":{main:["红薯"]},
+  "水煮玉米":{main:["玉米"]},
+  "小米粥":{main:["小米"]},
+  "紫菜蛋花汤":{main:["紫菜","鸡蛋"]},
+  "西红柿豆腐蛋汤":{main:["西红柿","豆腐","鸡蛋"]},
+  "排骨山药玉米汤":{main:["排骨","山药","玉米"],opt:["胡萝卜"]},
+  "西红柿鸡蛋汤":{main:["西红柿","鸡蛋"]},
+  "玉米排骨汤":{main:["排骨","玉米"],opt:["胡萝卜"]},
+  "菌菇汤":{main:[["香菇","金针菇","蘑菇","菌菇"]]},
+  "白萝卜丝清汤":{main:["白萝卜"]},
+  "黄瓜皮蛋汤":{main:["黄瓜","皮蛋"]},
+  "冬瓜排骨汤":{main:["冬瓜","排骨"]},
+  "豆腐青菜汤":{main:["豆腐","青菜"]},
+  "丝瓜蛋汤":{main:["丝瓜","鸡蛋"]},
+  "酸辣汤":{main:["豆腐","鸡蛋"],opt:["木耳","胡萝卜","香菇"]},
+  "萝卜排骨汤":{main:["白萝卜","排骨"]},
+  "白菜豆腐汤":{main:["白菜","豆腐"]},
+  "疙瘩汤":{main:["面粉",["鸡蛋","西红柿","青菜","白菜"]]},
+  "杂菜汤":{main:[["西红柿","土豆","青椒","黄瓜","茄子","包菜","白菜","生菜","菠菜","韭菜","芹菜","西兰花","菜心","青菜","胡萝卜","洋葱","南瓜","冬瓜","丝瓜","白萝卜","莲藕","豆角","山药","香菇","木耳","金针菇","蘑菇","菌菇"]]},
+  "蛋炒饭":{main:["米饭","鸡蛋"],opt:["黄瓜","胡萝卜","火腿肠","青菜"]},
+  "炒方便面":{main:["方便面"],opt:["鸡蛋","火腿肠"]},
+  "汤面":{main:["面条"],opt:["鸡蛋","青菜","猪肉","西红柿","菠菜"]}
+};
+D.forEach(function(d){
+  var x=INGS[d.n];
+  d.main=x&&x.main?x.main:(d.ing?d.ing.split("、"):[]);
+  d.opt=x&&x.opt?x.opt:[];
+});
+
+var CANON={
+  "西红柿":"西红柿","番茄":"西红柿","蕃茄":"西红柿",
+  "土豆":"土豆","马铃薯":"土豆","洋芋":"土豆",
+  "干辣椒":"干辣椒","干椒":"干辣椒",
+  "青椒":"青椒","柿子椒":"青椒","青辣椒":"青椒","青红椒":"青椒","尖椒":"青椒",
+  "黄瓜":"黄瓜","青瓜":"黄瓜",
+  "茄子":"茄子",
+  "包菜":"包菜","卷心菜":"包菜","高丽菜":"包菜","圆白菜":"包菜","洋白菜":"包菜",
+  "白菜":"白菜","大白菜":"白菜","黄芽菜":"白菜",
+  "生菜":"生菜","油麦菜":"生菜",
+  "菠菜":"菠菜","韭菜":"韭菜","芹菜":"芹菜",
+  "西兰花":"西兰花","青花菜":"西兰花",
+  "菜心":"菜心","菜苔":"菜心","菜薹":"菜心",
+  "青菜":"青菜","小白菜":"青菜","小油菜":"青菜","油菜":"青菜","小青菜":"青菜",
+  "胡萝卜":"胡萝卜","红萝卜":"胡萝卜","胡箩卜":"胡萝卜",
+  "洋葱":"洋葱","葱头":"洋葱","圆葱":"洋葱",
+  "南瓜":"南瓜","冬瓜":"冬瓜","丝瓜":"丝瓜",
+  "白萝卜":"白萝卜","萝卜":"白萝卜","莱菔":"白萝卜",
+  "莲藕":"莲藕","藕":"莲藕","藕丁":"莲藕",
+  "豆角":"豆角","四季豆":"豆角","豇豆":"豆角",
+  "山药":"山药",
+  "鸡蛋":"鸡蛋","蛋":"鸡蛋","鸡蛋液":"鸡蛋","蛋液":"鸡蛋",
+  "猪肉":"猪肉","瘦肉":"猪肉","猪瘦肉":"猪肉","瘦猪肉":"猪肉","里脊":"猪肉","肉末":"猪肉","五花肉":"猪肉","肉丁":"猪肉","肉丝":"猪肉","肉片":"猪肉","猪肉丝":"猪肉","猪肉片":"猪肉",
+  "排骨":"排骨","肋排":"排骨","猪排骨":"排骨","小排":"排骨",
+  "牛肉":"牛肉","牛腩":"牛肉",
+  "鸡肉":"鸡肉","鸡腿":"鸡肉","鸡胸":"鸡肉","鸡腿肉":"鸡肉","鸡胸肉":"鸡肉","鸡丁":"鸡肉",
+  "鸡翅":"鸡翅","鸡翅膀":"鸡翅",
+  "鱼":"鱼","鲈鱼":"鱼","鳊鱼":"鱼","鲫鱼":"鱼","草鱼":"鱼","带鱼":"鱼","鲤鱼":"鱼",
+  "虾":"虾","鲜虾":"虾","大虾":"虾","基围虾":"虾","虾仁":"虾",
+  "皮蛋":"皮蛋","松花蛋":"皮蛋","变蛋":"皮蛋",
+  "豆腐":"豆腐","老豆腐":"豆腐","嫩豆腐":"豆腐","北豆腐":"豆腐","南豆腐":"豆腐","内酯豆腐":"豆腐",
+  "香干":"香干","豆腐干":"香干",
+  "牛奶":"牛奶","豆浆":"豆浆",
+  "燕麦":"燕麦","燕麦片":"燕麦",
+  "米饭":"米饭","剩米饭":"米饭","大米":"米饭","白米":"米饭","熟饭":"米饭","冷饭":"米饭","剩饭":"米饭",
+  "面条":"面条","挂面":"面条","碱面":"面条",
+  "面粉":"面粉","中筋面粉":"面粉","麦粉":"面粉",
+  "馒头":"馒头","花卷":"馒头","速冻花卷":"馒头",
+  "红薯":"红薯","地瓜":"红薯","番薯":"红薯",
+  "玉米":"玉米","鲜玉米":"玉米","玉米棒":"玉米",
+  "小米":"小米",
+  "方便面":"方便面","泡面":"方便面",
+  "香菇":"香菇","干香菇":"香菇","冬菇":"香菇",
+  "木耳":"木耳","干木耳":"木耳","黑木耳":"木耳",
+  "金针菇":"金针菇",
+  "紫菜":"紫菜",
+  "蘑菇":"蘑菇","口蘑":"蘑菇","鲜蘑":"蘑菇",
+  "菌菇":"菌菇",
+  "花生":"花生","花生米":"花生",
+  "黄酱":"黄酱","甜面酱":"黄酱","炸酱":"黄酱",
+  "蚝油":"蚝油",
+  "豆瓣酱":"豆瓣酱","辣酱":"豆瓣酱","郫县豆瓣":"豆瓣酱",
+  "可乐":"可乐",
+  "红茶":"红茶","茶叶":"红茶",
+  "火腿肠":"火腿肠","火腿":"火腿肠","午餐肉":"火腿肠"
+};
+var CANON_KEYS=Object.keys(CANON).sort(function(a,b){return b.length-a.length;});
+function canonOf(raw){
+  var s=String(raw||"").trim().replace(/（.*?）|\(.*?\)/g,"").replace(/[的了吧呀]+$/g,"");
+  if(!s)return "";
+  if(CANON[s])return CANON[s];
+  for(var i=0;i<CANON_KEYS.length;i++){
+    if(CANON_KEYS[i].length<2)continue;
+    if(s.indexOf(CANON_KEYS[i])>=0)return CANON[CANON_KEYS[i]];
+  }
+  return s;
+}
+function splitIngs(str){
+  return String(str||"").split(/[、，,；;\/／\s]+/).map(function(x){return x.trim();}).filter(Boolean);
+}
+
+var CHIP_GROUPS=[
+  {lab:"蔬菜",items:["西红柿","土豆","青椒","黄瓜","茄子","包菜","白菜","生菜","菠菜","韭菜","芹菜","西兰花","菜心","青菜","胡萝卜","洋葱","南瓜","冬瓜","丝瓜","白萝卜","莲藕","豆角","山药"]},
+  {lab:"肉蛋",items:["鸡蛋","猪肉","排骨","牛肉","鸡肉","鸡翅","鱼","虾","皮蛋","火腿肠"]},
+  {lab:"豆奶",items:["豆腐","香干","牛奶","豆浆","燕麦"]},
+  {lab:"主食",items:["米饭","面条","面粉","馒头","红薯","玉米","小米","方便面"]},
+  {lab:"菌菇",items:["香菇","木耳","金针菇","紫菜","蘑菇"]},
+  {lab:"调料干货",items:["花生","黄酱","干辣椒","蚝油","豆瓣酱","可乐","红茶"]}
+];
+var PANTRY={"油":1,"盐":1,"酱油":1,"生抽":1,"老抽":1,"醋":1,"葱":1,"姜":1,"蒜":1,"大蒜":1,"小葱":1,"大葱":1,"葱花":1,"淀粉":1,"生粉":1,"糖":1,"料酒":1,"香油":1,"食用油":1,"植物油":1,"胡椒粉":1};
+var STAPLE_NAMES={"米饭":1,"馒头/花卷":1,"西红柿鸡蛋面":1,"炸酱面":1,"蒸红薯":1,"水煮玉米":1,"牛奶燕麦配煎蛋":1,"蛋炒饭":1,"炒方便面":1,"汤面":1,"小米粥":1};
+var FRIDGE_KEY="nutritionFridgeV1";
+var fridge={have:[],pantry:true,combos:[],comboIndex:0};
+
+function roleOf(d){
+  if(d.c==="汤粥")return "soup";
+  if(STAPLE_NAMES[d.n])return "staple";
+  return "dish";
+}
+function plateTags(d){
+  var f=d.f||[], nuts=nutsOf(f), tags=[];
+  if(f.indexOf("leafy")>=0||f.indexOf("veg")>=0||f.indexOf("fungi")>=0)tags.push("蔬菜");
+  if(nuts.indexOf("P")>=0)tags.push("蛋白质");
+  if(nuts.indexOf("C")>=0)tags.push("碳水");
+  if(nuts.indexOf("F")>=0)tags.push("脂类");
+  return tags;
+}
+function tagPills(tags){
+  return tags.map(function(t){
+    var tone=t==="蛋白质"||t==="蔬菜"?"ok":(t==="碳水"?"neutral":"warn");
+    return pill(t,tone);
+  }).join(" ");
+}
+function loadFridge(){
+  try{
+    var raw=localStorage.getItem(FRIDGE_KEY);
+    if(!raw)return;
+    var o=JSON.parse(raw);
+    if(o&&o.have)fridge.have=o.have.filter(Boolean);
+    if(typeof o.pantry==="boolean")fridge.pantry=o.pantry;
+  }catch(e){}
+}
+function saveFridge(){
+  try{localStorage.setItem(FRIDGE_KEY,JSON.stringify({have:fridge.have,pantry:fridge.pantry}));}catch(e){}
+}
+function haveSet(){
+  var s={};
+  fridge.have.forEach(function(x){s[x]=1;});
+  return s;
+}
+function hasNeed(have,need){
+  if(Object.prototype.toString.call(need)==="[object Array]"){
+    return need.some(function(n){return hasNeed(have,n);});
+  }
+  if(fridge.pantry&&PANTRY[need])return true;
+  if(have[need])return true;
+  if((need==="香菇"||need==="蘑菇")&&(have["香菇"]||have["蘑菇"]||have["菌菇"]))return true;
+  if(need==="金针菇"&&(have["金针菇"]||have["菌菇"]))return true;
+  if(need==="菌菇"&&(have["香菇"]||have["蘑菇"]||have["金针菇"]||have["菌菇"]))return true;
+  return false;
+}
+function needLabel(need){
+  if(Object.prototype.toString.call(need)==="[object Array]")return need.join("或");
+  return need;
+}
+function matchDish(d){
+  var have=haveSet(), missing=[];
+  (d.main||[]).forEach(function(need){
+    if(!hasNeed(have,need))missing.push(needLabel(need));
+  });
+  var total=(d.main||[]).length||1, got=total-missing.length;
+  return {d:d,missing:missing,ready:missing.length===0,almost:missing.length>=1&&missing.length<=2&&got>=1,score:got/total};
+}
+function addTokens(str){
+  splitIngs(str).forEach(function(tok){
+    var c=canonOf(tok);
+    if(c&&fridge.have.indexOf(c)<0)fridge.have.push(c);
+  });
+  saveFridge();
+  renderFridge();
+}
+function removeIng(name){
+  fridge.have=fridge.have.filter(function(x){return x!==name;});
+  saveFridge();
+  renderFridge();
+}
+function dishLinks(d){
+  return (d.gh?link(ghUrl(d.gh),"文字菜谱"):"暂无文字菜谱")+" · "+link(videoHref(d),videoLabel(d));
+}
+function dishCard(m,kind){
+  var d=m.d;
+  var miss=kind==="almost"?'<div class="miss">还差：'+esc(m.missing.join("、"))+"</div>":"";
+  return '<article class="dish-card"><div class="kicker">'+(kind==="ready"?"现在就能做":"差一两样")+" · "+esc(d.c)+' · 约 '+d.t+" 分钟</div><h3>"+esc(d.n)+"</h3><div>"+tagPills(plateTags(d))+"</div>"+miss+'<div class="meta">主要食材：'+esc(d.ing)+'</div><div class="links">'+dishLinks(d)+"</div></article>";
+}
+function block(title,items,kind){
+  if(!items.length)return "";
+  return "<h3 style=\"margin-top:22px\">"+esc(title)+"（"+items.length+"）</h3><div class=\"dish-cards\">"+items.map(function(m){return dishCard(m,kind);}).join("")+"</div>";
+}
+function fallbackHtml(){
+  return '<div class="fallback" id="fridgeGeneric"><b>现有食材对不上完整菜谱时，可以先这样做</b>家里有任意蔬菜和鸡蛋：能炒一盘（如青菜炒蛋、西红柿炒鸡蛋），也能做蛋花汤，或者下面条做成汤面。只有菜就清炒或煮杂菜汤；只有蛋就蒸蛋或炒蛋；只有面或饭，煮汤面、炒剩饭也行。蛋白质不够时，鸡蛋、豆腐、牛奶或瘦肉可以互相替换。</div>';
+}
+function comboCoverage(parts){
+  var tags={}, i;
+  parts.forEach(function(d){plateTags(d).forEach(function(t){tags[t]=1;});});
+  return ["蔬菜","蛋白质","碳水","脂类"].filter(function(t){return tags[t];});
+}
+function collectRoles(pool){
+  var dishes=[],soups=[],staples=[],i,m,r;
+  for(i=0;i<pool.length;i++){
+    m=pool[i];r=roleOf(m.d);
+    if(r==="soup")soups.push(m);
+    else if(r==="staple")staples.push(m);
+    else dishes.push(m);
+  }
+  var mains=dishes.slice();
+  staples.forEach(function(s){
+    if(["米饭","馒头/花卷","蒸红薯","水煮玉米","小米粥"].indexOf(s.d.n)<0)mains.push(s);
+  });
+  if(!mains.length)mains=soups.slice();
+  if(!mains.length)mains=staples.slice();
+  if(!mains.length)mains=pool.slice();
+  return {mains:mains,soups:soups,staples:staples};
+}
+function isComplete(c){
+  return c.cov.indexOf("蔬菜")>=0&&c.cov.indexOf("蛋白质")>=0&&c.cov.indexOf("碳水")>=0&&!c.missIng.length;
+}
+function buildCombos(ready,almost){
+  var readyCombos=buildCombosFrom(collectRoles(ready));
+  if(readyCombos.length)return readyCombos;
+  var pool=ready.concat(almost.filter(function(m){return m.missing.length===1;}));
+  return buildCombosFrom(collectRoles(pool));
+}
+function buildCombosFrom(roles){
+  var mains=roles.mains,soups=roles.soups,staples=roles.staples;
+  var combos=[], used={};
+  function push(parts,notes){
+    var names=parts.map(function(d){return d.n;}).join("+");
+    if(used[names]||!parts.length)return;
+    used[names]=1;
+    var cov=comboCoverage(parts);
+    var time=parts.reduce(function(s,d){return s+d.t;},0);
+    var missIng=[];
+    parts.forEach(function(d){
+      var md=matchDish(d);
+      if(!md.ready)missIng=missIng.concat(md.missing.map(function(x){return d.n+"还差"+x;}));
+    });
+    var score=cov.length*100-time/50-missIng.length*40+(notes?0:5);
+    if(cov.indexOf("蔬菜")>=0)score+=20;
+    if(cov.indexOf("蛋白质")>=0)score+=20;
+    if(cov.indexOf("碳水")>=0)score+=20;
+    combos.push({parts:parts,cov:cov,missIng:missIng,score:score});
+  }
+  var a,b,c,p;
+  for(a=0;a<mains.length;a++){
+    for(b=0;b<Math.max(soups.length,1);b++){
+      p=[mains[a].d];
+      if(soups[b]&&soups[b].d.n!==mains[a].d.n)p.push(soups[b].d);
+      var cov=comboCoverage(p);
+      var needStaple=cov.indexOf("碳水")<0;
+      var added=false;
+      if(needStaple){
+        for(c=0;c<staples.length;c++){
+          if(p.indexOf(staples[c].d)>=0)continue;
+          push(p.concat([staples[c].d]));
+          added=true;
+        }
+      }else{
+        for(c=0;c<staples.length;c++){
+          if(p.indexOf(staples[c].d)>=0)continue;
+          if(roleOf(mains[a].d)==="staple")break;
+          if(["米饭","馒头/花卷"].indexOf(staples[c].d.n)>=0){
+            push(p.concat([staples[c].d]));
+            added=true;
+            break;
+          }
+        }
+      }
+      if(!added)push(p);
+    }
+  }
+  combos.sort(function(x,y){return y.score-x.score;});
+  return combos.slice(0,8);
+}
+function missingNutrientNote(cov){
+  var have=haveSet();
+  var miss=["蔬菜","蛋白质","碳水"].filter(function(t){return cov.indexOf(t)<0;});
+  if(!miss.length)return "这一餐的蔬菜、蛋白质、碳水都有了，水果和牛奶可以放到加餐补。";
+  var bits=[];
+  miss.forEach(function(t){
+    if(t==="蛋白质"){
+      var alts=[];
+      if(have["鸡蛋"])alts.push("鸡蛋");
+      if(have["豆腐"]||have["香干"])alts.push(have["豆腐"]?"豆腐":"香干");
+      if(have["牛奶"])alts.push("牛奶");
+      if(have["豆浆"])alts.push("豆浆");
+      if(alts.length)bits.push("还缺蛋白质：没有肉的话，家里的"+alts.join("、")+"也可以补上。");
+      else bits.push("还缺蛋白质：没有肉时，鸡蛋、豆腐或牛奶也可以，建议备其中一样。");
+    }else if(t==="蔬菜"){
+      bits.push("还缺蔬菜：加一盘青菜、菌菇或西红柿就能补上。");
+    }else if(t==="碳水"){
+      bits.push("还缺碳水：用米饭、面条、红薯或玉米做主食即可。");
+    }
+  });
+  return bits.join("");
+}
+function roleLabel(d){
+  var r=roleOf(d);
+  return r==="soup"?"汤":(r==="staple"?"主食":"菜");
+}
+function renderCombo(){
+  var el=$("fridgeCombo");
+  if(!fridge.have.length){el.innerHTML="";return;}
+  if(!fridge.combos.length){el.innerHTML="";return;}
+  var i=fridge.comboIndex%fridge.combos.length;
+  var c=fridge.combos[i];
+  var items=c.parts.map(function(d,idx){
+    var md=matchDish(d);
+    var extra=md.ready?"":" <span class=\"miss\">（还差"+esc(md.missing.join("、"))+"）</span>";
+    return "<li><b>"+esc(d.n)+"</b>（"+roleLabel(d)+" · 约 "+d.t+" 分钟）"+extra+" · "+tagPills(plateTags(d))+" · "+dishLinks(d)+"</li>";
+  }).join("");
+  var miss=c.missIng.length?'<div class="combo-note">'+esc("部分菜还差："+c.missIng.join("；"))+"</div>":"";
+  el.innerHTML='<div class="combo-card" id="fridgeComboCard"><h3>配一餐建议（'+(i+1)+"/"+fridge.combos.length+'）</h3><ol>'+items+"</ol><div>本餐覆盖："+tagPills(c.cov)+'</div><div class="combo-note">'+esc(missingNutrientNote(c.cov))+"</div>"+miss+"</div>";
+}
+function renderFridge(){
+  $("fridgePantry").checked=fridge.pantry;
+  $("fridgeTags").innerHTML=fridge.have.length?fridge.have.map(function(name){
+    return '<span class="tag">'+esc(name)+'<button type="button" data-rm="'+esc(name)+'" aria-label="去掉'+esc(name)+'">×</button></span>';
+  }).join(""):'<span class="note">还没有食材，输入或点选下面的按钮。</span>';
+  Array.prototype.forEach.call($("fridgeChips").querySelectorAll(".chip"),function(btn){
+    btn.className="chip"+(fridge.have.indexOf(btn.getAttribute("data-ing"))>=0?" on":"");
+  });
+  if(!fridge.have.length){
+    $("fridgeHint").textContent="";
+    $("fridgeReady").innerHTML="";
+    $("fridgeAlmost").innerHTML="";
+    $("fridgeFallback").innerHTML="";
+    $("fridgeCombo").innerHTML="";
+    fridge.combos=[];
+    return;
+  }
+  var results=D.map(matchDish);
+  var ready=results.filter(function(m){return m.ready;}).sort(function(a,b){return a.d.t-b.d.t;});
+  var almost=results.filter(function(m){return m.almost;}).sort(function(a,b){return a.missing.length-b.missing.length||a.d.t-b.d.t;});
+  $("fridgeHint").textContent="已选 "+fridge.have.length+" 样：现在就能做 "+ready.length+" 道，差一两样 "+almost.length+" 道。";
+  $("fridgeReady").innerHTML=block("现在就能做",ready,"ready");
+  $("fridgeAlmost").innerHTML=block("差一两样",almost,"almost");
+  $("fridgeFallback").innerHTML=(ready.length||almost.length)?"":fallbackHtml();
+  fridge.combos=buildCombos(ready,almost);
+  if(!fridge.combos.length){
+    $("fridgeCombo").innerHTML="";
+    if(!ready.length&&!almost.length)$("fridgeFallback").innerHTML=fallbackHtml();
+  }
+}
+
+/* fridge ui */
+loadFridge();
+$("fridgeChips").innerHTML=CHIP_GROUPS.map(function(g){
+  return '<div class="chip-block"><div class="lab">'+esc(g.lab)+'</div><div class="chip-row">'+g.items.map(function(n){
+    return '<button type="button" class="chip" data-ing="'+esc(n)+'">'+esc(n)+"</button>";
+  }).join("")+"</div></div>";
+}).join("");
+$("fridgeAdd").addEventListener("click",function(){
+  addTokens($("fridgeInput").value);
+  $("fridgeInput").value="";
+  $("fridgeInput").focus();
+});
+$("fridgeInput").addEventListener("keydown",function(e){
+  if(e.key==="Enter"){e.preventDefault();$("fridgeAdd").click();}
+});
+$("fridgeClear").addEventListener("click",function(){
+  fridge.have=[];fridge.combos=[];fridge.comboIndex=0;saveFridge();renderFridge();
+});
+$("fridgePantry").addEventListener("change",function(e){
+  fridge.pantry=!!e.target.checked;saveFridge();renderFridge();
+});
+$("fridgeTags").addEventListener("click",function(e){
+  var b=e.target.closest("button[data-rm]");if(!b)return;removeIng(b.getAttribute("data-rm"));
+});
+$("fridgeChips").addEventListener("click",function(e){
+  var b=e.target.closest(".chip");if(!b)return;
+  var name=b.getAttribute("data-ing");
+  if(fridge.have.indexOf(name)>=0)removeIng(name);
+  else{fridge.have.push(name);saveFridge();renderFridge();}
+});
+function goTo(id){
+  var el=$(id);
+  if(el&&typeof el.scrollIntoView==="function")el.scrollIntoView({behavior:"smooth",block:"start"});
+}
+$("fridgePropose").addEventListener("click",function(){
+  renderFridge();
+  if(fridge.combos.length){fridge.comboIndex=0;renderCombo();goTo("fridgeCombo");}
+  else{
+    $("fridgeCombo").innerHTML="";
+    if(fridge.have.length)$("fridgeFallback").innerHTML=fallbackHtml();
+    goTo("fridgeFallback");
+  }
+});
+$("fridgeSwap").addEventListener("click",function(){
+  if(!fridge.combos.length){renderFridge();if(!fridge.combos.length)return;}
+  fridge.comboIndex=(fridge.comboIndex+1)%fridge.combos.length;
+  renderCombo();
+  goTo("fridgeCombo");
+});
+$("exFridge1").addEventListener("click",function(){fridge.have=[];addTokens("西红柿 鸡蛋 米饭");});
+$("exFridge2").addEventListener("click",function(){fridge.have=[];addTokens("土豆 剩米饭 青菜");});
+renderFridge();
+})();
+</script>
+</body>
+</html>

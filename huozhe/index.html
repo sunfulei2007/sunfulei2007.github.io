@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#2A1D16">
+<title>活着 · 你已经活了多久</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23B5452F'/%3E%3Ctext x='16' y='23' font-size='20' text-anchor='middle' fill='%23FCEFE2' font-family='serif' font-weight='900'%3E%E6%B4%BB%3C/text%3E%3C/svg%3E">
+<style>
+:root{
+  --bg0:#0E131C;--bg1:#131A26;--panel:#18202D;--panel2:#1E2737;--panel3:#253042;
+  --line:rgba(255,232,200,.09);--line2:rgba(255,232,200,.16);
+  --ink:#F1E8DA;--ink2:#BDB2A2;--ink3:#857F78;
+  --lamp:#F2B661;--lamp2:#FFD592;--ember:#E5894A;--ember2:#C96F34;--red:#E0664B;--sage:#93BE9C;--gold:#D9B36E;
+  --male:#86AFC8;--female:#E9A1A6;
+  --r:20px;--shadow:0 1px 0 rgba(255,240,220,.04) inset,0 18px 40px -22px rgba(0,0,0,.7);
+  --serif:"Songti SC","STSong","Noto Serif CJK SC","Source Han Serif SC","SimSun",serif;
+  --sans:"PingFang SC","Hiragino Sans GB","Noto Sans CJK SC","Microsoft YaHei",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;background:var(--bg0)}
+body{font-family:var(--sans);color:var(--ink);line-height:1.6;min-height:100vh;background:var(--bg0);
+  background-image:
+   radial-gradient(1100px 520px at 78% -120px,rgba(229,137,74,.20),transparent 62%),
+   radial-gradient(900px 600px at 0% 0%,rgba(70,92,140,.28),transparent 60%),
+   linear-gradient(180deg,#1A2132 0%,#121925 520px,#0E131C 1400px);
+  background-repeat:no-repeat}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.55;
+  background-image:radial-gradient(1px 1px at 12% 18%,#fff8 50%,transparent 51%),radial-gradient(1px 1px at 33% 8%,#fff6 50%,transparent 51%),radial-gradient(1.2px 1.2px at 58% 22%,#fff7 50%,transparent 51%),radial-gradient(1px 1px at 81% 12%,#fff5 50%,transparent 51%),radial-gradient(1px 1px at 92% 34%,#fff4 50%,transparent 51%),radial-gradient(1px 1px at 4% 44%,#fff4 50%,transparent 51%),radial-gradient(1px 1px at 46% 41%,#fff3 50%,transparent 51%),radial-gradient(1px 1px at 70% 55%,#fff3 50%,transparent 51%),radial-gradient(1px 1px at 22% 70%,#fff3 50%,transparent 51%),radial-gradient(1px 1px at 88% 78%,#fff3 50%,transparent 51%)}
+body>*{position:relative;z-index:1}
+button,input,select{font-family:inherit;font-size:inherit;color:inherit}
+.num{font-variant-numeric:tabular-nums;font-feature-settings:"tnum";letter-spacing:-.01em}
+.wrap{max-width:1320px;margin:0 auto;padding:0 28px}
+svg{display:block}
+a{color:var(--lamp)}
+
+/* ---------- 顶栏 ---------- */
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:22px 0 0}
+.brand{display:flex;align-items:center;gap:14px}
+.seal{width:44px;height:44px;border-radius:12px;background:linear-gradient(145deg,#E5704F,#B7442E);color:#FFF2E2;display:grid;place-items:center;
+  font-family:var(--serif);font-weight:900;font-size:25px;box-shadow:0 0 0 1px rgba(255,255,255,.12) inset,0 0 24px -4px rgba(229,112,79,.6)}
+.brand h1{font-family:var(--serif);font-size:32px;font-weight:900;letter-spacing:.2em;line-height:1}
+.brand .sub{font-size:12.5px;color:var(--ink2);letter-spacing:.24em;margin-top:6px}
+.top-actions{display:flex;gap:10px}
+.btn{cursor:pointer;border:1px solid var(--line2);background:rgba(255,255,255,.04);color:var(--ink);padding:9px 16px;border-radius:12px;
+  display:inline-flex;align-items:center;gap:7px;font-size:14px;min-height:40px;transition:transform .12s,background .15s,border-color .15s;white-space:nowrap}
+.btn:hover{transform:translateY(-1px);border-color:rgba(255,232,200,.35);background:rgba(255,255,255,.07)}
+.btn svg{width:16px;height:16px}
+.btn.primary{background:linear-gradient(180deg,#F2A55E,#E0803F);border-color:transparent;color:#24170E;font-weight:700;box-shadow:0 10px 26px -12px rgba(242,165,94,.9)}
+.btn.primary:hover{background:linear-gradient(180deg,#F7B26C,#E88B49)}
+.btn.ghost{background:transparent}
+.btn.danger{color:#F08A74}
+.btn.sm{padding:6px 11px;min-height:32px;font-size:13px;border-radius:10px}
+
+/* ---------- Hero：俯瞰一生 ---------- */
+.hero{display:grid;grid-template-columns:minmax(0,1fr) 480px;gap:44px;padding:30px 0 40px;align-items:start}
+.today{font-size:13.5px;color:var(--ink2)}
+.today b{color:var(--ink);font-weight:600}
+.quote{font-family:var(--serif);font-size:17px;line-height:1.8;color:#E7D9C4;margin-top:10px;opacity:.9}
+.quote small{font-size:12px;color:var(--ink3);margin-left:8px;letter-spacing:.06em}
+.chips{display:flex;gap:8px;margin-top:22px;overflow-x:auto;padding:3px 2px 6px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;border:1px solid var(--line2);background:rgba(255,255,255,.03);border-radius:99px;padding:3px 12px 3px 3px;display:flex;align-items:center;gap:7px;cursor:pointer;font-size:13px;color:var(--ink2)}
+.chip .av{width:28px;height:28px;box-shadow:none}
+.chip.on{border-color:var(--lamp);background:rgba(242,182,97,.12);color:var(--lamp2);font-weight:600}
+.focus-name{font-family:var(--serif);font-size:15px;color:var(--ink2);margin-top:22px;letter-spacing:.08em}
+.focus-name b{color:var(--ink);font-size:20px}
+.hero-big{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-top:4px}
+.hero-big .n{font-size:76px;font-weight:800;line-height:1;letter-spacing:-.035em;color:var(--lamp2);text-shadow:0 0 36px rgba(242,182,97,.35)}
+.hero-big .u{font-size:20px;color:var(--ink2)}
+.hero-sub{display:flex;gap:22px;flex-wrap:wrap;margin-top:12px;font-size:14px;color:var(--ink2)}
+.hero-sub b{color:var(--ink);font-size:18px;font-weight:700}
+.hero-sub .tick{color:var(--lamp)}
+.hprog{margin-top:20px;max-width:560px}
+.hprog .row{display:flex;justify-content:space-between;font-size:12.5px;color:var(--ink3);margin-bottom:7px}
+.hprog .row b{color:var(--ink)}
+.bar{height:8px;background:rgba(255,255,255,.07);border-radius:99px;overflow:hidden;position:relative}
+.bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#FFE0A3,var(--lamp) 45%,var(--ember));box-shadow:0 0 14px rgba(242,182,97,.5);transition:width .8s}
+.bar.over i{background:linear-gradient(90deg,#CFE6C8,var(--sage))}
+.bar .rt{position:absolute;top:0;bottom:0;width:2px;background:#fff;opacity:.45}
+.remain{margin-top:10px;font-size:14px;color:var(--ink2)}
+.remain b{color:var(--ink)}
+.remain.good{color:var(--sage)}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:22px;max-width:640px}
+.fact{background:rgba(255,255,255,.035);border:1px solid var(--line);border-radius:14px;padding:10px 12px}
+.fact .k{font-size:11.5px;color:var(--ink3)}
+.fact .v{font-size:17px;font-weight:700;line-height:1.35}
+.fact .v small{font-size:12px;font-weight:400;color:var(--ink2)}
+.fact .s{font-size:11.5px;color:var(--ink2)}
+.letter{margin-top:20px;font-family:var(--serif);font-size:15.5px;line-height:1.9;color:#E3D5C0;border-left:2px solid var(--lamp);padding:2px 0 2px 14px;max-width:600px}
+.letter b{color:var(--lamp2)}
+.gridcard{position:relative;background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.01));border:1px solid var(--line);border-radius:24px;padding:18px 18px 16px}
+.gridcard .t{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.gridcard .t h2{font-family:var(--serif);font-size:18px;letter-spacing:.1em}
+.gridcard .t span{font-size:12px;color:var(--ink3)}
+.gridwrap{position:relative;margin-top:12px}
+.gridwrap canvas{width:100%;display:block}
+.pulse{position:absolute;border-radius:2px;background:#FFF1C9;animation:pulse 1.8s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,214,140,.8),0 0 10px 2px rgba(255,214,140,.9)}70%{box-shadow:0 0 0 9px rgba(255,214,140,0),0 0 10px 2px rgba(255,214,140,.9)}100%{box-shadow:0 0 0 0 rgba(255,214,140,0),0 0 10px 2px rgba(255,214,140,.9)}}
+.legend{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:11.5px;color:var(--ink2);margin-top:12px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:-1px}
+.gcap{font-size:12.5px;color:var(--ink2);margin-top:6px}
+.gcap b{color:var(--ink)}
+
+/* ---------- 通用区块 ---------- */
+section.blk{margin-top:26px}
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.sec-head h2{font-family:var(--serif);font-size:22px;font-weight:800;letter-spacing:.1em}
+.sec-head h2 span{font-family:var(--sans);font-size:13px;color:var(--ink3);font-weight:400;letter-spacing:0;margin-left:8px}
+.sec-head p{font-size:13px;color:var(--ink3);margin-top:2px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.stat{padding:14px 16px}
+.stat .k{font-size:12px;color:var(--ink3);letter-spacing:.06em}
+.stat .v{font-size:25px;font-weight:700;line-height:1.3;margin-top:2px}
+.stat .v small{font-size:13px;font-weight:400;color:var(--ink2);margin-left:3px}
+.stat .s{font-size:12px;color:var(--ink2)}
+
+/* river */
+.river{padding:18px 20px 14px;overflow:hidden}
+.rv-row{display:grid;grid-template-columns:118px 1fr;align-items:center;gap:12px;height:34px;cursor:pointer;border-radius:10px}
+.rv-row:hover .rv-name{color:var(--ink)}
+.rv-row.on .rv-name{color:var(--lamp2)}
+.rv-name{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink2);white-space:nowrap;overflow:hidden}
+.rv-name .av{width:24px;height:24px;box-shadow:none;flex:none}
+.rv-track{position:relative;height:100%}
+.rv-track:before{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(255,255,255,.04)}
+.rv-life{position:absolute;top:50%;height:10px;margin-top:-5px;border-radius:99px}
+.rv-lived{background:linear-gradient(90deg,rgba(255,224,163,.35),var(--lamp) 70%,#FFD99A);box-shadow:0 0 12px rgba(242,182,97,.35)}
+.rv-row.m .rv-lived{background:linear-gradient(90deg,rgba(134,175,200,.25),#9FC3DA 70%,#D8EBF5);box-shadow:0 0 12px rgba(134,175,200,.3)}
+.rv-row.f .rv-lived{background:linear-gradient(90deg,rgba(233,161,166,.25),#F0B5A4 70%,#FFE0CF);box-shadow:0 0 12px rgba(240,181,164,.3)}
+.rv-left{background:repeating-linear-gradient(90deg,rgba(255,232,200,.22) 0 2px,transparent 2px 6px);height:4px;margin-top:-2px}
+.rv-axis{position:relative;height:22px;margin-left:130px;font-size:11px;color:var(--ink3)}
+.rv-axis span{position:absolute;transform:translateX(-50%);top:4px}
+.rv-now{position:absolute;top:0;bottom:22px;width:1px;background:linear-gradient(180deg,transparent,var(--lamp2) 10%,var(--lamp2) 90%,transparent);box-shadow:0 0 10px var(--lamp)}
+.rv-now b{position:absolute;top:-2px;left:6px;font-size:11px;color:var(--lamp2);white-space:nowrap;font-weight:600}
+.rv-body{position:relative;padding-top:16px}
+
+/* companion */
+.comp-sum{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px}
+.cs{padding:16px 18px;background:linear-gradient(160deg,rgba(242,182,97,.13),rgba(242,182,97,.02) 60%),var(--panel)}
+.cs .k{font-size:12.5px;color:var(--ink2)}
+.cs .v{font-size:30px;font-weight:800;color:var(--lamp2);line-height:1.25;margin-top:2px}
+.cs .v small{font-size:14px;color:var(--ink2);font-weight:400;margin-left:3px}
+.cs .s{font-size:12.5px;color:var(--ink2)}
+.comp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:14px}
+.cp{padding:16px 18px}
+.cp-h{display:flex;align-items:center;gap:12px}
+.cp-h .av{width:46px;height:46px}
+.cp-h h3{font-size:16px;font-weight:700}
+.cp-h .k{font-size:12px;color:var(--ink3)}
+.cp-h .badge{margin-left:auto;font-size:11.5px;color:var(--lamp2);border:1px solid rgba(242,182,97,.35);border-radius:99px;padding:1px 9px}
+.cp-main{margin-top:12px;font-size:14px;color:var(--ink2);line-height:1.8}
+.cp-main b{color:var(--ink);font-size:16px}
+.cp-main b.hl{color:var(--lamp2);font-size:20px}
+.cp-edit{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;margin-top:10px;font-size:13px;color:var(--ink2);background:rgba(255,255,255,.03);border:1px dashed var(--line2);border-radius:12px;padding:8px 10px}
+.cp-edit input{width:58px;background:var(--bg1);border:1px solid var(--line2);border-radius:8px;padding:4px 6px;text-align:center;color:var(--lamp2);font-weight:700}
+.cp-edit input:focus{outline:none;border-color:var(--lamp)}
+.cp-kv{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.cp-kv>div{background:rgba(255,255,255,.035);border-radius:12px;padding:8px 10px}
+.cp-kv .k{font-size:11.5px;color:var(--ink3)}
+.cp-kv .v{font-size:17px;font-weight:700}
+.cp-kv .v small{font-size:11.5px;color:var(--ink2);font-weight:400}
+.cp-note{font-size:12px;color:var(--ink3);margin-top:8px}
+.tl{margin-top:14px}
+.tl-bar{position:relative;display:flex;height:26px;border-radius:8px;overflow:hidden;background:rgba(255,255,255,.04)}
+.tl-seg{position:relative;height:100%;display:flex;align-items:center;justify-content:center;font-size:11px;color:#2A1C10;font-weight:600;white-space:nowrap;overflow:hidden;border-right:1px solid rgba(14,19,28,.6)}
+.tl-past{position:absolute;left:0;top:0;bottom:0;background:repeating-linear-gradient(135deg,rgba(14,19,28,.72) 0 4px,rgba(14,19,28,.58) 4px 8px)}
+.tl-now{position:absolute;top:-4px;bottom:-4px;width:2px;background:#FFF1C9;box-shadow:0 0 8px #FFD592}
+.tl-ax{position:relative;height:16px;font-size:10.5px;color:var(--ink3);margin-top:3px}
+.tl-ax span{position:absolute;transform:translateX(-50%);white-space:nowrap}
+.tl-leg{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:11.5px;color:var(--ink2);margin-top:6px}
+.tl-leg i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:4px}
+.comp-empty{padding:22px;text-align:center;color:var(--ink2);font-size:14px}
+.assume{margin-top:14px;padding:4px 18px}
+.assume summary{cursor:pointer;font-size:13.5px;color:var(--ink2);padding:12px 0;list-style:none}
+.assume summary::-webkit-details-marker{display:none}
+.assume summary:before{content:"▸ ";color:var(--lamp)}
+.assume[open] summary:before{content:"▾ "}
+.st-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:10px;padding-bottom:16px}
+.st{background:rgba(255,255,255,.035);border-radius:12px;padding:9px 11px;font-size:12.5px;color:var(--ink2)}
+.st b{display:block;color:var(--ink);font-size:13.5px}
+.st input{width:62px;background:var(--bg1);border:1px solid var(--line2);border-radius:8px;padding:3px 6px;text-align:center;color:var(--lamp2);font-weight:700}
+
+/* cards */
+.sort{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink2)}
+select.pill{appearance:none;-webkit-appearance:none;border:1px solid var(--line2);background:var(--panel) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23BDB2A2' fill='none' stroke-width='1.5'/%3E%3C/svg%3E") no-repeat right 12px center;
+  padding:7px 30px 7px 12px;border-radius:10px;font-size:13px;cursor:pointer}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.card{position:relative;padding:16px 16px 14px;cursor:pointer;transition:transform .18s,border-color .18s,box-shadow .18s;animation:rise .45s both}
+.card:hover{transform:translateY(-2px);border-color:var(--line2)}
+.card.sel{border-color:rgba(242,182,97,.6);box-shadow:0 0 0 3px rgba(242,182,97,.10),var(--shadow)}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.c-top{display:flex;gap:12px;align-items:center}
+.av{width:56px;height:56px;border-radius:50%;flex:none;overflow:hidden;box-shadow:0 0 0 2px var(--bg1),0 0 0 3.5px rgba(255,232,200,.18)}
+.av.m{box-shadow:0 0 0 2px var(--bg1),0 0 0 3.5px rgba(134,175,200,.55)}
+.av.f{box-shadow:0 0 0 2px var(--bg1),0 0 0 3.5px rgba(233,161,166,.55)}
+.c-name{min-width:0;flex:1}
+.c-name h3{font-size:17px;font-weight:700;line-height:1.25;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.c-name h3 .rel{font-size:11.5px;font-weight:500;color:var(--ink2);background:rgba(255,255,255,.06);padding:1px 8px;border-radius:99px}
+.tags{display:flex;gap:6px;margin-top:5px;flex-wrap:wrap}
+.tag{font-size:11.5px;padding:0 8px;border-radius:99px;background:rgba(255,255,255,.06);color:var(--ink2)}
+.tag.m{background:rgba(134,175,200,.14);color:var(--male)}
+.tag.f{background:rgba(233,161,166,.14);color:var(--female)}
+.c-acts{display:flex;gap:2px;align-self:flex-start}
+.ibtn{width:30px;height:30px;border-radius:9px;border:0;background:transparent;color:var(--ink3);cursor:pointer;display:grid;place-items:center}
+.ibtn:hover{background:rgba(255,255,255,.07);color:var(--ink)}
+.ibtn.del:hover{color:var(--red)}
+.ibtn svg{width:16px;height:16px}
+.dates{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;font-size:12.5px;margin-top:12px;padding:8px 11px;background:rgba(255,255,255,.035);border-radius:11px;color:var(--ink2)}
+.dates .lb{color:var(--ink3)}
+.dates .lb.main{color:var(--lamp);font-weight:600}
+.big{margin-top:12px;display:flex;align-items:baseline;gap:6px;flex-wrap:wrap}
+.big .pre{font-size:12.5px;color:var(--ink2)}
+.big .n{font-size:32px;font-weight:800;line-height:1.05;letter-spacing:-.02em}
+.big .u{font-size:14px;color:var(--ink2)}
+.sub3{display:grid;grid-template-columns:1fr 1.25fr;gap:8px;margin-top:9px}
+.mini{border:1px solid var(--line);border-radius:11px;padding:7px 10px}
+.mini .k{font-size:11px;color:var(--ink3)}
+.mini .v{font-size:15px;font-weight:700;line-height:1.35}
+.mini .v small{font-size:11.5px;font-weight:400;color:var(--ink2)}
+.mini .s{font-size:11.5px;color:var(--ink2)}
+.tick{color:var(--lamp)}
+.prog{margin-top:12px}
+.prog .row{display:flex;justify-content:space-between;font-size:11.5px;color:var(--ink3);margin-bottom:5px}
+.prog .row b{color:var(--ink);font-size:12.5px}
+.card .remain{font-size:13px}
+.work{margin-top:9px;display:flex;gap:9px;align-items:center;font-size:12px;color:var(--ink2);padding:7px 10px;border-radius:11px;background:linear-gradient(90deg,rgba(217,179,110,.13),rgba(217,179,110,.03))}
+.work svg{width:17px;height:17px;flex:none;color:var(--gold)}
+.work b{color:var(--ink)}
+
+/* empty */
+.empty{padding:40px 24px;text-align:center}
+.empty h3{font-family:var(--serif);font-size:22px;letter-spacing:.08em}
+.empty p{color:var(--ink2);font-size:14px;margin:8px auto 20px;max-width:440px}
+.empty .acts{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+
+/* ---------- 弹窗 ---------- */
+.ov{position:fixed;inset:0;background:rgba(5,8,14,.66);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:18px;z-index:50}
+.ov.show{display:flex;animation:fade .2s}
+@keyframes fade{from{opacity:0}}
+.modal{background:var(--panel);border:1px solid var(--line2);border-radius:22px;width:100%;max-width:540px;max-height:92vh;overflow:auto;box-shadow:0 30px 80px -20px rgba(0,0,0,.8);animation:pop .22s}
+@keyframes pop{from{transform:translateY(12px) scale(.98);opacity:0}}
+.m-h{display:flex;align-items:center;justify-content:space-between;padding:18px 22px 6px}
+.m-h h3{font-family:var(--serif);font-size:20px;letter-spacing:.08em}
+.m-b{padding:8px 22px 6px}
+.m-f{display:flex;justify-content:flex-end;gap:10px;padding:14px 22px 20px}
+.field{margin-top:14px}
+.field>label,.flabel{display:block;font-size:13px;color:var(--ink2);margin-bottom:6px;font-weight:600}
+.field .hint{font-weight:400;color:var(--ink3);margin-left:6px}
+.inp{width:100%;border:1px solid var(--line2);background:var(--bg1);border-radius:11px;padding:9px 12px;min-height:42px;outline:none;color-scheme:dark;transition:border-color .15s,box-shadow .15s}
+.inp:focus{border-color:var(--lamp);box-shadow:0 0 0 3px rgba(242,182,97,.15)}
+select.inp{appearance:none;-webkit-appearance:none;background:var(--bg1) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23BDB2A2' fill='none' stroke-width='1.5'/%3E%3C/svg%3E") no-repeat right 10px center;padding-right:26px}
+select option{background:#1E2737;color:var(--ink)}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;background:rgba(255,255,255,.05);border-radius:12px;padding:3px;gap:3px;width:100%}
+.seg.six{grid-auto-flow:row;grid-template-columns:repeat(6,1fr)}
+.seg button{border:0;background:transparent;padding:8px 6px;border-radius:9px;cursor:pointer;font-size:14px;color:var(--ink2)}
+.seg button.on{background:var(--panel3);color:var(--lamp2);font-weight:600;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.seg button.on.m{color:var(--male)}
+.seg button.on.f{color:var(--female)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.row3{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:8px}
+.preview{margin-top:12px;font-size:13px;background:rgba(255,255,255,.04);border-radius:12px;padding:10px 12px;color:var(--ink2);line-height:1.7}
+.preview b{color:var(--ink)}
+.preview.err{background:rgba(224,102,75,.12);color:#F3A08D}
+.fold{margin-top:14px;border-top:1px dashed var(--line2);padding-top:6px}
+.fold summary{cursor:pointer;font-size:13px;color:var(--ink2);padding:6px 0;list-style:none}
+.fold summary::-webkit-details-marker{display:none}
+.fold summary:before{content:"▸ ";color:var(--lamp)}
+.fold[open] summary:before{content:"▾ "}
+.note{font-size:12.5px;color:var(--ink2);background:rgba(255,255,255,.04);border-radius:12px;padding:10px 12px;line-height:1.7}
+.regions{display:grid;gap:8px}
+.region{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line2);border-radius:14px;padding:10px 12px;cursor:pointer}
+.region.on{border-color:var(--lamp);background:rgba(242,182,97,.08)}
+.region input{margin-top:4px;accent-color:var(--lamp)}
+.region .t{font-weight:600;font-size:14px}
+.region .s{font-size:12px;color:var(--ink2);line-height:1.6}
+.region .s a{word-break:break-all}
+.toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(20px);background:#F1E8DA;color:#1A1410;padding:10px 18px;border-radius:12px;font-size:14px;opacity:0;transition:.25s;z-index:80;pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%)}
+footer{text-align:center;font-size:12px;color:var(--ink3);padding:30px 20px 40px;line-height:1.8}
+
+/* ---------- 响应式 ---------- */
+@media (max-width:1100px){
+  .hero{grid-template-columns:minmax(0,1fr) 400px;gap:28px}
+  .hero-big .n{font-size:60px}
+  .facts{grid-template-columns:repeat(2,1fr)}
+  .stats{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:860px){
+  .hero{grid-template-columns:minmax(0,1fr)}
+  .comp-sum{grid-template-columns:1fr}
+}
+@media (max-width:560px){
+  .wrap{padding:0 16px}
+  .topbar{padding-top:16px}
+  .brand h1{font-size:26px}
+  .seal{width:38px;height:38px;font-size:21px}
+  .top-actions .btn .lbl{display:none}
+  .top-actions .btn{padding:9px 11px}
+  .hero{padding:18px 0 24px;gap:22px}
+  .quote{font-size:14.5px}
+  .hero-big .n{font-size:54px}
+  .hero-sub{gap:14px;font-size:13px}
+  .hero-sub b{font-size:16px}
+  .facts{grid-template-columns:repeat(2,1fr);gap:8px}
+  .gridcard{padding:14px 12px 12px;border-radius:18px}
+  .stats{gap:8px}
+  .stat{padding:11px 12px}
+  .stat .v{font-size:20px}
+  .river{padding:14px 12px 10px}
+  .rv-row{grid-template-columns:64px 1fr;gap:8px}
+  .rv-name span{overflow:hidden;text-overflow:ellipsis}
+  .rv-axis{margin-left:72px}
+  .comp-grid{grid-template-columns:1fr}
+  .cp{padding:14px}
+  .cs .v{font-size:26px}
+  .cards{grid-template-columns:1fr}
+  .seg.six{grid-template-columns:repeat(3,1fr)}
+  .m-h,.m-b,.m-f{padding-left:16px;padding-right:16px}
+  .ov{padding:0;align-items:flex-end}
+  .modal{border-radius:22px 22px 0 0;max-height:94vh}
+}
+#heroL,#heroR{min-width:0}
+
+/* ---------- v4：醒目的模块标题 ---------- */
+.sec-head{position:relative;padding-bottom:12px;margin-bottom:16px;border-bottom:1px solid transparent;border-image:linear-gradient(90deg,rgba(242,182,97,.55),rgba(242,182,97,.12) 45%,transparent) 1}
+.sec-head h2{position:relative;display:flex;align-items:baseline;flex-wrap:wrap;font-size:30px;font-weight:900;letter-spacing:.14em;line-height:1.25;padding-left:18px;
+  background:linear-gradient(100deg,#FFE4AE 0%,var(--lamp) 45%,var(--ember) 100%);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 28px rgba(242,182,97,.18)}
+.sec-head h2:before{content:"";position:absolute;left:0;top:.18em;bottom:.12em;width:6px;border-radius:4px;background:linear-gradient(180deg,var(--lamp2),var(--ember));box-shadow:0 0 14px rgba(242,182,97,.6)}
+.sec-head h2[data-k]:after{content:attr(data-k);order:-1;flex-basis:100%;font-family:var(--sans);font-size:11.5px;font-weight:600;letter-spacing:.18em;color:var(--ember);-webkit-text-fill-color:var(--ember);margin-bottom:2px;opacity:.9}
+.sec-head h2 span{-webkit-text-fill-color:var(--ink3);color:var(--ink3);text-shadow:none}
+.sec-head p{font-size:13.5px;color:var(--ink2);margin-top:6px;padding-left:18px}
+.gridcard .t{padding-bottom:8px;margin-bottom:4px;border-bottom:1px solid rgba(242,182,97,.22)}
+.gridcard .t h2{font-size:22px;font-weight:900;letter-spacing:.12em;background:linear-gradient(100deg,#FFE4AE,var(--lamp) 55%,var(--ember));-webkit-background-clip:text;background-clip:text;color:transparent;position:relative;padding-left:14px}
+.gridcard .t h2:before{content:"";position:absolute;left:0;top:.2em;bottom:.15em;width:5px;border-radius:3px;background:linear-gradient(180deg,var(--lamp2),var(--ember));box-shadow:0 0 10px rgba(242,182,97,.55)}
+/* 陪伴：开关与模式 */
+.cp-off{margin-left:6px;font-size:11px;color:var(--ink3);background:none;border:1px solid var(--line2);border-radius:99px;padding:1px 8px;cursor:pointer;white-space:nowrap}
+.cp-off:hover{color:var(--ink);border-color:var(--ink3)}
+.kseg{display:flex;gap:6px;margin-top:12px}
+.kseg button{flex:1;font-size:12.5px;padding:6px 8px;border-radius:10px;border:1px solid var(--line2);background:rgba(255,255,255,.03);color:var(--ink2);cursor:pointer}
+.kseg button.on{background:rgba(242,182,97,.16);border-color:rgba(242,182,97,.55);color:var(--lamp2);font-weight:700}
+.cp-edit select{background:var(--bg1);border:1px solid var(--line2);border-radius:8px;padding:4px 6px;color:var(--lamp2);font-weight:700}
+.cp-assume{margin-top:10px;font-size:12.5px;color:var(--ink2);background:rgba(242,182,97,.07);border-left:3px solid var(--lamp);border-radius:6px;padding:6px 10px}
+.cp-assume b{color:var(--lamp2)}
+.comp-off{margin-top:12px;font-size:12.5px;color:var(--ink3);display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center}
+.comp-off span{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:99px;padding:2px 4px 2px 10px;color:var(--ink2)}
+.comp-off button{margin-left:6px;font-size:11px;background:rgba(242,182,97,.15);color:var(--lamp2);border:0;border-radius:99px;padding:1px 8px;cursor:pointer}
+.comp-sum{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+label.chk{display:flex;align-items:center;flex-wrap:wrap;gap:8px;cursor:pointer;font-size:14px;color:var(--ink)}
+label.chk input{width:18px;height:18px;accent-color:var(--lamp)}
+@media (max-width:560px){
+  .sec-head h2{font-size:25px;padding-left:15px}
+  .sec-head p{padding-left:15px}
+  .gridcard .t h2{font-size:19px}
+  .comp-grid{grid-template-columns:minmax(0,1fr)}
+  .comp-sum{grid-template-columns:1fr}
+}
+/* v4.1 示例模式 */
+.demo-bar{position:sticky;top:8px;z-index:30;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:12px 0 4px;padding:10px 14px;border-radius:14px;
+  background:linear-gradient(100deg,rgba(229,137,74,.32),rgba(242,182,97,.18)),var(--bg1);border:1px solid rgba(242,182,97,.55);color:var(--ink);font-size:14px;font-weight:600;box-shadow:0 10px 30px -12px rgba(0,0,0,.8);backdrop-filter:blur(8px)}
+.demo-bar[hidden]{display:none}
+.demo-bar.legacy{position:static;background:rgba(255,255,255,.04);border-color:var(--line2);font-weight:400;color:var(--ink2)}
+.demo-bar .btn{white-space:nowrap}
+@media (max-width:560px){.demo-bar{font-size:13px}.demo-bar .btn{width:100%;justify-content:center}}
+
+/* v4.2 隐私提示 */
+.privacy{display:flex;align-items:center;gap:10px;width:fit-content;max-width:100%;margin:16px 0 0;padding:8px 16px 8px 12px;border-radius:99px;
+  background:linear-gradient(100deg,rgba(242,182,97,.14),rgba(242,182,97,.04) 70%),rgba(19,26,38,.7);border:1px solid rgba(242,182,97,.42);
+  box-shadow:0 0 0 3px rgba(242,182,97,.05),0 0 22px -6px rgba(242,182,97,.45);color:var(--ink);font-size:14px;font-weight:600;letter-spacing:.04em;line-height:1.5}
+.privacy .pv-ic{flex:none;width:20px;height:20px;color:var(--lamp2);filter:drop-shadow(0 0 4px rgba(255,213,146,.55))}
+.privacy span{color:#F6E7CC}
+@media (max-width:560px){.privacy{border-radius:14px;font-size:13px;letter-spacing:.02em;padding:8px 12px;margin-top:12px;align-items:flex-start}.privacy .pv-ic{width:18px;height:18px;margin-top:1px}}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="brand"><div class="seal">活</div><div><h1>活着</h1><div class="sub">你已经活了多久</div></div></div>
+    <div class="top-actions">
+      <button class="btn" id="btnSettings" title="寿命与数据设置"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg><span class="lbl">设置</span></button>
+      <button class="btn primary" id="btnAdd"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg><span class="lbl">添加人员</span></button>
+    </div>
+  </div>
+  <div class="privacy" role="note"><svg class="pv-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.8 4.5 5.6v5.7c0 4.6 3.1 8.6 7.5 9.9 4.4-1.3 7.5-5.3 7.5-9.9V5.6Z"/><rect x="9" y="10.6" width="6" height="5" rx="1"/><path d="M10.2 10.6V9.2a1.8 1.8 0 0 1 3.6 0v1.4"/></svg><span>数据只在本地电脑，不会在后台看到，作者看不到数据，放心使用。</span></div>
+  <div class="demo-bar" id="demoBar" hidden></div>
+  <header class="hero" id="hero">
+    <div id="heroL"></div>
+    <div class="gridcard" id="heroR"></div>
+  </header>
+  <section class="blk" id="secFamily"></section>
+  <section class="blk" id="secComp"></section>
+  <section class="blk" id="secCards">
+    <div class="sec-head">
+      <div><h2 data-k="03 · 每一个人">我在乎的人<span id="count"></span></h2></div>
+      <div class="sort" id="sortBox">排序
+        <select class="pill" id="sortSel">
+          <option value="added">添加顺序</option><option value="ageDesc">年龄 · 从大到小</option><option value="ageAsc">年龄 · 从小到大</option><option value="remainAsc">剩余时间 · 从少到多</option><option value="name">姓名</option>
+        </select>
+      </div>
+    </div>
+    <div id="list"></div>
+  </section>
+</div>
+<footer>所有数据只保存在这台设备的浏览器里，不会上传。平均寿命、退休年龄与陪伴时间均为统计 / 政策口径与个人假设的估算，只为让人感受时间，不作任何预测。<br>活着 · v4.2</footer>
+
+<!-- 添加 / 编辑 -->
+<div class="ov" id="ovPerson"><div class="modal" role="dialog">
+  <div class="m-h"><h3 id="pTitle">添加人员</h3><button class="ibtn" data-close><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="m-b">
+    <div class="field"><span class="flabel">TA 是你的</span><div class="seg six" id="segR"><button type="button" data-v="self">本人</button><button type="button" data-v="father">父亲</button><button type="button" data-v="mother">母亲</button><button type="button" data-v="spouse">配偶</button><button type="button" data-v="child">孩子</button><button type="button" data-v="other">其他</button></div></div>
+    <div class="row2">
+      <div class="field"><label>姓名</label><input class="inp" id="fName" maxlength="16" placeholder="例如：王建国"></div>
+      <div class="field"><label>称呼<span class="hint">可选，如 爸爸、爷爷</span></label><input class="inp" id="fRel" maxlength="8" placeholder="自动"></div>
+    </div>
+    <div class="field"><span class="flabel">性别</span><div class="seg" id="segG"><button type="button" data-v="m" class="m">男</button><button type="button" data-v="f" class="f">女</button></div></div>
+    <div class="field"><span class="flabel">出生日期按</span><div class="seg" id="segC"><button type="button" data-v="solar">阳历（公历）</button><button type="button" data-v="lunar">农历（阴历）</button></div></div>
+    <div class="field"><span class="flabel" id="dateLabel">阳历生日</span>
+      <div class="row3"><select class="inp" id="fY"></select><select class="inp" id="fM"></select><select class="inp" id="fD"></select></div>
+    </div>
+    <div class="preview" id="pPreview"></div>
+    <div class="field" id="compField"><label class="chk"><input type="checkbox" id="fComp" checked><span>计入“陪伴时间”</span><span class="hint">朋友等不想计算的，取消勾选即可</span></label></div>
+    <details class="fold" id="fold">
+      <summary>更多：出生时间 · 个人预期寿命 · 退休设置</summary>
+      <div class="row2">
+        <div class="field"><label>出生时间<span class="hint">可选，更精确到小时</span></label><input class="inp" type="time" id="fTime"></div>
+        <div class="field"><label>个人预期寿命<span class="hint">可选</span></label><input class="inp" type="number" step="0.1" min="1" max="130" id="fLife" placeholder="默认"></div>
+      </div>
+      <div class="field"><span class="flabel">退休计算</span>
+        <select class="inp" id="fRet"></select>
+      </div>
+      <div class="row2" id="retCustom" style="display:none">
+        <div class="field"><label>退休年龄（岁）</label><input class="inp" type="number" min="30" max="80" id="fRetY" placeholder="60"></div>
+        <div class="field"><label>另加（个月）</label><input class="inp" type="number" min="0" max="11" id="fRetM" placeholder="0"></div>
+      </div>
+    </details>
+  </div>
+  <div class="m-f"><button class="btn ghost" data-close>取消</button><button class="btn primary" id="pSave">保存</button></div>
+</div></div>
+
+<!-- 设置 -->
+<div class="ov" id="ovSet"><div class="modal" role="dialog">
+  <div class="m-h"><h3>平均寿命 · 数据</h3><button class="ibtn" data-close><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="m-b">
+    <span class="flabel">参考地区</span>
+    <div class="regions" id="regions"></div>
+    <div class="row2">
+      <div class="field"><label>男性平均寿命（岁）</label><input class="inp" type="number" step="0.01" id="sM"></div>
+      <div class="field"><label>女性平均寿命（岁）</label><input class="inp" type="number" step="0.01" id="sF"></div>
+    </div>
+    <div class="note" style="margin-top:12px">“平均预期寿命”是统计口径：按当年各年龄死亡率，一个新生儿平均能活的岁数，不是对任何个人的预测。手动修改数值会自动切换为“自定义”。<br>退休年龄依据《全国人民代表大会常务委员会关于实施渐进式延迟法定退休年龄的决定》（2024-09-13 通过，2025-01-01 施行）及附件对照表，精确到月，具体以社保经办机构为准。<a href="http://www.npc.gov.cn/npc/c2/kgfb/202409/t20240913_439534.html" target="_blank" rel="noopener">查看原文</a></div>
+    <span class="flabel" style="margin-top:18px">数据备份</span>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn sm" id="bExport">导出备份</button>
+      <button class="btn sm" id="bImport">从备份恢复</button>
+      <button class="btn sm" id="bDemo">查看示例</button>
+      <button class="btn sm danger" id="bClear">清空全部</button>
+      <input type="file" id="fileIn" accept=".json,application/json" hidden>
+    </div>
+  </div>
+  <div class="m-f"><button class="btn ghost" data-close>取消</button><button class="btn primary" id="sSave">保存设置</button></div>
+</div></div>
+
+<!-- 确认 -->
+<div class="ov" id="ovConfirm"><div class="modal" style="max-width:380px">
+  <div class="m-h"><h3 id="cTitle">确认</h3></div>
+  <div class="m-b"><p id="cMsg" style="color:var(--ink2);font-size:14px"></p></div>
+  <div class="m-f"><button class="btn ghost" data-close>再想想</button><button class="btn primary" id="cOk" style="background:var(--red);border-color:var(--red)">确定</button></div>
+</div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const LUNAR_INFO=[
+0x04bd8,0x04ae0,0x0a570,0x054d5,0x0d260,0x0d950,0x16554,0x056a0,0x09ad0,0x055d2,
+0x04ae0,0x0a5b6,0x0a4d0,0x0d250,0x1d255,0x0b540,0x0d6a0,0x0ada2,0x095b0,0x14977,
+0x04970,0x0a4b0,0x0b4b5,0x06a50,0x06d40,0x1ab54,0x02b60,0x09570,0x052f2,0x04970,
+0x06566,0x0d4a0,0x0ea50,0x16a95,0x05ad0,0x02b60,0x186e3,0x092e0,0x1c8d7,0x0c950,
+0x0d4a0,0x1d8a6,0x0b550,0x056a0,0x1a5b4,0x025d0,0x092d0,0x0d2b2,0x0a950,0x0b557,
+0x06ca0,0x0b550,0x15355,0x04da0,0x0a5b0,0x14573,0x052b0,0x0a9a8,0x0e950,0x06aa0,
+0x0aea6,0x0ab50,0x04b60,0x0aae4,0x0a570,0x05260,0x0f263,0x0d950,0x05b57,0x056a0,
+0x096d0,0x04dd5,0x04ad0,0x0a4d0,0x0d4d4,0x0d250,0x0d558,0x0b540,0x0b6a0,0x195a6,
+0x095b0,0x049b0,0x0a974,0x0a4b0,0x0b27a,0x06a50,0x06d40,0x0af46,0x0ab60,0x09570,
+0x04af5,0x04970,0x064b0,0x074a3,0x0ea50,0x06b58,0x05ac0,0x0ab60,0x096d5,0x092e0,
+0x0c960,0x0d954,0x0d4a0,0x0da50,0x07552,0x056a0,0x0abb7,0x025d0,0x092d0,0x0cab5,
+0x0a950,0x0b4a0,0x0baa4,0x0ad50,0x055d9,0x04ba0,0x0a5b0,0x15176,0x052b0,0x0a930,
+0x07954,0x06aa0,0x0ad50,0x05b52,0x04b60,0x0a6e6,0x0a4e0,0x0d260,0x0ea65,0x0d530,
+0x05aa0,0x076a3,0x096d0,0x04afb,0x04ad0,0x0a4d0,0x1d0b6,0x0d250,0x0d520,0x0dd45,
+0x0b5a0,0x056d0,0x055b2,0x049b0,0x0a577,0x0a4b0,0x0aa50,0x1b255,0x06d20,0x0ada0,
+0x14b63,0x09370,0x049f8,0x04970,0x064b0,0x168a6,0x0ea50,0x06b20,0x1a6c4,0x0aae0,
+0x092e0,0x0d2e3,0x0c960,0x0d557,0x0d4a0,0x0da50,0x05d55,0x056a0,0x0a6d0,0x055d4,
+0x052d0,0x0a9b8,0x0a950,0x0b4a0,0x0b6a6,0x0ad50,0x055a0,0x0aba4,0x0a5b0,0x052b0,
+0x0b273,0x06930,0x07337,0x06aa0,0x0ad50,0x14b55,0x04b60,0x0a570,0x054e4,0x0d160,
+0x0e968,0x0d520,0x0daa0,0x16aa6,0x056d0,0x04ae0,0x0a9d4,0x0a2d0,0x0d150,0x0f252
+];
+const LUNAR_BASE=Date.UTC(1900,0,31);
+const DAY_MS=86400000;
+function lLeapMonth(y){return LUNAR_INFO[y-1900]&0xf;}
+function lLeapDays(y){return lLeapMonth(y)?((LUNAR_INFO[y-1900]&0x10000)?30:29):0;}
+function lMonthDays(y,m){return (LUNAR_INFO[y-1900]&(0x10000>>m))?30:29;}
+function lYearDays(y){let s=348;for(let i=0x8000;i>0x8;i>>=1)s+=(LUNAR_INFO[y-1900]&i)?1:0;return s+lLeapDays(y);}
+/* 农历 -> 阳历 {y,m,d} */
+function lunarToSolar(ly,lm,ld,isLeap){
+  const leap=lLeapMonth(ly);let off=0;
+  for(let i=1900;i<ly;i++)off+=lYearDays(i);
+  for(let i=1;i<lm;i++){off+=lMonthDays(ly,i);if(i===leap)off+=lLeapDays(ly);}
+  if(isLeap&&lm===leap)off+=lMonthDays(ly,lm);
+  off+=ld-1;
+  const t=new Date(LUNAR_BASE+off*DAY_MS);
+  return {y:t.getUTCFullYear(),m:t.getUTCMonth()+1,d:t.getUTCDate()};
+}
+/* 阳历 -> 农历 {y,m,d,leap} */
+function solarToLunar(y,m,d){
+  let off=Math.round((Date.UTC(y,m-1,d)-LUNAR_BASE)/DAY_MS);
+  let ly=1900,t;
+  for(;ly<2101&&off>0;ly++){t=lYearDays(ly);off-=t;}
+  if(off<0){off+=t;ly--;}
+  const leap=lLeapMonth(ly);let isLeap=false,lm=1;
+  for(;lm<13&&off>0;lm++){
+    if(leap>0&&lm===(leap+1)&&!isLeap){--lm;isLeap=true;t=lLeapDays(ly);}else{t=lMonthDays(ly,lm);}
+    if(isLeap&&lm===(leap+1))isLeap=false;
+    off-=t;
+  }
+  if(off===0&&leap>0&&lm===leap+1){if(isLeap){isLeap=false;}else{isLeap=true;--lm;}}
+  if(off<0){off+=t;--lm;}
+  return {y:ly,m:lm,d:off+1,leap:isLeap};
+}
+const GAN='甲乙丙丁戊己庚辛壬癸',ZHI='子丑寅卯辰巳午未申酉戌亥',SX='鼠牛虎兔龙蛇马羊猴鸡狗猪';
+const LMN=['正','二','三','四','五','六','七','八','九','十','冬','腊'];
+function ganzhi(y){return GAN[(y-4)%10]+ZHI[(y-4)%12];}
+function shengxiao(y){return SX[(y-4)%12];}
+function lDayName(d){if(d===10)return'初十';if(d===20)return'二十';if(d===30)return'三十';const a=['初','十','廿','三'][Math.floor(d/10)];const b='一二三四五六七八九'[(d%10)-1];return a+b;}
+function lMonthName(m,leap){return (leap?'闰':'')+LMN[m-1]+'月';}
+
+/* ===== 12 款手绘 SVG 头像：6 个年龄段 × 男/女 ===== */
+const BANDS=[
+  {key:'baby',name:'婴儿',min:0,max:2},
+  {key:'child',name:'儿童',min:3,max:11},
+  {key:'teen',name:'少年',min:12,max:17},
+  {key:'young',name:'青年',min:18,max:35},
+  {key:'middle',name:'中年',min:36,max:59},
+  {key:'old',name:'老年',min:60,max:999}
+];
+function bandOf(age){return BANDS.find(b=>age>=b.min&&age<=b.max)||BANDS[5];}
+let __avId=0;
+function avatarSVG(band,g){
+  const id='av'+(++__avId);
+  const SK='#F4CBA9',SKD='#E3AE8A',INK='#3A2A22',CH='#F09A8A';
+  const eyes=(y,r=2,dx=7)=>`<ellipse cx="${50-dx}" cy="${y}" rx="${r*.9}" ry="${r*1.1}" fill="${INK}"/><ellipse cx="${50+dx}" cy="${y}" rx="${r*.9}" ry="${r*1.1}" fill="${INK}"/><circle cx="${50-dx+.6}" cy="${y-.8}" r="${r*.32}" fill="#fff"/><circle cx="${50+dx+.6}" cy="${y-.8}" r="${r*.32}" fill="#fff"/>`;
+  const cheeks=(y,dx=10,r=3.2,o=.38)=>`<circle cx="${50-dx}" cy="${y}" r="${r}" fill="${CH}" opacity="${o}"/><circle cx="${50+dx}" cy="${y}" r="${r}" fill="${CH}" opacity="${o}"/>`;
+  const smile=(y,w=5,h=3.2)=>`<path d="M${50-w} ${y} Q50 ${y+h} ${50+w} ${y}" stroke="#94493A" stroke-width="1.7" fill="none" stroke-linecap="round"/>`;
+  const nose=(y)=>`<path d="M50 ${y} q-1.4 2.6 .8 3" stroke="${SKD}" stroke-width="1.5" fill="none" stroke-linecap="round"/>`;
+  const brows=(y,c,dx=7,w=3.6,t=1.6)=>`<path d="M${50-dx-w} ${y+.6} Q${50-dx} ${y-1.4} ${50-dx+w} ${y+.4}" stroke="${c}" stroke-width="${t}" fill="none" stroke-linecap="round"/><path d="M${50+dx-w} ${y+.4} Q${50+dx} ${y-1.4} ${50+dx+w} ${y+.6}" stroke="${c}" stroke-width="${t}" fill="none" stroke-linecap="round"/>`;
+  const ears=(y,dx=17.5,r=4)=>`<circle cx="${50-dx}" cy="${y}" r="${r}" fill="${SK}"/><circle cx="${50+dx}" cy="${y}" r="${r}" fill="${SK}"/><circle cx="${50-dx}" cy="${y}" r="${r*.45}" fill="${SKD}"/><circle cx="${50+dx}" cy="${y}" r="${r*.45}" fill="${SKD}"/>`;
+  const body=(c,top=74,w=34)=>`<path d="M${50-w} 102 C${50-w+2} ${top+8} ${50-14} ${top} 50 ${top} C${50+14} ${top} ${50+w-2} ${top+8} ${50+w} 102 Z" fill="${c}"/>`;
+  const neck=(y=58,h=17,w=11)=>`<rect x="${50-w/2}" y="${y}" width="${w}" height="${h}" rx="4" fill="${SKD}"/>`;
+  const head=(cy=47,rx=17,ry=19)=>`<ellipse cx="50" cy="${cy}" rx="${rx}" ry="${ry}" fill="${SK}"/>`;
+  const glasses=(y,c='#4A3A30',r=4.6,dx=7.4)=>`<g fill="none" stroke="${c}" stroke-width="1.5"><circle cx="${50-dx}" cy="${y}" r="${r}"/><circle cx="${50+dx}" cy="${y}" r="${r}"/><path d="M${50-dx+r} ${y} Q50 ${y-1.6} ${50+dx-r} ${y}"/><path d="M${50-dx-r} ${y-.6} L${50-dx-r-4} ${y-1.8}"/><path d="M${50+dx+r} ${y-.6} L${50+dx+r+4} ${y-1.8}"/></g>`;
+  let bg,inner;
+  const K=band+'-'+g;
+  switch(K){
+  case 'baby-m':bg='#D5E6EF';inner=
+    body('#8EBAD3',80,27)+`<path d="M40 80 Q50 92 60 80 Z" fill="#fff" opacity=".9"/><circle cx="50" cy="93" r="2.2" fill="#F2D27A"/>`+
+    neck(70,10,10)+ears(53,21.5,4.2)+head(51,21,20.5)+
+    `<path d="M47 31.5 C45 25 53 23.5 54 28 C54.6 31 50.5 32 50.2 29.6" stroke="#7A5338" stroke-width="2.2" fill="none" stroke-linecap="round"/>`+
+    brows(45.5,'#C9A385',7.5,2.6,1.2)+eyes(52,2.5,7.5)+cheeks(58,12,3.8,.45)+`<ellipse cx="50" cy="61.5" rx="2.6" ry="1.9" fill="#C8665A"/>`;break;
+  case 'baby-f':bg='#F7DFDF';inner=
+    body('#EDAAB6',80,27)+`<path d="M40 80 Q50 92 60 80 Z" fill="#fff" opacity=".9"/><circle cx="44" cy="91" r="1.6" fill="#fff"/><circle cx="56" cy="91" r="1.6" fill="#fff"/><circle cx="50" cy="96" r="1.6" fill="#fff"/>`+
+    neck(70,10,10)+ears(53,21.5,4.2)+head(51,21,20.5)+
+    `<path d="M47 31.5 C45 25 53 23.5 54 28 C54.6 31 50.5 32 50.2 29.6" stroke="#8A5E40" stroke-width="2.2" fill="none" stroke-linecap="round"/>`+
+    `<g transform="translate(59 31) rotate(-15)"><path d="M0 0 L-7 -4.5 L-7 4.5 Z M0 0 L7 -4.5 L7 4.5 Z" fill="#E2768C" stroke="#E2768C" stroke-width="1.5" stroke-linejoin="round"/><circle r="2.2" fill="#C95A73"/></g>`+
+    brows(45.5,'#C9A385',7.5,2.6,1.2)+eyes(52,2.5,7.5)+cheeks(58,12,3.8,.5)+`<ellipse cx="50" cy="61.5" rx="2.6" ry="1.9" fill="#C8665A"/>`;break;
+  case 'child-m':bg='#DCEBD8';inner=
+    body('#E8894F',76,30)+`<rect x="10" y="88" width="80" height="4.5" fill="#fff" opacity=".55"/><path d="M44 76 Q50 81 56 76" stroke="#C96E39" stroke-width="2" fill="none"/>`+
+    neck(62,15,10)+ears(50,19,4)+head(49,19,19.5)+
+    `<path d="M30.5 47 C29 30 39 25 50 25 C61 25 71 30 69.5 47 C67 41 63 38 59 37 L57 40.5 L54 37 C50 39 45 39.5 41 37 L39 40.5 C35 41.5 32.5 43.5 30.5 47 Z" fill="#3B2A20"/>`+
+    brows(42.5,'#3B2A20',7.5,3,1.8)+eyes(49,2.3,7.5)+cheeks(55,11,3.4)+`<path d="M44 56.5 Q50 63.5 56 56.5 Z" fill="#A4493B"/><path d="M45.5 57 Q50 58.5 54.5 57 L54 58.2 Q50 59.5 46 58.2Z" fill="#fff"/>`;break;
+  case 'child-f':bg='#FBE4D6';inner=
+    `<circle cx="27" cy="44" r="8" fill="#4A2F22"/><circle cx="73" cy="44" r="8" fill="#4A2F22"/><circle cx="32" cy="40" r="2.6" fill="#F06C8B"/><circle cx="68" cy="40" r="2.6" fill="#F06C8B"/>`+
+    body('#F2C25A',76,30)+`<path d="M38 78 L50 88 L62 78" fill="#fff" opacity=".9"/><circle cx="50" cy="94" r="2" fill="#E0954A"/>`+
+    neck(62,15,10)+ears(50,19,4)+head(49,19,19.5)+
+    `<path d="M30.5 49 C28.5 31 39 25.5 50 25.5 C61 25.5 71.5 31 69.5 49 C68 42 64 37 58 35.5 C55 38 52 38.5 50 36.5 C48 38.5 44 38.6 41 36 C36 38 32 42 30.5 49 Z" fill="#4A2F22"/>`+
+    brows(42.8,'#4A2F22',7.5,2.8,1.5)+eyes(49,2.4,7.5)+`<path d="M41 46.6 l-2.6 -1.6 M59 46.6 l2.6 -1.6" stroke="${INK}" stroke-width="1.1" stroke-linecap="round"/>`+cheeks(55,11,3.6,.5)+smile(57,4.5,3.4);break;
+  case 'teen-m':bg='#D7E1EF';inner=
+    `<path d="M24 102 C24 80 36 70 50 70 C64 70 76 80 76 102Z" fill="#45648C"/>`+body('#5B7FAA',75,33)+`<path d="M38 75 Q50 86 62 75" fill="#45648C"/><path d="M45 80 L44 92 M55 80 L56 92" stroke="#F1EDE4" stroke-width="1.6" stroke-linecap="round"/>`+
+    neck(60,16,10.5)+ears(48.5,17,3.8)+head(47,16.5,19)+
+    `<path d="M32 46 C30 29 40 24.5 51 24.5 C62 24.5 70.5 31 68 46 C66.5 40 64 37 61 35.5 C55 38 44 38 38 41.5 C35.5 42.5 33.5 44 32 46Z" fill="#2E2621"/><path d="M36 40.5 C42 29 58 28 66 35 C57 33 47 34.5 40 41Z" fill="#433730"/>`+
+    brows(41.5,'#2E2621',7,3.4,1.9)+eyes(48,2,7)+nose(50)+smile(57,4,2.2)+
+    `<path d="M33 70 C33 62 67 62 67 70" stroke="#2D3440" stroke-width="2.6" fill="none"/><rect x="29.5" y="66" width="6" height="9" rx="2.5" fill="#2D3440"/><rect x="64.5" y="66" width="6" height="9" rx="2.5" fill="#2D3440"/>`;break;
+  case 'teen-f':bg='#EDE0F0';inner=
+    `<path d="M64 30 C80 26 84 44 76 62 C74 52 70 44 64 40Z" fill="#3A2820"/>`+
+    body('#F4F1EA',75,32)+`<path d="M38 75 L50 90 L62 75 L58 75 L50 84 L42 75Z" fill="#4F6FA8"/><path d="M18 102 L22 86 M82 102 L78 86" stroke="#4F6FA8" stroke-width="3"/>`+
+    neck(60,16,10)+ears(48.5,16.5,3.6)+head(47,16.5,19)+
+    `<path d="M33 48 C30 30 40 25 50.5 25 C62 25 70 31 67.5 48 C66 42 63.5 38 60 35.5 C53 39 42 40 37 38 C35 41 34 44 33 48Z" fill="#3A2820"/><circle cx="65" cy="31" r="3" fill="#E57A8F"/>`+
+    brows(41.8,'#3A2820',7,3,1.4)+eyes(48,2.2,7)+`<path d="M40.5 46 l-2.4 -1.4 M59.5 46 l2.4 -1.4" stroke="${INK}" stroke-width="1" stroke-linecap="round"/>`+cheeks(54,10,3,.42)+nose(50.2)+smile(57,3.8,2.6);break;
+  case 'young-m':bg='#D9E6E4';inner=
+    body('#34536E',75,35)+`<path d="M42 75 L50 92 L58 75Z" fill="#F7F4EE"/><path d="M42 75 L46 86 L39 80Z M58 75 L54 86 L61 80Z" fill="#E6E1D8"/><path d="M50 80 L48 84 L50 96 L52 84Z" fill="#C9744A"/>`+
+    neck(59,17,11)+ears(47.5,17.5,3.8)+head(46,17,19)+
+    `<path d="M32.5 44 C30 28 40 21.5 52 22 C63 22.5 70 29 67.5 44 C66 38 63.5 35 60 33.5 C52 34 42 35.5 35.5 39 C34 40.5 33 42 32.5 44Z" fill="#231C18"/><path d="M38 33 C44 21 62 20 67 30 C60 26 48 27 38 33Z" fill="#3A2F28"/>`+
+    brows(40.6,'#231C18',7.2,3.6,2)+eyes(47,2,7.2)+nose(49.5)+`<path d="M45 56 Q50 59.5 55 56" stroke="#94493A" stroke-width="1.8" fill="none" stroke-linecap="round"/>`;break;
+  case 'young-f':bg='#F6DEDA';inner=
+    `<path d="M31 46 C27 70 26 82 30 92 L42 92 L40 58Z M69 46 C73 70 74 82 70 92 L58 92 L60 58Z" fill="#2E211B"/>`+
+    body('#D7806B',76,33)+`<path d="M41 76 Q50 86 59 76" fill="${SKD}"/>`+
+    `<path d="M31 50 C28 72 27 84 31 96 C34 92 37 86 38 76 C39 66 38 56 36 48Z M69 50 C72 72 73 84 69 96 C66 92 63 86 62 76 C61 66 62 56 64 48Z" fill="#2E211B"/>`+
+    neck(60,16,10)+ears(48.5,16.5,3.6)+head(47,16.5,19)+`<circle cx="33.5" cy="53.5" r="1.8" fill="#E2B653"/><circle cx="66.5" cy="53.5" r="1.8" fill="#E2B653"/>`+
+    `<path d="M31.5 52 C28 30 39 24 50 24 C62 24 72 30 68.5 52 C67 44 65 38 61 34 C55 40 45 42 38 40 C35 43 33 47 31.5 52Z" fill="#2E211B"/>`+
+    brows(41.6,'#2E211B',7,3.2,1.4)+eyes(48,2.1,7)+`<path d="M40.5 46 l-2.4 -1.3 M59.5 46 l2.4 -1.3" stroke="${INK}" stroke-width="1" stroke-linecap="round"/>`+cheeks(54,10,3,.35)+nose(50.2)+`<path d="M46 57 Q50 60 54 57" stroke="#B5524A" stroke-width="2" fill="none" stroke-linecap="round"/>`;break;
+  case 'middle-m':bg='#E4E2D3';inner=
+    body('#7B6A52',75,36)+`<path d="M41 75 L50 85 L59 75 L56 74 L50 80 L44 74Z" fill="#F2EEE6"/><path d="M14 102 C16 88 26 80 34 78 L36 102Z M86 102 C84 88 74 80 66 78 L64 102Z" fill="#6A5A45"/>`+
+    neck(59,17,12)+ears(47.5,18,4)+head(46,18,19.5)+
+    `<path d="M32 44 C30 29 39 23 50 23 C61 23 71 29 68 44 C67 39 65.5 36 63 34.5 C56 33 45 33 37 34.5 C34.5 36 33 40 32 44Z" fill="#3D322B"/><path d="M32 44 C31.5 40 32.5 37 34 35.5 L35 44Z M68 44 C68.5 40 67.5 37 66 35.5 L65 44Z" fill="#9B9087"/>`+
+    brows(40.4,'#3D322B',7.4,3.6,2)+glasses(47,'#3E3129',4.8,7.4)+eyes(47,1.8,7.4)+nose(50)+`<path d="M44.5 56 Q50 60 55.5 56" stroke="#94493A" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M39 55 q-1 2.4 .4 4.4 M61 55 q1 2.4 -.4 4.4" stroke="${SKD}" stroke-width="1" fill="none"/>`;break;
+  case 'middle-f':bg='#F1E1D2';inner=
+    `<path d="M30 46 C27 58 28 66 31 70 L44 70 L40 50Z M70 46 C73 58 72 66 69 70 L56 70 L60 50Z" fill="#4A3127"/>`+
+    body('#A8626C',75,35)+`<path d="M41 75 Q50 85 59 75" fill="${SKD}"/>`+
+    `<g fill="#F7F1E6">${[36,40.5,45,50,55,59.5,64].map((x,i)=>`<circle cx="${x}" cy="${76+[0,3.5,6,7,6,3.5,0][i]}" r="1.7"/>`).join('')}</g>`+
+    neck(59,16,10.5)+ears(48,17,3.8)+head(47,17,19.2)+`<circle cx="33" cy="53" r="1.7" fill="#F7F1E6"/><circle cx="67" cy="53" r="1.7" fill="#F7F1E6"/>`+
+    `<path d="M30.5 60 C26 34 37 24 50 24 C63 24 74 34 69.5 60 C68 52 67 44 64 38 C57 41 47 38 42 34 C38 38 34 42 33 48 C32 52 31.5 56 30.5 60Z" fill="#4A3127"/><path d="M42 34 C48 39 58 41 64 38" stroke="#6B4A3A" stroke-width="1.2" fill="none"/>`+
+    brows(41.8,'#4A3127',7.2,3.2,1.5)+eyes(48,2,7.2)+`<path d="M40.5 46 l-2.4 -1.3 M59.5 46 l2.4 -1.3" stroke="${INK}" stroke-width="1" stroke-linecap="round"/>`+cheeks(54,10,3,.3)+nose(50.2)+`<path d="M45.5 57 Q50 60.5 54.5 57" stroke="#A54A4A" stroke-width="2" fill="none" stroke-linecap="round"/>`;break;
+  case 'old-m':bg='#EDE4D2';inner=
+    body('#3F4E66',74,36)+`<rect x="44" y="72" width="12" height="6" rx="2" fill="#344259"/><path d="M50 78 L50 102" stroke="#2E3A4E" stroke-width="1.2"/>${[84,91,98].map(y=>`<path d="M45 ${y} H55" stroke="#D9B66A" stroke-width="1.8" stroke-linecap="round"/><circle cx="50" cy="${y}" r="1.4" fill="#D9B66A"/>`).join('')}`+
+    neck(60,13,11)+ears(48,18,4.2)+head(46,18,20)+
+    `<path d="M31.5 50 C30 42 32 37 35 35 C36 40 35.5 46 36 51Z M68.5 50 C70 42 68 37 65 35 C64 40 64.5 46 64 51Z" fill="#E9E5DD"/><path d="M42 31.5 Q50 29.5 58 31.5 M43.5 35 Q50 33.4 56.5 35" stroke="${SKD}" stroke-width="1.1" fill="none" stroke-linecap="round"/>`+
+    brows(40.8,'#E4DFD6',7.6,4,2.6)+glasses(47.5,'#8A6A3E',4.8,7.6)+eyes(47.5,1.7,7.6)+`<path d="M36.5 47.5 l-2.2 -1 M36.5 49 l-2.2 .6 M63.5 47.5 l2.2 -1 M63.5 49 l2.2 .6" stroke="${SKD}" stroke-width=".9" stroke-linecap="round"/>`+nose(50.4)+
+    `<path d="M42 56 C45 53.5 48 54 50 55.4 C52 54 55 53.5 58 56 C55 57.6 52 57.6 50 56.8 C48 57.6 45 57.6 42 56Z" fill="#ECE8E1"/><path d="M46 60 Q50 62 54 60" stroke="#94493A" stroke-width="1.5" fill="none" stroke-linecap="round"/>`+cheeks(55,11,3,.3);break;
+  case 'old-f':bg='#F3E2DA';inner=
+    body('#9C3F45',74,36)+`<rect x="44" y="72" width="12" height="6" rx="2" fill="#86343A"/><path d="M50 78 L50 102" stroke="#7A2E33" stroke-width="1.2"/>${[84,91,98].map(y=>`<path d="M45 ${y} H55" stroke="#E8C77E" stroke-width="1.8" stroke-linecap="round"/><circle cx="50" cy="${y}" r="1.4" fill="#E8C77E"/>`).join('')}<g fill="#C2575D" opacity=".7"><circle cx="28" cy="90" r="2.4"/><circle cx="72" cy="90" r="2.4"/><circle cx="34" cy="98" r="1.8"/><circle cx="66" cy="98" r="1.8"/></g>`+
+    `<circle cx="50" cy="23" r="9" fill="#D9D4CC"/><path d="M43 21 Q50 17 57 21" stroke="#BDB6AC" stroke-width="1.1" fill="none"/>`+
+    neck(60,13,10.5)+ears(48,17.5,3.8)+head(47,17.5,19.5)+
+    `<path d="M31 50 C28 32 38 27 50 27 C62 27 72 32 69 50 C67.5 43 65 38 60 36 C55 34 45 34 40 36 C35 38 32.5 43 31 50Z" fill="#D9D4CC"/><path d="M40 36 C44 32 50 31 50 31 M60 36 C56 32 50 31 50 31" stroke="#BDB6AC" stroke-width="1.1" fill="none"/>`+
+    brows(41.5,'#B9B2A8',7.4,3.2,1.6)+glasses(48,'#B07A55',4.6,7.4)+eyes(48,1.7,7.4)+`<path d="M36.6 48 l-2.2 -1 M36.6 49.5 l-2.2 .6 M63.4 48 l2.2 -1 M63.4 49.5 l2.2 .6" stroke="${SKD}" stroke-width=".9" stroke-linecap="round"/>`+cheeks(55,11,3.2,.4)+nose(50.6)+`<path d="M45 57.5 Q50 61.5 55 57.5" stroke="#A54A4A" stroke-width="1.8" fill="none" stroke-linecap="round"/><circle cx="32.5" cy="54.5" r="2" fill="#7FB89A"/><circle cx="67.5" cy="54.5" r="2" fill="#7FB89A"/>`;break;
+  }
+  return `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><clipPath id="${id}"><circle cx="50" cy="50" r="50"/></clipPath></defs><g clip-path="url(#${id})"><rect width="100" height="100" fill="${bg}"/><circle cx="50" cy="112" r="46" fill="#fff" opacity=".22"/>${inner}</g></svg>`;
+}
+
+/* ================= 活着 v4 ================= */
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const YEAR_DAYS=365.2425,WEEK_YEAR=52;
+const LS_P='huozhe.v2.people',LS_S='huozhe.v2.settings',LS_O='huozhe.v2.sort',LS_SEL='huozhe.v2.sel';
+const WD='日一二三四五六';
+const REGIONS={
+  shandong:{name:'山东省',m:76.46,f:82.11,
+    src:'山东省统计局《人口发展战略不断完善 长期均衡发展基础全面夯实》（2023-01-06）：2020年全省平均预期寿命 79.18 岁，男 76.46 岁、女 82.11 岁（第七次人口普查口径）。',
+    url:'http://tjj.shandong.gov.cn/art/2023/1/6/art_312291_10302337.html'},
+  national:{name:'全国',m:75.37,f:80.88,
+    src:'国家统计局 · 第七次全国人口普查（2020年）：全国人均预期寿命 77.93 岁，男 75.37 岁、女 80.88 岁。（2024年全国已达 79.0 岁，但尚未公布分性别数据）',
+    url:'https://www.stats.gov.cn/sj/tjgb/rkpcgb/qgrkpcgb/'},
+  custom:{name:'自定义',m:null,f:null,src:'按你自己设定的数值计算，比如考虑家族长寿、健康状况等。',url:''}
+};
+/* 渐进式延迟退休：起始出生年、原退休年龄(月)、每几个出生月延迟1个月、最多延迟月数 */
+const RET_RULES={
+  m60:{label:'男职工（原60岁 → 63岁）',start:1965,base:720,step:4,max:36},
+  f55:{label:'女职工 · 原55岁（干部/管理/专技岗 → 58岁）',start:1970,base:660,step:4,max:36},
+  f50:{label:'女职工 · 原50岁（工人岗位 → 55岁）',start:1975,base:600,step:2,max:60}
+};
+function statutoryRetireMonths(type,by,bm){
+  const r=RET_RULES[type];const i=(by-r.start)*12+(bm-1);
+  const delay=i<0?0:Math.min(r.max,Math.floor(i/r.step)+1);
+  return {months:r.base+delay,delay};
+}
+
+let people=load(LS_P,[]),settings=load(LS_S,{region:'shandong',m:REGIONS.shandong.m,f:REGIONS.shandong.f});
+let sortKey=localStorage.getItem(LS_O)||'added',selId=localStorage.getItem(LS_SEL)||null;
+function migrate(){let ch=false;people.forEach(p=>{
+  if(p.comp===undefined){p.comp=true;ch=true}
+  if(p.kidMode===undefined&&relType(p)==='child'){p.kidMode='auto';ch=true}
+  if(/^demo/.test(String(p.id))&&relType(p)==='child'&&p.g==='f'&&p.sy===2014&&p.sm===6&&p.sd===1&&p.name!=='王小禾'){p.name='王小禾';ch=true}/* 旧示例女儿改名 */
+});if(ch)saveP()}
+function load(k,d){try{const v=JSON.parse(localStorage.getItem(k));return v??d}catch(e){return d}}
+/* 示例模式：示例只在内存里，绝不写入用户数据 */
+let demoMode=false,realSel=null;const LS_BAK='huozhe.v2.people.bak';
+function saveP(){if(demoMode)return;localStorage.setItem(LS_P,JSON.stringify(people))}
+function saveSel(){if(!demoMode&&selId)localStorage.setItem(LS_SEL,selId)}
+function saveS(){localStorage.setItem(LS_S,JSON.stringify(settings))}
+
+/* ---------- 工具 ---------- */
+const fmt=n=>Math.floor(n).toLocaleString('zh-CN');
+const fmt2=(n,d=2)=>n.toLocaleString('zh-CN',{minimumFractionDigits:d,maximumFractionDigits:d});
+const pad=n=>String(n).padStart(2,'0');
+function bigCN(n){if(n>=1e8)return{v:(n/1e8).toFixed(2),u:'亿'};if(n>=1e4)return{v:(n/1e4).toFixed(1),u:'万'};return{v:fmt(n),u:''}}
+function dim(y,m){return new Date(y,m,0).getDate()}
+function addMonths(dt,n){const y=dt.getFullYear(),m=dt.getMonth()+n,d=dt.getDate();const t=new Date(y,m,1,dt.getHours(),dt.getMinutes());t.setDate(Math.min(d,dim(t.getFullYear(),t.getMonth()+1)));return t}
+function dayDiff(a,b){return Math.round((Date.UTC(b.getFullYear(),b.getMonth(),b.getDate())-Date.UTC(a.getFullYear(),a.getMonth(),a.getDate()))/DAY_MS)}
+function solarStr(y,m,d,wk){const s=`${y}年${m}月${d}日`;return wk?s+' 星期'+WD[new Date(y,m-1,d).getDay()]:s}
+function dStr(dt,wk){return solarStr(dt.getFullYear(),dt.getMonth()+1,dt.getDate(),wk)}
+function lunarStr(L,withYear=true){return (withYear?`${ganzhi(L.y)}年（${shengxiao(L.y)}）`:'')+lMonthName(L.m,L.leap)+lDayName(L.d)}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function ymdAge(b,t){let y=t.getFullYear()-b.getFullYear(),m=t.getMonth()-b.getMonth(),d=t.getDate()-b.getDate();
+  if(d<0){m--;d+=dim(t.getFullYear(),t.getMonth())}if(m<0){y--;m+=12}return{y,m,d}}
+/* ---------- 关系 ---------- */
+const REL={self:'本人',father:'父亲',mother:'母亲',spouse:'配偶',child:'孩子',other:'其他'};
+function guessRel(r){r=(r||'').trim();if(/^(我|本人|自己)$/.test(r))return'self';if(/^(爸|爸爸|父亲|老爸|爹)$/.test(r))return'father';if(/^(妈|妈妈|母亲|老妈|娘)$/.test(r))return'mother';
+  if(/^(爱人|老婆|老公|妻子|丈夫|配偶|媳妇)$/.test(r))return'spouse';if(/^(儿子|女儿|孩子|闺女)$/.test(r))return'child';return'other'}
+function relType(p){return p.relType||guessRel(p.rel)}
+function isSelf(p){return relType(p)==='self'}
+function relLabel(p){if(p.rel)return p.rel;return{self:'我',father:'爸爸',mother:'妈妈',spouse:'爱人',child:p.g==='m'?'儿子':'女儿',other:''}[relType(p)]}
+function callName(p){return isSelf(p)?'你':(relLabel(p)||p.name)}
+/* 超过平均寿命后的余寿下限（参考中国人口生命表的高龄平均余寿，约值），用于陪伴估算 */
+const EFLOOR=[[0,0],[55,24],[60,20.5],[65,16.8],[70,13.3],[75,10.2],[80,7.6],[85,5.6],[90,4.1],[95,3],[100,2.3],[120,1.2]];
+function eFloor(a){for(let i=1;i<EFLOOR.length;i++){const[x1,y1]=EFLOOR[i-1],[x2,y2]=EFLOOR[i];if(a<=x2)return a<55?0:y1+(y2-y1)*(a-x1)/(x2-x1)}return 1.2}
+function remF(c){return Math.max(c.remain/YEAR_DAYS,eFloor(c.years))}
+/* ---------- 陪伴默认假设 ---------- */
+const COMP_DEF={
+  parent:{visits:6,days:2},
+  other:{visits:1,unit:'m',hours:3},
+  stages:[{k:'pre',n:'学龄前',a:0,b:3,d:365},{k:'kg',n:'幼儿园',a:3,b:6,d:365},{k:'pri',n:'小学',a:6,b:12,d:365},{k:'mid',n:'初中',a:12,b:15,d:365},{k:'high',n:'高中',a:15,b:18,d:52},{k:'uni',n:'大学',a:18,b:22,d:60}],
+  work:{visits:6,days:3}
+};
+const UNIT={y:{n:'每年',f:1},m:{n:'每月',f:12},w:{n:'每周',f:52.18}};
+function perYear(n,u){return Math.max(0,+n||0)*(UNIT[u]||UNIT.y).f}
+function numOr(v,d){return v===undefined||v===null||v===''||isNaN(+v)?d:+v}
+function unitSel(id,key,u){return `<select data-pv="${key}" data-id="${id}">${Object.entries(UNIT).map(([k,o])=>`<option value="${k}" ${k===u?'selected':''}>${o.n}</option>`).join('')}</select>`}
+function inComp(p){return p.comp!==false}
+const STAGE_COL={cus:'#D7A77B',pre:'#FFE7B5',kg:'#FFD68E',pri:'#F8C070',mid:'#F1A85B',high:'#E58F4B',uni:'#9FC3DA',work:'#7189AB'};
+function compCfg(){const c=settings.comp||{};return{parent:{...COMP_DEF.parent,...(c.parent||{})},other:{...COMP_DEF.other,...(c.other||{})},work:{...COMP_DEF.work,...(c.work||{})},
+  stages:COMP_DEF.stages.map(s=>({...s,...((c.stages||[]).find(x=>x.k===s.k)||{})}))}}
+
+/* ---------- 核心计算 ---------- */
+function lifeFor(p){return +p.life>0?+p.life:(p.g==='m'?+settings.m:+settings.f)}
+function birthOf(p){const [hh,mm]=(p.time||'0:0').split(':').map(Number);return new Date(p.sy,p.sm-1,p.sd,hh||0,mm||0)}
+function retireType(p){if(p.ret==='none')return null;if(p.ret==='custom')return 'custom';if(p.g==='m')return'm60';return p.ret==='f50'?'f50':'f55'}
+function calc(p,now=new Date()){
+  const b=birthOf(p),ms=now-b,days=ms/DAY_MS,L=lifeFor(p);
+  const age=ymdAge(b,now),years=days/YEAR_DAYS,band=bandOf(age.y);
+  const endMs=b.getTime()+L*YEAR_DAYS*DAY_MS,remain=(endMs-now)/DAY_MS;
+  const lunar=p.cal==='lunar'?{y:p.ly,m:p.lm,d:p.ld,leap:!!p.leap}:solarToLunar(p.sy,p.sm,p.sd);
+  let work=null;const rt=retireType(p);
+  if(rt){let months,delay=0;
+    if(rt==='custom'){months=Math.round((+p.retY||60)*12+(+p.retM||0))}else{const r=statutoryRetireMonths(rt,p.sy,p.sm);months=r.months;delay=r.delay}
+    const rd=addMonths(new Date(p.sy,p.sm-1,p.sd),months);const left=dayDiff(now,rd);
+    work={type:rt,months,delay,date:rd,left,ageY:Math.floor(months/12),ageM:months%12,ageYears:months/12,
+      workdays:Math.max(0,Math.round(left*250/YEAR_DAYS)),show:age.y>=16||left<=0};
+  }
+  return{b,ms,days,years,age,band,L,remain,pct:Math.min(1,years/L),over:remain<0,lunar,work};
+}
+
+/* ---------- 头像 ---------- */
+function avatar(p,c,cls='av'){return `<div class="${cls} ${p.g}">${avatarSVG(c.band.key,p.g)}</div>`}
+const IC={
+  edit:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>',
+  del:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>',
+  work:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 13h18"/></svg>',
+  sun:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>'
+};
+function selfPerson(){return people.find(isSelf)}
+function springsAhead(years){const n=new Date(),end=new Date(n.getTime()+years*YEAR_DAYS*DAY_MS);let k=0;
+  for(let y=n.getFullYear();y<=end.getFullYear()&&y<=2099;y++){const s=lunarToSolar(y,1,1,false);const d=new Date(s.y,s.m-1,s.d);if(d>n&&d<=end)k++}return k}
+function springCount(b,now){let n=0;for(let y=b.getFullYear();y<=now.getFullYear();y++){if(y<1901||y>2099)continue;const s=lunarToSolar(y,1,1,false);const d=new Date(s.y,s.m-1,s.d);if(d>b&&d<=now)n++}return n}
+function nextSolarBirthday(p,now){const t0=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+  for(let y=now.getFullYear();y<=now.getFullYear()+1;y++){const d=new Date(y,p.sm-1,Math.min(p.sd,dim(y,p.sm)));if(d>=t0)return d}}
+function nextLunarBirthday(L,now){const t0=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+  const cur=solarToLunar(now.getFullYear(),now.getMonth()+1,now.getDate()).y;
+  for(let y=cur-1;y<=cur+1;y++){if(y>2099)break;const s=lunarToSolar(y,L.m,Math.min(L.d,lMonthDays(y,L.m)),false);const d=new Date(s.y,s.m-1,s.d);if(d>=t0)return d}}
+
+/* ================= Hero：俯瞰一生 ================= */
+const BAND_COL={baby:'#FFF0C8',child:'#FFDE9C',teen:'#FBC879',young:'#F4AE5E',middle:'#E8904B',old:'#D2743F'};
+function renderHero(){
+  const n=new Date(),Lt=solarToLunar(n.getFullYear(),n.getMonth()+1,n.getDate());
+  const top=`<div class="today">今天是 <b>${dStr(n,true)}</b> · 农历${lunarStr(Lt)}</div>
+    <div class="quote">人是为活着本身而活着，而不是为了活着之外的任何事物所活着。<small>—— 余华《活着》</small></div>`;
+  if(!people.length){
+    $('#heroL').innerHTML=top+`<div class="focus-name" style="margin-top:34px">从高处看，一生不过几千个格子</div>
+      <div class="hero-big"><span class="n num">4,000</span><span class="u">周左右</span></div>
+      <div class="letter">右边每一格是一周，一行是一年。添加你自己和你在乎的人，点亮已经走过的格子，也看清还剩下多少——和父母还能见几面，和孩子还能朝夕相处几年。</div>
+      <div class="empty acts" style="padding:22px 0 0;text-align:left;justify-content:flex-start;display:flex;gap:10px"><button class="btn primary" data-go="add">添加人员</button><button class="btn" data-go="demo">先看看示例</button></div>`;
+    $('#heroR').innerHTML=`<div class="t"><h2 data-k="人生格子">人生格子</h2><span>一格一周 · 一行一年</span></div><div class="gridwrap" id="gw"><canvas id="cv"></canvas></div>`;
+    requestAnimationFrame(()=>drawGrid(null,null));return}
+  if(!people.find(p=>p.id===selId))selId=(selfPerson()||people[0]).id;
+  const p=people.find(x=>x.id===selId),c=calc(p,n);
+  const weeksLived=Math.floor(c.days/7),weeksTotal=Math.round(c.L*YEAR_DAYS/7);
+  const nb=nextSolarBirthday(p,n),nbDays=dayDiff(n,nb),turning=nb.getFullYear()-p.sy;
+  const nl=nextLunarBirthday(c.lunar,n),nlDays=nl?dayDiff(n,nl):null;
+  const milestone=(Math.floor(c.days/1000)+1)*1000,msDate=new Date(c.b.getTime()+milestone*DAY_MS);
+  const heart=bigCN(c.ms/6e4*75);
+  const remWeeks=Math.max(0,Math.floor(c.remain/7)),remSpring=Math.max(0,Math.floor(c.remain/YEAR_DAYS));
+  const who=callName(p),ta=p.g==='m'?'他':'她';
+  let letter;
+  if(c.over)letter=`${esc(who)}已经超越了平均寿命 ${fmt(-c.remain)} 天。往后的每一天，都是额外的馈赠——多陪陪，多听${ta}说说从前。`;
+  else if(isSelf(p))letter=`从高处看，你已经点亮了 <b>${fmt(weeksLived)}</b> 个格子。按平均寿命，大约还有 <b>${fmt(remWeeks)}</b> 个周末、<b>${remSpring}</b> 个春节。不必焦虑，只是提醒：把它们留给值得的人和事。`;
+  else if(c.age.y<18)letter=`${esc(who)}的人生才刚刚展开，已经走过 ${fmt(weeksLived)} 周。陪${ta}长大的日子，每一格都不会重来。`;
+  else letter=`${esc(who)}已经走过 ${fmt(weeksLived)} 周。按平均寿命，${ta}大约还有 <b>${remSpring}</b> 个春节——下面的“陪伴时间”算了算，其中有几个是和你一起过的。`;
+  $('#heroL').innerHTML=top+`
+    <div class="chips">${people.map(q=>`<button class="chip ${q.id===selId?'on':''}" data-sel="${q.id}">${avatar(q,calc(q,n))}${esc(relLabel(q)||q.name)}</button>`).join('')}</div>
+    <div class="focus-name"><b>${esc(p.name)}</b>　${c.age.y} 岁 · ${p.cal==='lunar'?'农历 '+lunarStr(c.lunar,false)+'（'+solarStr(p.sy,p.sm,p.sd)+'）':solarStr(p.sy,p.sm,p.sd)+' · 农历'+lunarStr(c.lunar,false)} · 已经活了</div>
+    <div class="hero-big"><span class="n num">${fmt(c.days)}</span><span class="u">天</span></div>
+    <div class="hero-sub"><span>折合 <b class="num">${fmt2(c.years)}</b> 年</span><span>${c.age.y}岁${c.age.m}个月${c.age.d}天</span><span class="num" data-tk="hh" data-id="${p.id}"></span><span class="num" data-tk="ss" data-id="${p.id}"></span></div>
+    <div class="hprog"><div class="row"><span>生命进度（平均寿命 ${c.L} 岁）</span><b class="num">${(c.pct*100).toFixed(1)}%</b></div><div class="bar ${c.over?'over':''}"><i style="width:${(c.pct*100).toFixed(2)}%"></i></div>
+      ${c.over?`<div class="remain good">已超越平均寿命 <b class="num">${fmt(-c.remain)}</b> 天 · 每一天都是额外的馈赠</div>`:`<div class="remain">距平均寿命还有 <b class="num">${fmt(c.remain)}</b> 天 ≈ <b class="num">${fmt2(c.remain/YEAR_DAYS)}</b> 年</div>`}</div>
+    <div class="facts">
+      <div class="fact"><div class="k">阳历生日</div><div class="v num">${nbDays===0?'就是今天':nbDays+'<small> 天后</small>'}</div><div class="s">${nb.getMonth()+1}月${nb.getDate()}日 · 满 ${turning} 岁</div></div>
+      <div class="fact"><div class="k">农历生日</div><div class="v num">${nl?(nlDays===0?'就是今天':nlDays+'<small> 天后</small>'):'—'}</div><div class="s">${lMonthName(c.lunar.m,false)}${lDayName(c.lunar.d)}${nl?' · '+(nl.getMonth()+1)+'月'+nl.getDate()+'日':''}</div></div>
+      <div class="fact"><div class="k">下一个里程碑</div><div class="v num">第 ${fmt(milestone)}<small> 天</small></div><div class="s">${dStr(msDate)}</div></div>
+      <div class="fact"><div class="k">过了多少个春节</div><div class="v num">${springCount(c.b,n)}<small> 个</small></div><div class="s">看过约 ${fmt(c.days/29.5306)} 次月圆</div></div>
+      <div class="fact"><div class="k">心跳约</div><div class="v num">${heart.v}<small> ${heart.u}次</small></div><div class="s">按每分钟 75 次</div></div>
+      <div class="fact"><div class="k">睡过的时光</div><div class="v num">${fmt2(c.years/3,1)}<small> 年</small></div><div class="s">约占三分之一</div></div>
+    </div>
+    <div class="letter">${letter}</div>`;
+  const working=c.work&&c.work.show&&c.work.left>0;
+  $('#heroR').innerHTML=`<div class="t"><h2 data-k="人生格子">俯瞰 ${esc(p.name)} 的一生</h2><span>一格一周 · 一行一年</span></div>
+    <div class="gcap">第 <b class="num">${fmt(weeksLived+1)}</b> 周 / 平均约 <b class="num">${fmt(weeksTotal)}</b> 周</div>
+    <div class="gridwrap" id="gw"><canvas id="cv"></canvas><div class="pulse" id="pulse"></div></div>
+    <div class="legend"><span><i style="background:linear-gradient(90deg,${BAND_COL.baby},${BAND_COL.old})"></i>已点亮（按年龄段）</span><span><i style="background:#FFF1C9;box-shadow:0 0 6px #FFD592"></i>本周</span>${working?'<span><i style="background:rgba(217,179,110,.35)"></i>还要工作</span>':''}<span><i style="background:rgba(255,255,255,.09)"></i>平均寿命内</span><span><i style="border:1px dashed rgba(255,255,255,.18)"></i>超出平均</span></div>`;
+  requestAnimationFrame(()=>drawGrid(p,c));
+}
+function drawGrid(p,c){
+  const cv=$('#cv'),gw=$('#gw');if(!cv)return;
+  const W=gw.clientWidth,lab=22,cols=WEEK_YEAR,cell=(W-lab)/cols,gap=Math.max(1,cell*.24),s=cell-gap;
+  const ageY=c?c.years:-1,L=c?c.L:80,rows=Math.max(Math.ceil(L),Math.floor(ageY)+1);
+  const H=Math.ceil(rows*cell);const dpr=window.devicePixelRatio||1;
+  cv.width=W*dpr;cv.height=H*dpr;cv.style.height=H+'px';const x=cv.getContext('2d');x.scale(dpr,dpr);
+  const curR=Math.floor(ageY),curC=c?Math.min(cols-1,Math.floor((ageY-curR)*cols)):-1;
+  const retY=c&&c.work&&c.work.show&&c.work.left>0?c.work.ageYears:null;
+  x.font='9px sans-serif';x.textAlign='right';x.textBaseline='middle';
+  for(let r=0;r<rows;r++){
+    if(r%10===0){x.fillStyle='#857F78';x.fillText(r,lab-5,r*cell+s/2)}
+    const col=BAND_COL[bandOf(r).key];
+    for(let k=0;k<cols;k++){const t=r+k/cols,X=lab+k*cell,Y=r*cell;
+      if(c&&(r<curR||(r===curR&&k<curC))){x.fillStyle=col;x.globalAlpha=.55+.45*Math.min(1,(r+1)/(curR+1));x.fillRect(X,Y,s,s);x.globalAlpha=1}
+      else if(c&&r===curR&&k===curC){}
+      else if(t<L){x.fillStyle=retY&&t<retY?'rgba(217,179,110,.30)':'rgba(255,255,255,.085)';x.fillRect(X,Y,s,s)}
+      else{x.strokeStyle='rgba(255,255,255,.16)';x.setLineDash([1.2,1.4]);x.strokeRect(X+.5,Y+.5,s-1,s-1);x.setLineDash([])}
+    }
+  }
+  const pl=$('#pulse');if(pl&&c){pl.style.left=(lab+curC*cell)+'px';pl.style.top=(curR*cell)+'px';pl.style.width=pl.style.height=s+'px'}
+}
+
+/* ================= 一家人的时间长河 ================= */
+function renderFamily(){
+  const sec=$('#secFamily');if(!people.length){sec.innerHTML='';return}
+  const n=new Date();const cs=people.map(p=>({p,c:calc(p,n)}));
+  const days=cs.reduce((a,x)=>a+Math.floor(x.c.days),0),hours=cs.reduce((a,x)=>a+x.c.ms/3.6e6,0);
+  const m=people.filter(p=>p.g==='m').length,f=people.length-m;
+  const under=cs.filter(x=>!x.c.over);const avgRem=under.length?under.reduce((a,x)=>a+x.c.remain,0)/under.length/YEAR_DAYS:0;
+  const nowY=n.getFullYear()+(n.getMonth()+n.getDate()/31)/12;
+  const rows=cs.slice().sort((a,b)=>a.c.b-b.c.b).map(({p,c})=>{const by=p.sy+(p.sm-1)/12;return{p,c,by,ey:by+Math.max(c.L,c.years+remF(c))}});
+  const narrow=window.innerWidth<600,step=narrow?20:10;
+  const y0=Math.floor(Math.min(...rows.map(r=>r.by))/10)*10,y1=Math.ceil(Math.max(...rows.map(r=>r.ey))/10)*10,span=y1-y0;
+  const X=y=>((y-y0)/span*100).toFixed(3)+'%';
+  let ticks='';for(let y=y0;y<=y1;y+=step)ticks+=`<span style="left:${X(y)}">${y}</span>`;
+  sec.innerHTML=`<div class="sec-head"><div><h2 data-k="01 · 俯瞰">一家人的时间长河</h2><p>把每个人的一生摊开在同一条时间线上：亮的是走过的路，虚线是按平均寿命还剩的路。</p></div></div>
+   <div class="stats" style="margin-bottom:12px">
+     <div class="panel stat"><div class="k">记录了</div><div class="v num">${people.length}<small>位</small></div><div class="s">${m} 男 · ${f} 女</div></div>
+     <div class="panel stat"><div class="k">大家一起走过</div><div class="v num">${fmt(days)}<small>天</small></div><div class="s">≈ ${fmt2(days/YEAR_DAYS,1)} 年人生</div></div>
+     <div class="panel stat"><div class="k">合计已活 · 实时</div><div class="v num tick" data-tk="sumH"></div><div class="s num" data-tk="sumS"></div></div>
+     <div class="panel stat"><div class="k">平均还剩</div><div class="v num">${fmt2(avgRem,1)}<small>年</small></div><div class="s">距各自的平均寿命</div></div>
+   </div>
+   <div class="panel river"><div class="rv-body">
+     ${rows.map(({p,c,by,ey})=>`<div class="rv-row ${p.g} ${p.id===selId?'on':''}" data-sel="${p.id}"><div class="rv-name">${avatar(p,c)}<span>${esc(relLabel(p)||p.name)}</span></div>
+       <div class="rv-track"><div class="rv-life rv-lived" style="left:${X(by)};width:calc(${X(Math.min(nowY,ey))} - ${X(by)})"></div><div class="rv-life rv-left" style="left:${X(nowY)};width:calc(${X(ey)} - ${X(nowY)})"></div></div></div>`).join('')}
+     <div style="position:absolute;left:${narrow?72:130}px;right:0;top:0;bottom:0;pointer-events:none"><div class="rv-now" style="left:${X(nowY)}"><b>今天</b></div></div>
+     <div class="rv-axis">${ticks}</div>
+   </div></div>`;
+}
+
+/* ================= 陪伴时间 ================= */
+function childPlan(p,c,selfRem){
+  const cfg=compCfg(),a=c.years,H=Math.min(selfRem,remF(c));
+  const wd=cfg.work.visits*cfg.work.days,custom=p.kidMode==='custom';
+  let cd=0;if(custom){cd=Math.min(366,perYear(numOr(p.kVisits,2),p.kUnit||'m')*numOr(p.kDays,1))}
+  const stages=custom?[{k:'cus',n:'自定义',a:0,b:22,d:+cd.toFixed(1)},{k:'work',n:'工作后',a:22,b:Infinity,d:+Math.min(wd,cd).toFixed(1)}]
+    :[...cfg.stages,{k:'work',n:'工作后',a:22,b:Infinity,d:wd}];
+  let home=0,homeDays=0,total=0;const parts=[];
+  stages.forEach(s=>{const ov=Math.max(0,Math.min(s.b,a+H)-Math.max(s.a,a));const d=ov*s.d;total+=d;if(s.d>=300){home+=ov;homeDays+=d}parts.push({...s,ov,days:d})});
+  return{H,home,homeDays,total,stages,end:a+H,cfg,custom,cd};
+}
+function renderComp(){
+  const sec=$('#secComp');if(!people.length){sec.innerHTML='';return}
+  const n=new Date(),me=selfPerson(),mc=me?calc(me,n):null,selfRem=mc?remF(mc):Infinity,cfg=compCfg();
+  const C=people.filter(p=>!isSelf(p)&&inComp(p)),off=people.filter(p=>!isSelf(p)&&!inComp(p));
+  const parents=C.filter(p=>['father','mother'].includes(relType(p))),kids=C.filter(p=>relType(p)==='child'),sp=C.find(p=>relType(p)==='spouse'),others=C.filter(p=>relType(p)==='other');
+  const head=`<div class="sec-head"><div><h2 data-k="02 · 在一起">陪伴时间</h2><p>不是活了多久，而是还能在一起多久。按${me?'你自己的平均寿命':'对方的平均寿命'}与下面的相处节奏估算，数字都可以改。</p></div></div>`;
+  const offBar=off.length?`<div class="comp-off">不计入陪伴时间：${off.map(p=>`<span>${esc(p.name)}<button data-comp-on="${p.id}" title="重新计入">计入</button></span>`).join('')}</div>`:'';
+  if(!parents.length&&!kids.length&&!sp&&!others.length){sec.innerHTML=head+`<div class="panel comp-empty">在添加或编辑人员时，把“TA 是你的”选为 <b>父亲 / 母亲 / 孩子 / 配偶 / 其他</b>，并勾选“计入陪伴时间”，这里就会算出你们还能见几面、还能相处多久。</div>`+offBar;return}
+  const offBtn=p=>`<button class="cp-off" data-comp-off="${p.id}" title="不计入陪伴时间">不计入</button>`;
+  let pm=0,pd=0,pspring=0,cards='';
+  parents.forEach(p=>{const c=calc(p,n),u=p.vUnit||'y',vn=numOr(p.visits,cfg.parent.visits),v=perYear(vn,u),dd=numOr(p.visitDays,cfg.parent.days);
+    const R=Math.min(remF(c),selfRem),meet=Math.floor(R*v),days=meet*dd,spr=springsAhead(R);pm+=meet;pd+=days;pspring=Math.max(pspring,spr);
+    const lim=remF(c)<=selfRem?`${p.g==='m'?'他':'她'}的`:'你的';
+    cards+=`<div class="panel cp"><div class="cp-h">${avatar(p,c)}<div><h3>${esc(relLabel(p))} · ${esc(p.name)}</h3><div class="k">${c.age.y} 岁${c.over?' · 已超越平均寿命':''}</div></div><span class="badge">${REL[relType(p)]}</span>${offBtn(p)}</div>
+      <div class="cp-main">按现在的节奏，还能见面约 <b class="hl num">${fmt(meet)}</b> 次，相处约 <b class="num">${fmt(days)}</b> 天（≈ ${fmt2(days/30.4,1)} 个月）。</div>
+      <div class="cp-edit">${unitSel(p.id,'vUnit',u)} 见 <input type="number" min="0" max="365" step="0.5" data-pv="visits" data-id="${p.id}" value="${vn}"> 次，每次 <input type="number" min="0.5" max="60" step="0.5" data-pv="visitDays" data-id="${p.id}" value="${dd}"> 天</div>
+      <div class="cp-kv"><div><div class="k">一起过的春节</div><div class="v num">${spr}<small> 个</small></div></div><div><div class="k">可相处的年数</div><div class="v num">${fmt2(R,1)}<small> 年</small></div></div><div><div class="k">占余下时间</div><div class="v num">${R>0?(days/(R*YEAR_DAYS)*100).toFixed(1):'0'}<small> %</small></div></div></div>
+      <div class="cp-note">按${lim}余寿计算${c.over?'（已超越平均寿命，按高龄平均余寿约值估算）':''}；每年约 ${fmt2(v,0)} 次。</div></div>`});
+  let kidHome=0,kd=0;
+  kids.forEach(p=>{const c=calc(p,n),P=childPlan(p,c,selfRem);kidHome=Math.max(kidHome,P.home);kd+=P.total;
+    const end=Math.max(P.end,c.years+.01),w=y=>(y/end*100).toFixed(3)+'%';
+    const segs=P.stages.filter(s=>s.a<end).map(s=>{const b=Math.min(s.b,end),wd=(b-s.a)/end*100;return `<div class="tl-seg" style="width:${wd.toFixed(3)}%;background:${STAGE_COL[s.k]}" title="${s.n} ${s.a}–${s.b===Infinity?'':s.b}岁 · 每年约${s.d}天">${wd>9?s.n:''}</div>`}).join('');
+    const ax=[];(P.custom?[0,22]:[0,6,12,15,18,22]).forEach(v=>{if(v<end&&(!ax.length||(v-ax[ax.length-1])/end>.08)&&(end-v)/end>.1)ax.push(v)});
+    const work=cfg.work,stageName=c.age.y<3?'学龄前':c.age.y<6?'幼儿园':c.age.y<12?'小学':c.age.y<15?'初中':c.age.y<18?'高中':c.age.y<22?'大学':'已工作';
+    let main,assume;
+    if(P.custom){const ku=p.kUnit||'m',kv=numOr(p.kVisits,2),kdd=numOr(p.kDays,1);
+      main=c.years<22?`不住在一起，按 <b>${UNIT[ku].n} ${kv} 次 × ${kdd} 天</b>，每年在一起约 <b>${fmt2(P.cd,0)}</b> 天；22 岁工作后每年约 ${fmt2(P.stages[1].d,0)} 天。`
+        :`按 <b>${UNIT[ku].n} ${kv} 次 × ${kdd} 天</b>（不超过工作后默认 ${work.visits} 次 × ${work.days} 天），每年在一起约 <b>${fmt2(P.stages[1].d,0)}</b> 天。`;
+      assume=`当前假设：<b>不同住 · 自定义见面</b>（${UNIT[ku].n} ${kv} 次，每次 ${kdd} 天），不再按学段计算`}
+    else{const later=P.stages.filter(s=>s.d<300&&s.b>c.years).map(s=>`${s.n}每年约 <b>${s.d}</b> 天${s.k==='work'?`（${work.visits} 次 × ${work.days} 天）`:s.k==='high'?`（≈ 每周 ${fmt2(s.d/52.18,1)} 天）`:''}`).join('，');
+      if(P.home>0)main=`和${esc(p.name)}还能朝夕相处约 <b class="hl num">${fmt2(P.home,1)}</b> 年 / <b class="num">${fmt(P.homeDays)}</b> 天，之后${later}。`;
+      else if(c.years<22)main=`${esc(p.name)}已经不常在家：${later}。`;
+      else main=`${esc(p.name)}已经工作，按每年 ${work.visits} 次 × ${work.days} 天，每年在一起约 <b>${work.visits*work.days}</b> 天。`;
+      const hs=cfg.stages.find(s=>s.k==='high');
+      assume=`当前假设：<b>同住 · 按学段</b>（15 岁前天天在家，高中起每年约 ${hs.d} 天${hs.d<=60?'≈ 每周见一次':''}，大学每年约 ${cfg.stages.find(s=>s.k==='uni').d} 天）`}
+    const share=P.total>0?P.homeDays/P.total*100:0,km=P.custom?'custom':'auto';
+    cards+=`<div class="panel cp"><div class="cp-h">${avatar(p,c)}<div><h3>${esc(relLabel(p))} · ${esc(p.name)}</h3><div class="k">${c.age.y} 岁 · ${stageName}</div></div><span class="badge">孩子</span>${offBtn(p)}</div>
+      <div class="kseg"><button data-km="auto" data-id="${p.id}" class="${km==='auto'?'on':''}">同住 · 按学段</button><button data-km="custom" data-id="${p.id}" class="${km==='custom'?'on':''}">不同住 · 自定义</button></div>
+      ${P.custom?`<div class="cp-edit">${unitSel(p.id,'kUnit',p.kUnit||'m')} 见 <input type="number" min="0" max="365" step="0.5" data-pv="kVisits" data-id="${p.id}" value="${numOr(p.kVisits,2)}"> 次，每次 <input type="number" min="0.5" max="60" step="0.5" data-pv="kDays" data-id="${p.id}" value="${numOr(p.kDays,1)}"> 天</div>`:''}
+      <div class="cp-main">${main}</div>
+      <div class="tl"><div class="tl-bar">${segs}<div class="tl-past" style="width:${w(c.years)}"></div><div class="tl-now" style="left:${w(c.years)}"></div></div>
+        <div class="tl-ax">${ax.map(v=>`<span style="left:${w(v)}">${v}岁</span>`).join('')}<span style="left:${w(end)};transform:translateX(-100%);white-space:nowrap">${Math.round(end)}岁</span></div></div>
+      <div class="cp-kv"><div><div class="k">一共还能相处</div><div class="v num">${fmt(P.total)}<small> 天</small></div></div><div><div class="k">折合</div><div class="v num">${fmt2(P.total/YEAR_DAYS,1)}<small> 年</small></div></div>${P.custom?`<div><div class="k">每年在一起</div><div class="v num">${fmt2(P.cd,0)}<small> 天</small></div></div>`:`<div><div class="k">集中在 15 岁前</div><div class="v num">${share.toFixed(0)}<small> %</small></div></div>`}</div>
+      <div class="cp-assume">${assume}</div>
+      <div class="cp-note">斜线部分是已经陪过的；时间轴到${me?'你的平均寿命':'对方的平均寿命'}为止（届时${p.g==='m'?'他':'她'}约 ${Math.round(end)} 岁）。</div></div>`});
+  let spCard='',spY=0;
+  if(sp){const c=calc(sp,n);spY=Math.min(selfRem,remF(c));const spr=springsAhead(spY);
+    spCard=`<div class="panel cp"><div class="cp-h">${avatar(sp,c)}<div><h3>${esc(relLabel(sp))} · ${esc(sp.name)}</h3><div class="k">${c.age.y} 岁</div></div><span class="badge">配偶</span>${offBtn(sp)}</div>
+      <div class="cp-main">按两个人中较短的平均余寿，还能相伴约 <b class="hl num">${fmt2(spY,1)}</b> 年，约 <b class="num">${fmt(spY*YEAR_DAYS)}</b> 天、<b>${spr}</b> 个春节。</div>
+      <div class="cp-kv"><div><div class="k">周末</div><div class="v num">${fmt(spY*52.18)}<small> 个</small></div></div><div><div class="k">一起吃的晚饭</div><div class="v num">${bigCN(spY*YEAR_DAYS*.8).v}<small> ${bigCN(spY*YEAR_DAYS*.8).u}顿</small></div></div><div><div class="k">春节</div><div class="v num">${spr}<small> 个</small></div></div></div>
+      <div class="cp-note">晚饭按八成的日子一起吃估算。</div></div>`}
+  let om=0,oh=0,oCards='';
+  others.forEach(p=>{const c=calc(p,n),u=p.vUnit||cfg.other.unit,vn=numOr(p.visits,cfg.other.visits),v=perYear(vn,u),hh=numOr(p.visitHours,cfg.other.hours);
+    const R=Math.min(remF(c),selfRem),meet=Math.floor(R*v),hours=meet*hh;om+=meet;oh+=hours;
+    oCards+=`<div class="panel cp"><div class="cp-h">${avatar(p,c)}<div><h3>${esc(relLabel(p)||'其他')} · ${esc(p.name)}</h3><div class="k">${c.age.y} 岁${c.over?' · 已超越平均寿命':''}</div></div><span class="badge">其他</span>${offBtn(p)}</div>
+      <div class="cp-main">按现在的节奏，还能见面约 <b class="hl num">${fmt(meet)}</b> 次，在一起约 <b class="num">${fmt(hours)}</b> 小时（≈ ${fmt2(hours/24,1)} 天）。</div>
+      <div class="cp-edit">${unitSel(p.id,'vUnit',u)} 见 <input type="number" min="0" max="365" step="0.5" data-pv="visits" data-id="${p.id}" value="${vn}"> 次，每次 <input type="number" min="0.5" max="72" step="0.5" data-pv="visitHours" data-id="${p.id}" value="${hh}"> 小时</div>
+      <div class="cp-kv"><div><div class="k">每年见面</div><div class="v num">${fmt2(v,0)}<small> 次</small></div></div><div><div class="k">可相处的年数</div><div class="v num">${fmt2(R,1)}<small> 年</small></div></div><div><div class="k">合计</div><div class="v num">${fmt2(hours/24,1)}<small> 天</small></div></div></div>
+      <div class="cp-note">朋友、亲戚等。不想计算的话，点右上角“不计入”，或在编辑里取消“计入陪伴时间”。</div></div>`});
+  const sum=[];
+  if(parents.length)sum.push(`<div class="panel cs"><div class="k">和父母还能见面</div><div class="v num">${fmt(pm)}<small>次</small></div><div class="s">共约 ${fmt(pd)} 天（≈ ${fmt2(pd/30.4,1)} 个月）· 最多 ${pspring} 个春节${parents.length>1?' · 按人次相加':''}</div></div>`);
+  if(kids.length)sum.push(`<div class="panel cs"><div class="k">和孩子还能朝夕相处</div><div class="v num">${fmt2(kidHome,1)}<small>年</small></div><div class="s">${kids.length>1?'取最长的一位 · ':''}之后见面会越来越少；一共还能相处约 ${fmt(kd)} 天</div></div>`);
+  if(sp)sum.push(`<div class="panel cs"><div class="k">和${esc(relLabel(sp))}还能相伴</div><div class="v num">${fmt2(spY,1)}<small>年</small></div><div class="s">约 ${fmt(spY*YEAR_DAYS)} 天</div></div>`);
+  if(others.length)sum.push(`<div class="panel cs"><div class="k">和其他在乎的人还能见面</div><div class="v num">${fmt(om)}<small>次</small></div><div class="s">${others.length} 位 · 共约 ${fmt(oh)} 小时（≈ ${fmt2(oh/24,1)} 天）</div></div>`);
+  const noSelf=me?'':`<div class="panel comp-empty" style="margin-bottom:14px">还没有标记“本人”。把你自己加进来（TA 是你的 → 本人），结果会同时受你自己的平均寿命限制，更准确。</div>`;
+  const st=cfg.stages.map(s=>`<div class="st"><b>${s.n}（${s.a}–${s.b} 岁）</b>每年在一起 <input type="number" min="0" max="366" data-st="${s.k}" value="${s.d}"> 天</div>`).join('');
+  sec.innerHTML=head+noSelf+`<div class="comp-sum">${sum.join('')}</div><div class="comp-grid">${cards}${spCard}${oCards}</div>${offBar}
+    <details class="panel assume" id="assume" ${renderComp.open?'open':''}><summary>调整估算假设（孩子各阶段 · 工作后 · 父母 / 其他人默认）</summary>
+      <div class="st-grid">${st}
+        <div class="st"><b>孩子工作后（22 岁起）</b>每年 <input type="number" min="0" max="365" data-cw="visits" value="${cfg.work.visits}"> 次 × <input type="number" min="0.5" max="60" step="0.5" data-cw="days" value="${cfg.work.days}"> 天</div>
+        <div class="st"><b>父母默认</b>每年 <input type="number" min="0" max="365" data-cp="visits" value="${cfg.parent.visits}"> 次 × <input type="number" min="0.5" max="60" step="0.5" data-cp="days" value="${cfg.parent.days}"> 天</div>
+        <div class="st"><b>其他人默认</b>每月 <input type="number" min="0" max="31" step="0.5" data-co="visits" value="${cfg.other.visits}"> 次 × <input type="number" min="0.5" max="72" step="0.5" data-co="hours" value="${cfg.other.hours}"> 小时</div>
+      </div><div class="cp-note" style="margin:-6px 0 14px">按国内常见学制：3 岁入园、6 岁上小学、12 岁初中、15 岁高中、18 岁上大学、22 岁工作。高中默认住校、每周见一次（约 52 天/年），走读可改大（如 300 天）。父母离异、孩子不跟你住时，在孩子卡片上选“不同住 · 自定义”，填写实际见面次数。</div></details>`;
+}
+function setComp(id,v){const p=people.find(x=>x.id===id);if(!p)return;p.comp=v;saveP();renderComp.open=!!($('#assume')&&$('#assume').open);renderComp();toast(v?`已把「${p.name}」计入陪伴时间`:`「${p.name}」不再计入陪伴时间`)}
+$('#secComp').addEventListener('click',e=>{const b=e.target.closest('[data-comp-off],[data-comp-on],[data-km]');if(!b)return;
+  if(b.dataset.compOff){setComp(b.dataset.compOff,false);return}
+  if(b.dataset.compOn){setComp(b.dataset.compOn,true);return}
+  const p=people.find(x=>x.id===b.dataset.id);if(!p||p.kidMode===b.dataset.km)return;p.kidMode=b.dataset.km;saveP();
+  renderComp.open=!!($('#assume')&&$('#assume').open);renderComp();toast(p.kidMode==='custom'?'已改为不同住 · 按自定义见面次数':'已改为同住 · 按学段')});
+$('#secComp').addEventListener('change',e=>{const t=e.target;if(t.tagName!=='INPUT'&&t.tagName!=='SELECT')return;const v=t.tagName==='SELECT'?t.value:Math.max(0,+t.value||0);
+  if(t.dataset.pv){const p=people.find(x=>x.id===t.dataset.id);p[t.dataset.pv]=v;saveP()}
+  else{settings.comp=settings.comp||{};const c=settings.comp;
+    if(t.dataset.st){c.stages=c.stages||[];const o=c.stages.find(x=>x.k===t.dataset.st);o?o.d=v:c.stages.push({k:t.dataset.st,d:v})}
+    if(t.dataset.cw){c.work={...(c.work||{}),[t.dataset.cw]:v}}
+    if(t.dataset.cp){c.parent={...(c.parent||{}),[t.dataset.cp]:v}}
+    if(t.dataset.co){c.other={...(c.other||{}),[t.dataset.co]:v,unit:'m'}}
+    saveS()}
+  renderComp.open=!!($('#assume')&&$('#assume').open);renderComp();toast('已重新计算')});
+$('#secComp').addEventListener('toggle',e=>{if(e.target.id==='assume')renderComp.open=e.target.open},true);
+
+/* ================= 卡片 ================= */
+function workLine(c){const w=c.work;if(!w||!w.show)return'';
+  const ageTxt=`${w.ageY}岁${w.ageM?w.ageM+'个月':''}`;
+  if(w.left<=0)return `<div class="work">${IC.sun}<div>已退休 · ${dStr(w.date)}（${ageTxt}）退休，已享受退休生活 <b class="num">${fmt(-w.left)}</b> 天</div></div>`;
+  return `<div class="work">${IC.work}<div>法定退休 <b>${dStr(w.date)}</b>（${ageTxt}）<br>还要工作 <b class="num">${fmt(w.left)}</b> 天 ≈ ${fmt2(w.left/YEAR_DAYS,1)} 年 · 约 <b class="num">${fmt(w.workdays)}</b> 个工作日</div></div>`}
+function card(p,c){
+  const solar=solarStr(p.sy,p.sm,p.sd,false)+(p.time?' '+p.time:''),lun=lunarStr(c.lunar);
+  const dates=p.cal==='lunar'?`<span class="lb main">农历</span><span>${lun}</span><span class="lb">阳历</span><span>${solar}</span>`:`<span class="lb main">阳历</span><span>${solar}</span><span class="lb">农历</span><span>${lun}</span>`;
+  const remain=c.over?`<div class="remain good">已超越平均寿命 <b class="num">${fmt(-c.remain)}</b> 天（${fmt2(-c.remain/YEAR_DAYS,1)} 年）· 每一天都是馈赠</div>`
+    :`<div class="remain">距平均寿命 ${c.L} 岁还有 <b class="num">${fmt(c.remain)}</b> 天 ≈ <b class="num">${fmt2(c.remain/YEAR_DAYS)}</b> 年</div>`;
+  const rtMark=c.work&&c.work.show&&c.work.left>0&&c.work.ageYears<c.L?`<span class="rt" style="left:${c.work.ageYears/c.L*100}%"></span>`:'';
+  const rl=relLabel(p);
+  return `<article class="panel card ${p.id===selId?'sel':''}" data-id="${p.id}">
+    <div class="c-top">${avatar(p,c)}<div class="c-name"><h3>${esc(p.name)}${rl?`<span class="rel">${esc(rl)}</span>`:''}</h3>
+      <div class="tags"><span class="tag ${p.g}">${p.g==='m'?'男':'女'} · ${c.band.name}</span><span class="tag">${c.age.y} 岁</span><span class="tag">属${shengxiao(c.lunar.y)}</span></div></div>
+      <div class="c-acts"><button class="ibtn" data-act="edit" title="编辑">${IC.edit}</button><button class="ibtn del" data-act="del" title="删除">${IC.del}</button></div></div>
+    <div class="dates">${dates}</div>
+    <div class="big"><span class="pre">已经活了</span><span class="n num">${fmt(c.days)}</span><span class="u">天</span></div>
+    <div class="sub3"><div class="mini"><div class="k">折合</div><div class="v num">${fmt2(c.years)}<small> 年</small></div><div class="s">${c.age.y}岁${c.age.m}个月${c.age.d}天</div></div>
+      <div class="mini"><div class="k">折合小时 · 实时跳动</div><div class="v num tick" data-tk="h" data-id="${p.id}"></div><div class="s num" data-tk="ms" data-id="${p.id}"></div></div></div>
+    <div class="prog"><div class="row"><span>生命进度</span><b class="num">${(c.pct*100).toFixed(1)}%</b></div><div class="bar ${c.over?'over':''}"><i style="width:${(c.pct*100).toFixed(2)}%"></i>${rtMark}</div></div>
+    ${remain}${workLine(c)}</article>`;
+}
+function sorted(){const n=new Date();const arr=people.map(p=>({p,c:calc(p,n)}));
+  const f={ageDesc:(a,b)=>a.c.b-b.c.b,ageAsc:(a,b)=>b.c.b-a.c.b,remainAsc:(a,b)=>a.c.remain-b.c.remain,name:(a,b)=>a.p.name.localeCompare(b.p.name,'zh-CN')}[sortKey];
+  if(f)arr.sort(f);return arr}
+function renderList(){
+  $('#secCards').style.display=people.length?'':'none';
+  $('#count').textContent=people.length?`${people.length} 位`:'';
+  $('#sortBox').style.display=people.length>1?'':'none';$('#sortSel').value=sortKey;
+  $('#list').innerHTML=`<div class="cards">${sorted().map(x=>card(x.p,x.c)).join('')}</div>`;
+}
+
+/* ---------- 实时跳动 ---------- */
+function tick(){
+  const n=new Date();let sumMs=0;const map={};
+  people.forEach(p=>{const ms=n-birthOf(p);map[p.id]=ms;sumMs+=ms});
+  $$('[data-tk]').forEach(el=>{const k=el.dataset.tk,ms=map[el.dataset.id];
+    if(k==='h')el.innerHTML=`${fmt(ms/3.6e6)}<small> 小时</small>`;
+    else if(k==='ms')el.textContent=`${fmt(ms/1e3)} 秒`;
+    else if(k==='hh')el.innerHTML=`<b class="tick">${fmt(ms/3.6e6)}</b> 小时`;
+    else if(k==='ss')el.innerHTML=`<b class="tick">${fmt(ms/1e3)}</b> 秒`;
+    else if(k==='sumH')el.innerHTML=`${fmt(sumMs/3.6e6)}<small>小时</small>`;
+    else if(k==='sumS')el.textContent=`${fmt(sumMs/1e3)} 秒，仍在增加`;
+  });
+}
+let lastDay=new Date().toDateString();
+setInterval(()=>{const d=new Date().toDateString();if(d!==lastDay){lastDay=d;renderAll()}else tick()},1000);
+function renderBar(){const bar=$('#demoBar');const legacy=!demoMode?people.filter(p=>/^demo/.test(String(p.id))):[];
+  document.body.classList.toggle('demo-on',demoMode);
+  if(demoMode){bar.hidden=false;bar.className='demo-bar';bar.innerHTML=`<span>正在查看示例 · 这里的改动不会保存，你自己的数据没有变</span><button class="btn primary sm" id="btnExitDemo">${load(LS_P,[]).length?'返回我的数据':'退出示例'}</button>`}
+  else if(legacy.length){bar.hidden=false;bar.className='demo-bar legacy';bar.innerHTML=`<span>你的列表里混有 ${legacy.length} 位以前导入的示例人员（${legacy.map(p=>esc(p.name)).join('、')}）</span><button class="btn sm" id="btnRmDemo">移除这些示例人员</button>`}
+  else{bar.hidden=true;bar.innerHTML=''}}
+$('#demoBar').onclick=e=>{if(e.target.closest('#btnExitDemo'))exitDemo();
+  else if(e.target.closest('#btnRmDemo')){const lg=people.filter(p=>/^demo/.test(String(p.id)));confirmBox('移除示例人员？',`将移除：${lg.map(p=>esc(p.name)).join('、')}。你自己添加的人员会保留。`,()=>{localStorage.setItem(LS_BAK,JSON.stringify(people));people=people.filter(p=>!/^demo/.test(String(p.id)));saveP();renderAll();toast('已移除示例人员')})}};
+function renderAll(){renderBar();renderHero();renderFamily();renderComp();renderList();tick()}
+function select(id){selId=id;saveSel();renderHero();renderFamily();$$('.card').forEach(c=>c.classList.toggle('sel',c.dataset.id===selId));tick()}
+
+/* ---------- 弹窗 ---------- */
+function openOv(id){$(id).classList.add('show');document.body.style.overflow='hidden'}
+function closeOv(el){el.classList.remove('show');if(!$$('.ov.show').length)document.body.style.overflow=''}
+$$('.ov').forEach(ov=>{ov.addEventListener('click',e=>{if(e.target===ov||e.target.closest('[data-close]'))closeOv(ov)})});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')$$('.ov.show').forEach(closeOv)});
+function toast(t){const el=$('#toast');el.textContent=t;el.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove('show'),1800)}
+function confirmBox(title,msg,ok){$('#cTitle').textContent=title;$('#cMsg').innerHTML=msg;openOv('#ovConfirm');$('#cOk').onclick=()=>{closeOv($('#ovConfirm'));ok()}}
+
+/* ---------- 表单 ---------- */
+let F={};
+function seg(id,v){$$(id+' button').forEach(b=>b.classList.toggle('on',b.dataset.v===v))}
+function curSolar(){if(F.cal==='solar')return{y:F.y,m:F.m,d:F.d};return lunarToSolar(F.y,F.m,F.d,F.leap)}
+function fillSelects(){
+  const nowY=new Date().getFullYear(),Y=$('#fY'),M=$('#fM'),D=$('#fD');
+  Y.innerHTML='';for(let y=nowY;y>=1901;y--)Y.add(new Option(F.cal==='lunar'?`${y}年 ${ganzhi(y)}·${shengxiao(y)}`:`${y}年`,y));Y.value=F.y;
+  M.innerHTML='';
+  if(F.cal==='solar'){for(let m=1;m<=12;m++)M.add(new Option(m+'月',m));M.value=F.m;
+    const n=dim(F.y,F.m);if(F.d>n)F.d=n;D.innerHTML='';for(let d=1;d<=n;d++)D.add(new Option(d+'日',d));}
+  else{const lp=lLeapMonth(F.y);if(F.leap&&lp!==F.m)F.leap=false;
+    for(let m=1;m<=12;m++){M.add(new Option(lMonthName(m,false),m));if(m===lp)M.add(new Option(lMonthName(m,true),'L'+m))}
+    M.value=(F.leap?'L':'')+F.m;
+    const n=F.leap?lLeapDays(F.y):lMonthDays(F.y,F.m);if(F.d>n)F.d=n;D.innerHTML='';for(let d=1;d<=n;d++)D.add(new Option(lDayName(d),d));}
+  D.value=F.d;
+  $('#dateLabel').textContent=F.cal==='solar'?'阳历生日（年 / 月 / 日）':'农历生日（年 / 月 / 日，闰月请选“闰X月”）';
+}
+function fillRet(){const s=$('#fRet');s.innerHTML='';
+  if(F.g==='m')s.add(new Option('按法定退休年龄 · '+RET_RULES.m60.label,'std'));
+  else{s.add(new Option('按法定 · '+RET_RULES.f55.label,'std'));s.add(new Option('按法定 · '+RET_RULES.f50.label,'f50'))}
+  s.add(new Option('自定义退休年龄','custom'));s.add(new Option('不计算（学生、自由职业等）','none'));
+  if(F.g==='m'&&F.ret==='f50')F.ret='std';s.value=F.ret;$('#retCustom').style.display=F.ret==='custom'?'':'none'}
+function syncForm(){seg('#segR',F.rt);seg('#segG',F.g);seg('#segC',F.cal);$('#fLife').placeholder=`默认 ${F.g==='m'?settings.m:settings.f}`;
+  $('#fRel').placeholder=relLabel({rel:'',relType:F.rt,g:F.g})||'可不填';$('#compField').style.display=F.rt==='self'?'none':'';$('#fComp').checked=F.comp!==false;fillSelects();fillRet();preview()}
+function preview(){
+  const el=$('#pPreview');const s=curSolar();const b=new Date(s.y,s.m-1,s.d);const n=new Date();
+  if(b>n){el.className='preview err';el.innerHTML='这个日期还没到哦，请检查出生日期。';return false}
+  const L=F.cal==='lunar'?{y:F.y,m:F.m,d:F.d,leap:F.leap}:solarToLunar(s.y,s.m,s.d);const a=ymdAge(b,n);
+  const tmp={g:F.g,sy:s.y,sm:s.m,sd:s.d,cal:F.cal,ly:L.y,lm:L.m,ld:L.d,leap:L.leap,ret:F.ret,retY:$('#fRetY').value,retM:$('#fRetM').value,time:$('#fTime').value};
+  const c=calc(tmp,n);let ret='';
+  if(c.work&&a.y>=16){const w=c.work;ret=`<br>退休：${dStr(w.date)}（${w.ageY}岁${w.ageM?w.ageM+'个月':''}${w.delay?`，比原规定延迟 ${w.delay} 个月`:''}）${w.left<=0?' · 已退休':''}`}
+  el.className='preview';
+  el.innerHTML=F.cal==='lunar'?`对应阳历 <b>${solarStr(s.y,s.m,s.d,true)}</b><br>农历 ${lunarStr(L)} · 今年 ${a.y} 岁 · ${bandOf(a.y).name}${ret}`
+    :`对应农历 <b>${lunarStr(L)}</b><br>${solarStr(s.y,s.m,s.d,true)} · 今年 ${a.y} 岁 · ${bandOf(a.y).name}${ret}`;
+  return true;
+}
+$('#segR').onclick=e=>{const b=e.target.closest('button');if(!b)return;F.rt=b.dataset.v;if(F.rt==='father')F.g='m';if(F.rt==='mother')F.g='f';
+  if(F.rt==='child'||F.rt==='other')F.ret=F.ret||'std';syncForm()};
+$('#segG').onclick=e=>{const b=e.target.closest('button');if(b){F.g=b.dataset.v;if(F.rt==='father'&&F.g==='f')F.rt='mother';else if(F.rt==='mother'&&F.g==='m')F.rt='father';syncForm()}};
+$('#segC').onclick=e=>{const b=e.target.closest('button');if(!b||b.dataset.v===F.cal)return;
+  const s=curSolar();if(b.dataset.v==='lunar'){const L=solarToLunar(s.y,s.m,s.d);Object.assign(F,{cal:'lunar',y:L.y,m:L.m,d:L.d,leap:L.leap})}
+  else Object.assign(F,{cal:'solar',y:s.y,m:s.m,d:s.d,leap:false});syncForm()};
+$('#fY').onchange=e=>{F.y=+e.target.value;fillSelects();preview()};
+$('#fM').onchange=e=>{const v=e.target.value;F.leap=v[0]==='L';F.m=+v.replace('L','');fillSelects();preview()};
+$('#fD').onchange=e=>{F.d=+e.target.value;preview()};
+$('#fComp').onchange=e=>{F.comp=e.target.checked};
+$('#fRet').onchange=e=>{F.ret=e.target.value;$('#retCustom').style.display=F.ret==='custom'?'':'none';preview()};
+['#fRetY','#fRetM','#fTime'].forEach(s=>$(s).oninput=preview);
+function openForm(p){
+  F=p?{id:p.id,rt:relType(p),g:p.g,cal:p.cal,y:p.cal==='lunar'?p.ly:p.sy,m:p.cal==='lunar'?p.lm:p.sm,d:p.cal==='lunar'?p.ld:p.sd,leap:!!p.leap,ret:p.ret||'std',comp:inComp(p)}
+     :{id:null,rt:selfPerson()?'other':'self',g:'m',cal:'solar',y:1990,m:1,d:1,leap:false,ret:'std',comp:true};
+  $('#pTitle').textContent=p?'编辑 · '+p.name:'添加人员';
+  $('#fName').value=p?p.name:'';$('#fRel').value=p?p.rel||'':'';$('#fTime').value=p?p.time||'':'';$('#fLife').value=p&&p.life?p.life:'';
+  $('#fRetY').value=p&&p.retY?p.retY:'';$('#fRetM').value=p&&p.retM?p.retM:'';
+  $('#fold').open=!!(p&&(p.time||p.life||(p.ret&&p.ret!=='std')));
+  syncForm();openOv('#ovPerson');setTimeout(()=>{if(!p)$('#fName').focus()},60);
+}
+$('#pSave').onclick=()=>{
+  const name=$('#fName').value.trim();if(!name){toast('请填写姓名');$('#fName').focus();return}
+  if(!preview()){toast('出生日期不能晚于今天');return}
+  if(F.rt==='self'){const o=people.find(x=>isSelf(x)&&x.id!==F.id);if(o&&!F.selfOk){confirmBox('已经有“本人”了',`现在的本人是「${esc(o.name)}」。确定把「${esc(name)}」设为本人吗？「${esc(o.name)}」会改为“其他”。`,()=>{o.relType='other';if(/^(我|本人|自己)$/.test(o.rel||''))o.rel='';F.selfOk=true;$('#pSave').click();F.selfOk=false});return}}
+  if(F.rt==='spouse'){const o=people.find(x=>relType(x)==='spouse'&&x.id!==F.id);if(o){toast('已有配偶：'+o.name);return}}
+  const s=curSolar(),old=people.find(x=>x.id===F.id);
+  const rec={...(old||{}),id:F.id||('p'+Date.now().toString(36)+Math.random().toString(36).slice(2,6)),name,rel:$('#fRel').value.trim(),relType:F.rt,g:F.g,cal:F.cal,sy:s.y,sm:s.m,sd:s.d,
+    time:$('#fTime').value||'',life:+$('#fLife').value||null,comp:F.rt==='self'?true:F.comp!==false,ret:F.ret,retY:+$('#fRetY').value||null,retM:+$('#fRetM').value||0};
+  if(F.cal==='lunar')Object.assign(rec,{ly:F.y,lm:F.m,ld:F.d,leap:F.leap});else{delete rec.ly;delete rec.lm;delete rec.ld;delete rec.leap}
+  const i=people.findIndex(p=>p.id===rec.id);
+  if(rec.relType==='child'&&!rec.kidMode)rec.kidMode='auto';
+  if(i>=0)people[i]=rec;else{rec.created=Date.now();people.push(rec)}
+  selId=rec.id;saveSel();saveP();closeOv($('#ovPerson'));renderAll();toast((i>=0?'已更新':'已添加 '+name)+(demoMode?'（示例模式，不会保存）':''));
+};
+
+/* ---------- 设置 ---------- */
+let S={};
+function renderRegions(){$('#regions').innerHTML=Object.entries(REGIONS).map(([k,r])=>`<label class="region ${S.region===k?'on':''}"><input type="radio" name="rg" value="${k}" ${S.region===k?'checked':''}>
+  <div><div class="t">${r.name}${r.m?` · 男 ${r.m} 岁 / 女 ${r.f} 岁`:''}</div><div class="s">${r.src}${r.url?`<br>来源：<a href="${r.url}" target="_blank" rel="noopener">${r.url}</a>`:''}</div></div></label>`).join('')}
+$('#regions').onchange=e=>{S.region=e.target.value;const r=REGIONS[S.region];if(r.m){S.m=r.m;S.f=r.f;$('#sM').value=r.m;$('#sF').value=r.f}renderRegions()};
+['#sM','#sF'].forEach(id=>$(id).oninput=()=>{const r=REGIONS[S.region];if(r.m&&(+$('#sM').value!==r.m||+$('#sF').value!==r.f)){S.region='custom';renderRegions()}});
+$('#btnSettings').onclick=()=>{$('#bDemo').textContent=demoMode?'退出示例':'查看示例';S={...settings};$('#sM').value=S.m;$('#sF').value=S.f;renderRegions();openOv('#ovSet')};
+$('#sSave').onclick=()=>{const m=+$('#sM').value,f=+$('#sF').value;if(!(m>20&&m<130&&f>20&&f<130)){toast('请输入 20–130 之间的数值');return}
+  settings={...settings,region:S.region,m,f};saveS();closeOv($('#ovSet'));renderAll();toast('已按 '+REGIONS[settings.region].name+' 数据重新计算')};
+$('#bExport').onclick=()=>{const blob=new Blob([JSON.stringify({app:'huozhe',v:4,people,settings},null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);const d=new Date();a.download=`活着-备份-${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)};
+$('#bImport').onclick=()=>$('#fileIn').click();
+$('#fileIn').onchange=e=>{const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{if(demoMode){demoMode=false;selId=realSel}try{const j=JSON.parse(rd.result);if(!Array.isArray(j.people))throw 0;
+  people=j.people.filter(p=>p&&p.name&&p.sy);if(j.settings)settings=j.settings;migrate();saveP();saveS();closeOv($('#ovSet'));renderAll();toast(`已恢复 ${people.length} 位`)}catch(err){toast('备份文件格式不对')}};rd.readAsText(f);e.target.value=''};
+$('#bDemo').onclick=()=>{closeOv($('#ovSet'));demoMode?exitDemo():addDemo()};
+$('#bClear').onclick=()=>demoMode?toast('示例模式下不能清空，请先退出示例'):confirmBox('清空全部？','所有人员都会被删除，且不能撤销。建议先“导出备份”。',()=>{people=[];saveP();closeOv($('#ovSet'));renderAll();toast('已清空')});
+
+/* ---------- 示例 ---------- */
+function demoPeople(){
+  const L=(ly,lm,ld,leap=false)=>{const s=lunarToSolar(ly,lm,ld,leap);return{cal:'lunar',ly,lm,ld,leap,sy:s.y,sm:s.m,sd:s.d}};
+  const S2=(y,m,d)=>({cal:'solar',sy:y,sm:m,sd:d});
+  const demo=[
+    {name:'猴哥',rel:'我',relType:'self',g:'m',...L(1987,1,1),time:'06:30'},
+    {name:'刘晓燕',rel:'爱人',relType:'spouse',g:'f',...S2(1989,9,8)},
+    {name:'王小禾',rel:'女儿',relType:'child',g:'f',...S2(2010,6,1)},
+    {name:'王一诺',rel:'儿子',relType:'child',g:'m',...S2(2020,10,18)},
+    {name:'王建国',rel:'爸爸',relType:'father',g:'m',...L(1958,8,15),visits:6,visitDays:2},
+    {name:'张桂兰',rel:'妈妈',relType:'mother',g:'f',...S2(1961,5,20),ret:'f50',visits:6,visitDays:2},
+    {name:'王德厚',rel:'爷爷',relType:'other',g:'m',...L(1933,12,8),visits:4,vUnit:'y',visitHours:8},
+    {name:'赵一鸣',rel:'老友',relType:'other',g:'m',...S2(1986,3,12),visits:1,vUnit:'m',visitHours:3},
+    {name:'陈小满',rel:'外甥女',relType:'other',g:'f',...S2(2025,8,5),comp:false}
+  ];
+  const t=Date.now();return demo.map((d,i)=>({ret:'std',time:'',life:null,comp:true,...(d.relType==='child'?{kidMode:'auto'}:{}),...d,id:'sample'+i,created:t+i}));
+}
+function addDemo(){
+  if(demoMode)return;
+  const saved=localStorage.getItem(LS_P);if(saved&&saved!=='[]')localStorage.setItem(LS_BAK,saved);/* 进入示例前留一份备份 */
+  realSel=selId;demoMode=true;people=demoPeople();selId=people[0].id;
+  renderAll();window.scrollTo({top:0,behavior:'smooth'});toast('正在查看示例，你自己的数据没有变');
+}
+function exitDemo(){
+  if(!demoMode)return;demoMode=false;people=load(LS_P,[]);migrate();selId=realSel;
+  renderAll();window.scrollTo({top:0,behavior:'smooth'});toast(people.length?`已返回你的数据（${people.length} 位）`:'已退出示例');
+}
+
+/* ---------- 事件 ---------- */
+$('#btnAdd').onclick=()=>openForm(null);
+$('#sortSel').onchange=e=>{sortKey=e.target.value;localStorage.setItem(LS_O,sortKey);renderList();tick()};
+document.addEventListener('click',e=>{const go=e.target.closest('[data-go]');if(go){go.dataset.go==='add'?openForm(null):addDemo();return}
+  const s=e.target.closest('[data-sel]');if(s){select(s.dataset.sel);if(s.classList.contains('rv-row'))$('#hero').scrollIntoView({behavior:'smooth'})}});
+$('#list').onclick=e=>{
+  const cd=e.target.closest('.card');if(!cd)return;const p=people.find(x=>x.id===cd.dataset.id);
+  const act=e.target.closest('[data-act]');
+  if(act&&act.dataset.act==='edit'){openForm(p);return}
+  if(act&&act.dataset.act==='del'){confirmBox('删除「'+p.name+'」？','这条记录会被永久删除，不能撤销。',()=>{people=people.filter(x=>x.id!==p.id);saveP();renderAll();toast('已删除')});return}
+  select(p.id);$('#hero').scrollIntoView({behavior:'smooth'});
+};
+let rz,lw=window.innerWidth;window.addEventListener('resize',()=>{clearTimeout(rz);rz=setTimeout(()=>{const p=people.find(x=>x.id===selId);drawGrid(p||null,p?calc(p):null);
+  if((lw<600)!==(window.innerWidth<600))renderFamily();lw=window.innerWidth;tick()},120)});
+migrate();renderAll();
+
+</script>
+</body>
+</html>

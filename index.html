@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0E131C">
+<meta name="description" content="孙福磊（猴哥）的个人主页：我的一生 · 前半生。">
+<title>我的一生 · 孙福磊（猴哥）</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23B5452F'/%3E%3Ctext x='16' y='23' font-size='20' text-anchor='middle' fill='%23FCEFE2' font-family='serif' font-weight='900'%3E%E7%A3%8A%3C/text%3E%3C/svg%3E">
+<style>
+:root{
+  --bg0:#0E131C;--bg1:#131A26;--panel:#18202D;--panel2:#1E2737;
+  --line:rgba(255,232,200,.09);--line2:rgba(255,232,200,.16);
+  --ink:#F1E8DA;--ink2:#BDB2A2;--ink3:#857F78;
+  --lamp:#F2B661;--lamp2:#FFD592;--ember:#E5894A;--sage:#93BE9C;--sky:#9FC3DA;--rose:#E9A1A6;
+  --serif:"Songti SC","STSong","Noto Serif CJK SC","Source Han Serif SC","SimSun",serif;
+  --sans:"PingFang SC","Hiragino Sans GB","Noto Sans CJK SC","Microsoft YaHei",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);color:var(--ink);background:var(--bg0);line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+  background-image:radial-gradient(1100px 620px at 78% -8%,rgba(242,182,97,.16),transparent 60%),radial-gradient(800px 600px at -10% 30%,rgba(229,137,74,.07),transparent 60%),linear-gradient(180deg,#121926,#0E131C 40%)}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1080px;margin:0 auto;padding:0 28px}
+.num{font-variant-numeric:tabular-nums}
+
+/* 顶栏 */
+.top{display:flex;justify-content:space-between;align-items:center;padding:22px 0 0}
+.brand{display:flex;align-items:center;gap:12px;font-family:var(--serif);font-weight:900;letter-spacing:.18em;font-size:18px}
+.seal{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;background:linear-gradient(145deg,#C9573A,#9C3A26);color:#FCEFE2;font-size:21px;box-shadow:0 6px 18px -6px rgba(201,87,58,.7)}
+.nav{display:flex;gap:18px;font-size:14px;color:var(--ink2)}
+.nav a:hover{color:var(--lamp2)}
+
+/* Hero */
+.hero{padding:70px 0 40px;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:48px;align-items:center}
+.kicker{font-size:13px;letter-spacing:.42em;color:var(--ember);font-weight:600}
+h1{font-family:var(--serif);font-weight:900;font-size:64px;letter-spacing:.12em;line-height:1.2;margin-top:12px;
+  background:linear-gradient(100deg,#FFE9BE,var(--lamp) 50%,var(--ember));-webkit-background-clip:text;background-clip:text;color:transparent}
+h1 small{font-size:30px;letter-spacing:.08em}
+.intro{margin-top:16px;font-size:16px;color:var(--ink2);max-width:34em}
+.intro b{color:var(--ink);font-weight:600}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.tag{font-size:12.5px;color:var(--ink2);border:1px solid var(--line2);border-radius:99px;padding:3px 12px;background:rgba(255,255,255,.03)}
+.live{position:relative;border-radius:24px;padding:26px 26px 22px;background:linear-gradient(160deg,rgba(242,182,97,.14),rgba(242,182,97,.02) 55%),var(--panel);border:1px solid rgba(242,182,97,.28);box-shadow:0 30px 60px -30px rgba(0,0,0,.8),0 0 40px -18px rgba(242,182,97,.5)}
+.live .k{font-size:13px;color:var(--ink2);letter-spacing:.08em}
+.live .big{display:flex;align-items:baseline;gap:8px;margin-top:4px}
+.live .big .n{font-size:58px;font-weight:800;color:var(--lamp2);line-height:1.1;letter-spacing:-.01em;text-shadow:0 0 30px rgba(242,182,97,.35)}
+.live .big .u{font-size:18px;color:var(--ink2)}
+.live .sub{margin-top:4px;font-size:14px;color:var(--ink2)}
+.live .sub b{color:var(--ink)}
+.live .tick{margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.live .tick>div{background:rgba(255,255,255,.04);border-radius:14px;padding:10px 12px}
+.live .tick .t{font-size:11.5px;color:var(--ink3)}
+.live .tick .v{font-size:18px;white-space:nowrap;font-weight:700;color:var(--ink)}
+.live .bar{margin-top:16px}
+.live .bar .row{display:flex;justify-content:space-between;font-size:12px;color:var(--ink3)}
+.live .bar .tr{height:8px;border-radius:99px;background:rgba(255,255,255,.07);margin-top:6px;overflow:hidden}
+.live .bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#FFE7B5,var(--lamp),var(--ember));box-shadow:0 0 12px rgba(242,182,97,.6)}
+.live .foot{margin-top:10px;font-size:12px;color:var(--ink3)}
+.live .foot a{color:var(--lamp2);border-bottom:1px dashed rgba(255,213,146,.5)}
+
+/* 小数据 */
+.facts{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:6px}
+.fact{border-radius:18px;padding:16px 18px;background:var(--panel);border:1px solid var(--line)}
+.fact .t{font-size:12.5px;color:var(--ink3)}
+.fact .v{font-size:26px;font-weight:800;line-height:1.3}
+.fact .v small{font-size:13px;font-weight:400;color:var(--ink2);margin-left:3px}
+.fact .s{font-size:12px;color:var(--ink2)}
+
+/* 区块标题 */
+section{padding-top:72px}
+.sh{position:relative;padding:0 0 14px 18px;margin-bottom:28px;border-bottom:1px solid transparent;border-image:linear-gradient(90deg,rgba(242,182,97,.55),rgba(242,182,97,.1) 45%,transparent) 1}
+.sh:before{content:"";position:absolute;left:0;top:26px;height:34px;width:6px;border-radius:4px;background:linear-gradient(180deg,var(--lamp2),var(--ember));box-shadow:0 0 14px rgba(242,182,97,.6)}
+.sh .kk{font-size:11.5px;letter-spacing:.3em;color:var(--ember);font-weight:600}
+.sh h2{font-family:var(--serif);font-size:34px;font-weight:900;letter-spacing:.14em;line-height:1.35;background:linear-gradient(100deg,#FFE4AE,var(--lamp) 45%,var(--ember));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sh p{color:var(--ink2);font-size:14px;margin-top:4px}
+
+/* 时间线 */
+.stage{position:relative;display:grid;grid-template-columns:200px minmax(0,1fr);gap:28px;padding-bottom:34px}
+.stage-h{position:sticky;top:20px;align-self:start}
+.stage-h .no{font-family:var(--serif);font-size:40px;font-weight:900;color:rgba(242,182,97,.22);line-height:1}
+.stage-h h3{font-family:var(--serif);font-size:22px;font-weight:900;letter-spacing:.1em;color:var(--lamp2);margin-top:4px}
+.stage-h .yr{font-size:13px;color:var(--ink3);margin-top:2px}
+.stage-h .ds{font-size:13px;color:var(--ink2);margin-top:8px}
+.tl{position:relative;padding-left:30px}
+.tl:before{content:"";position:absolute;left:8px;top:6px;bottom:-34px;width:2px;background:linear-gradient(180deg,rgba(242,182,97,.55),rgba(242,182,97,.12))}
+.stage:last-child .tl:before{bottom:10px}
+.ev{position:relative;padding:14px 18px 14px;margin-bottom:12px;border-radius:16px;background:var(--panel);border:1px solid var(--line);transition:border-color .2s,transform .2s}
+.ev:hover{border-color:rgba(242,182,97,.35);transform:translateX(2px)}
+.ev:before{content:"";position:absolute;left:-28px;top:20px;width:12px;height:12px;border-radius:50%;background:var(--bg0);border:2px solid var(--lamp);box-shadow:0 0 0 4px rgba(242,182,97,.1)}
+.ev.key:before{background:var(--lamp2);box-shadow:0 0 12px var(--lamp)}
+.ev.key{border-color:rgba(242,182,97,.3);background:linear-gradient(120deg,rgba(242,182,97,.1),transparent 60%),var(--panel)}
+.ev .when{font-size:12.5px;color:var(--lamp);font-weight:700;letter-spacing:.04em}
+.ev .what{font-size:15.5px;color:var(--ink);margin-top:2px}
+.ev .more{font-size:13.5px;color:var(--ink2);margin-top:4px}
+.ev .more b{color:var(--ink);font-weight:600}
+
+/* 入口卡片 */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card{position:relative;display:flex;flex-direction:column;padding:22px 22px 18px;border-radius:22px;background:var(--panel);border:1px solid var(--line);overflow:hidden;transition:transform .2s,border-color .2s,box-shadow .2s;min-height:220px}
+.card:hover{transform:translateY(-3px);border-color:rgba(242,182,97,.45);box-shadow:0 24px 50px -28px rgba(242,182,97,.5)}
+.card:after{content:"";position:absolute;right:-60px;top:-60px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,var(--glow,rgba(242,182,97,.22)),transparent 70%)}
+.card .ic{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;font-family:var(--serif);font-weight:900;font-size:24px;color:#2A1C10;background:var(--icbg,linear-gradient(145deg,#FFD592,#E5894A))}
+.card h3{font-family:var(--serif);font-size:22px;font-weight:900;letter-spacing:.06em;margin-top:16px}
+.card p{font-size:14px;color:var(--ink2);margin-top:6px;flex:1}
+.card .go{margin-top:16px;display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--lamp2)}
+.card .go span{color:var(--ink3)}
+.card .ext{font-size:11px;color:var(--ink3);border:1px solid var(--line2);border-radius:99px;padding:0 8px;margin-left:6px;vertical-align:middle}
+
+/* 结语 */
+.closing{margin:90px 0 0;padding:64px 28px;text-align:center;border-radius:28px;position:relative;overflow:hidden;
+  background:radial-gradient(600px 260px at 50% 0%,rgba(242,182,97,.22),transparent 70%),var(--panel);border:1px solid rgba(242,182,97,.25)}
+.closing .kk{font-size:12px;letter-spacing:.42em;color:var(--ember);font-weight:600}
+.closing blockquote{font-family:var(--serif);font-weight:900;font-size:44px;letter-spacing:.14em;line-height:1.5;margin-top:14px;
+  background:linear-gradient(100deg,#FFE9BE,var(--lamp) 50%,var(--ember));-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 40px rgba(242,182,97,.15)}
+.closing .sig{margin-top:14px;color:var(--ink2);font-size:14px;letter-spacing:.2em}
+footer{padding:40px 0 50px;text-align:center;font-size:12.5px;color:var(--ink3)}
+
+@media (max-width:900px){
+  .hero{grid-template-columns:1fr;gap:30px;padding-top:44px}
+  .facts{grid-template-columns:repeat(2,1fr)}
+  .cards{grid-template-columns:1fr}
+  .stage{grid-template-columns:1fr;gap:12px}
+  .stage-h{position:static;display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 12px}
+  .stage-h .no{font-size:30px}
+  .stage-h .ds{flex-basis:100%;margin-top:0}
+}
+@media (max-width:560px){
+  .wrap{padding:0 16px}
+  .nav{gap:12px;font-size:13px}
+  .nav a.hide-m{display:none}
+  h1{font-size:44px}
+  h1 small{font-size:22px;display:block;margin-top:2px}
+  .intro{font-size:15px}
+  .live{padding:20px 18px 18px;border-radius:20px}
+  .live .big .n{font-size:48px}
+  .fact{padding:12px 14px}.fact .v{font-size:22px}
+  section{padding-top:56px}
+  .sh h2{font-size:27px}
+  .tl{padding-left:24px}.tl:before{left:5px}.ev:before{left:-24px}
+  .ev{padding:12px 14px}
+  .closing{padding:46px 16px;margin-top:64px}
+  .closing blockquote{font-size:28px;letter-spacing:.08em}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a class="brand" href="./"><span class="seal">磊</span>我的一生</a>
+    <nav class="nav"><a href="#timeline">前半生</a><a href="#works">作品</a><a class="hide-m" href="#closing">结语</a></nav>
+  </div>
+
+  <header class="hero">
+    <div>
+      <div class="kicker">SUNFULEI.COM · 我的一生</div>
+      <h1>孙福磊<small>（猴哥）</small></h1>
+      <p class="intro">1987 年农历十月十七（公历 <b>1987 年 12 月 7 日</b>）出生于山东省潍坊市临朐县五井镇。学装潢艺术设计，做过设计、修图、保险，也在工地上打过工；2014 年起在济南林海做施工员，在项目上担任技术负责人。2024 年开始用 AI、学 AI。</p>
+      <div class="tags"><span class="tag">山东临朐人</span><span class="tag">施工员 · 项目技术负责人</span><span class="tag">中级职称 · 工程技术</span><span class="tag">AI 学习者</span><span class="tag">一个女儿的爸爸</span></div>
+    </div>
+    <div class="live" aria-live="off">
+      <div class="k">今天，是我来到这个世界的第</div>
+      <div class="big"><span class="n num" id="days">—</span><span class="u">天</span></div>
+      <div class="sub" id="ymd">—</div>
+      <div class="tick"><div><div class="t">折合小时 · 实时</div><div class="v num" id="hours">—</div></div><div><div class="t">折合秒 · 仍在增加</div><div class="v num" id="secs">—</div></div></div>
+      <div class="bar"><div class="row"><span>前半生进度</span><span class="num" id="pctT">—</span></div><div class="tr"><i id="pct" style="width:0"></i></div></div>
+      <div class="foot">按山东男性平均预期寿命 76.46 岁估算（2020 年第七次人口普查口径）。想算算你自己？<a href="/huozhe/">打开「活着」</a></div>
+    </div>
+  </header>
+
+  <div class="facts">
+    <div class="fact"><div class="t">已经活了</div><div class="v num" id="fYears">—<small>年</small></div><div class="s">生于丁卯兔年</div></div>
+    <div class="fact"><div class="t">结婚</div><div class="v num" id="fMarry">—<small>天</small></div><div class="s">2014 年农历正月十一</div></div>
+    <div class="fact"><div class="t">女儿</div><div class="v num" id="fKid">—<small>岁</small></div><div class="s">2016 年 12 月 7 日出生</div></div>
+    <div class="fact"><div class="t">在林海</div><div class="v num" id="fWork">—<small>天</small></div><div class="s">2014 年 6 月 9 日入职</div></div>
+  </div>
+
+  <section id="timeline">
+    <div class="sh"><div class="kk">01 · 回头看</div><h2>前半生</h2><p>从临朐五井镇出发，一路求学、打工、闯荡、成家、立业。</p></div>
+
+    <div class="stage">
+      <div class="stage-h"><div class="no">壹</div><h3>童年与求学</h3><div class="yr">1987 — 2006</div><div class="ds">在临朐长大，小学、初中、高中。</div></div>
+      <div class="tl">
+        <div class="ev key"><div class="when">1987 · 农历十月十七（公历 12 月 7 日）</div><div class="what">出生于山东省潍坊市临朐县五井镇</div></div>
+        <div class="ev"><div class="when">8 岁</div><div class="what">在宋家台小学上学</div><div class="more">老师让留了一级，小学五年级毕业。</div></div>
+        <div class="ev"><div class="when">初中</div><div class="what">6 年级在付家庄初级中学</div><div class="more">初三时转学到冶源初级中学，降级到初二。</div></div>
+        <div class="ev"><div class="when">2003 — 2006</div><div class="what">进入临朐县第二中学读高中</div><div class="more">2006 年参加高考。</div></div>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="stage-h"><div class="no">贰</div><h3>走出临朐</h3><div class="yr">2006 — 2009</div><div class="ds">第一次打工，读大学。</div></div>
+      <div class="tl">
+        <div class="ev"><div class="when">2006 · 高考后的暑假</div><div class="what">去潍坊跟四姨夫在工地打工</div></div>
+        <div class="ev key"><div class="when">2006.09 — 2009</div><div class="what">进入华宇职业技术学院，装潢艺术设计专业</div><div class="more">2009 年毕业，2010 年拿到毕业证。</div></div>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="stage-h"><div class="no">叁</div><h3>闯荡</h3><div class="yr">2009 — 2013</div><div class="ds">西安、烟台、威海、淄博，换过几份工作。</div></div>
+      <div class="tl">
+        <div class="ev"><div class="when">2009</div><div class="what">开始工作，尝试平面设计（婚纱照修图）</div><div class="more">夏天去西安一所职业院校做平面设计；同年年底回山东。春节前夕去烟台市芝罘区二马路工地跟四姨夫打工 1 个月，春节前回老家。</div></div>
+        <div class="ev"><div class="when">2010</div><div class="what">重新找工作</div><div class="more">先去威海找同学李新；在招聘会上偶然进入中国人寿银保渠道，做保险代理。</div></div>
+        <div class="ev key"><div class="when">2010.11 — 2013 年底</div><div class="what">淄博悦江装饰公司 · 设计师</div><div class="more">经亲戚介绍入职，做绘图、CAD、效果图。</div></div>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="stage-h"><div class="no">肆</div><h3>成家立业</h3><div class="yr">2014 — 2023</div><div class="ds">结婚，扎根济南林海，女儿出生。</div></div>
+      <div class="tl">
+        <div class="ev key"><div class="when">2014 · 农历正月十一（公历 2 月 10 日）</div><div class="what">结婚</div></div>
+        <div class="ev"><div class="when">2014</div><div class="what">去山东林海装饰工作</div><div class="more">在东营待了一个多月，因为出差不适合，回到济南。</div></div>
+        <div class="ev key"><div class="when">2014.06.09 — 至今</div><div class="what">入职济南林海装饰工程有限公司</div><div class="more">公司 2025 年更名为 <b>济南林海建设发展有限公司</b>。职务是施工员，对外在项目上担任技术负责人。</div></div>
+        <div class="ev key"><div class="when">2016.12.07</div><div class="what">女儿孙嘉妍出生</div></div>
+        <div class="ev"><div class="when">2019.05.31</div><div class="what">评为中级职称（工程技术专业）</div></div>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="stage-h"><div class="no">伍</div><h3>学 AI，重新出发</h3><div class="yr">2024 — 2026</div><div class="ds">用 AI、学 AI，和朋友们一起玩。</div></div>
+      <div class="tl">
+        <div class="ev"><div class="when">2024</div><div class="what">开始用 AI、学 AI</div><div class="more">和之前在得到学习的一群朋友一起玩。</div></div>
+        <div class="ev key"><div class="when">2026 · 约 9 月</div><div class="what">济南「AI 家长联盟」</div><div class="more">AI 时代，重新做一次家长。</div></div>
+        <div class="ev"><div class="when">2026</div><div class="what">报评副高职称</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="works">
+    <div class="sh"><div class="kk">02 · 正在做</div><h2>我做的小东西</h2><p>用 AI 做的几个小工具，点开就能用。</p></div>
+    <div class="cards">
+      <a class="card" href="/huozhe/">
+        <div class="ic">活</div><h3>活着</h3><p>你已经活了多久。添加家人，算算活过的天数、距平均寿命还剩多少、和父母孩子还能相处多久。</p>
+        <div class="go">打开 →<span>/huozhe/</span></div></a>
+      <a class="card" href="/cooking/" style="--glow:rgba(147,190,156,.25);--icbg:linear-gradient(145deg,#CDE7C9,#93BE9C)">
+        <div class="ic">食</div><h3>七大营养素家常菜</h3><p>按七大营养素搭配家常菜，看看今天吃什么、冰箱里有什么能做。</p>
+        <div class="go">打开 →<span>/cooking/</span></div></a>
+      <a class="card" href="http://kanban.sunfulei.com/" target="_blank" rel="noopener" style="--glow:rgba(159,195,218,.25);--icbg:linear-gradient(145deg,#D8EBF5,#9FC3DA)">
+        <div class="ic">S3</div><h3>S3 装修项目进度看板<span class="ext">外部</span></h3><p>装修项目的进度看板，在新窗口打开。</p>
+        <div class="go">新窗口打开 ↗<span>kanban.sunfulei.com</span></div></a>
+    </div>
+  </section>
+
+  <div class="closing" id="closing">
+    <div class="kk">前半生的总结</div>
+    <blockquote>好好活吧，<br>后半生继续好好活。</blockquote>
+    <div class="sig">—— 孙福磊（猴哥）</div>
+  </div>
+</div>
+<footer>© <span id="yr">2026</span> 孙福磊 · sunfulei.com<br>本页数字由浏览器按出生日期实时计算，不收集任何访问数据。</footer>
+
+<script>
+(function(){
+  // 公历日期（由农历换算：1987 农历十月十七 → 1987-12-07；2014 农历正月十一 → 2014-02-10）
+  var BIRTH=new Date(1987,11,7),MARRY=new Date(2014,1,10),KID=new Date(2016,11,7),WORK=new Date(2014,5,9),LIFE=76.46,YD=365.2425,DAY=864e5;
+  function $(id){return document.getElementById(id)}
+  function f(n){return Math.floor(n).toLocaleString('zh-CN')}
+  function dd(a,b){return Math.floor((Date.UTC(b.getFullYear(),b.getMonth(),b.getDate())-Date.UTC(a.getFullYear(),a.getMonth(),a.getDate()))/DAY)}
+  function age(b,t){var y=t.getFullYear()-b.getFullYear(),m=t.getMonth()-b.getMonth(),d=t.getDate()-b.getDate();
+    if(d<0){m--;d+=new Date(t.getFullYear(),t.getMonth(),0).getDate()}if(m<0){y--;m+=12}return{y:y,m:m,d:d}}
+  function day(){var n=new Date(),a=age(BIRTH,n),days=dd(BIRTH,n);
+    $('days').textContent=f(days+1);
+    $('ymd').innerHTML='已经活了 <b>'+a.y+'</b> 年 <b>'+a.m+'</b> 个月 <b>'+a.d+'</b> 天 · 折合 <b>'+((n-BIRTH)/DAY/YD).toFixed(2)+'</b> 年';
+    var p=Math.min(1,(n-BIRTH)/DAY/YD/LIFE);$('pct').style.width=(p*100).toFixed(2)+'%';$('pctT').textContent=(p*100).toFixed(1)+'%';
+    $('fYears').innerHTML=a.y+'<small>岁</small>';
+    $('fMarry').innerHTML=f(dd(MARRY,n))+'<small>天</small>';
+    $('fKid').innerHTML=age(KID,n).y+'<small>岁</small>';
+    $('fWork').innerHTML=f(dd(WORK,n))+'<small>天</small>';
+    $('yr').textContent=n.getFullYear();}
+  function tick(){var ms=new Date()-BIRTH;$('hours').innerHTML=f(ms/36e5)+' <small style="font-size:12px;font-weight:400;color:#857F78">小时</small>';$('secs').textContent=f(ms/1e3);}
+  day();tick();var last=new Date().toDateString();
+  setInterval(function(){var d=new Date().toDateString();if(d!==last){last=d;day()}tick()},1000);
+})();
+</script>
+</body>
+</html>
