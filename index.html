@@ -3,6 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style id="gate-critical">
+html:not(.gate-open){background:#0E131C}
+html:not(.gate-open) body>*:not(.gate-root):not(script):not(noscript){visibility:hidden!important;position:absolute!important;left:0!important;top:0!important;width:100%!important;max-height:0!important;overflow:hidden!important;pointer-events:none!important;clip-path:inset(50%)!important}
+html.gate-open .gate-root{display:none!important}
+#gate-noscript{display:none}
+</style>
 <meta name="theme-color" content="#0E131C">
 <meta name="description" content="孙福磊（猴哥）的个人主页：我的一生 · 前半生。">
 <title>我的一生 · 孙福磊（猴哥）</title>
@@ -143,8 +149,31 @@ footer{padding:40px 0 50px;text-align:center;font-size:12.5px;color:var(--ink3)}
   .closing blockquote{font-size:28px;letter-spacing:.08em}
 }
 </style>
+<link rel="stylesheet" href="/gate.css">
+<script src="/gate.js"></script>
 </head>
 <body>
+<div class="gate-root" id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-title">
+  <div class="gate-card">
+    <div class="gate-brand"><span class="gate-seal" aria-hidden="true">磊</span><span>sunfulei.com</span></div>
+    <h1 id="gate-title">请先验证</h1>
+    <p class="gate-lead">认识的人输入后再看。这只是随手一挡，不是安全锁，页面源代码仍然公开。</p>
+    <form id="gate-form" method="post" action="#" autocomplete="off" onsubmit="event.preventDefault()">
+      <label class="gate-label" for="gate-input">验证</label>
+      <input id="gate-input" name="gate" type="password" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="done" inputmode="text" aria-describedby="gate-hint gate-error">
+      <p class="gate-hint-label">提示</p>
+      <p id="gate-hint" class="gate-hint">我的全名</p>
+      <button id="gate-submit" class="gate-submit" type="submit">进入</button>
+      <p id="gate-error" class="gate-error" role="alert" hidden></p>
+    </form>
+    <noscript>
+      <style>#gate-form{display:none!important}#gate-noscript{display:block!important}</style>
+      <div id="gate-noscript">
+        <p>需要启用 JavaScript 才能验证并查看这个页面。当前没有运行脚本，内容保持关闭，不会直接显示。</p>
+      </div>
+    </noscript>
+  </div>
+</div>
 <div class="wrap">
   <div class="top">
     <a class="brand" href="./"><span class="seal">磊</span>我的一生</a>

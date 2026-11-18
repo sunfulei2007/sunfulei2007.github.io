@@ -3,6 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style id="gate-critical">
+html:not(.gate-open){background:#0E131C}
+html:not(.gate-open) body>*:not(.gate-root):not(script):not(noscript){visibility:hidden!important;position:absolute!important;left:0!important;top:0!important;width:100%!important;max-height:0!important;overflow:hidden!important;pointer-events:none!important;clip-path:inset(50%)!important}
+html.gate-open .gate-root{display:none!important}
+#gate-noscript{display:none}
+</style>
 <meta name="theme-color" content="#2A1D16">
 <title>活着 · 你已经活了多久</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23B5452F'/%3E%3Ctext x='16' y='23' font-size='20' text-anchor='middle' fill='%23FCEFE2' font-family='serif' font-weight='900'%3E%E6%B4%BB%3C/text%3E%3C/svg%3E">
@@ -375,12 +381,36 @@ label.chk input{width:18px;height:18px;accent-color:var(--lamp)}
 @media (max-width:560px){.privacy{border-radius:14px;font-size:13px;letter-spacing:.02em;padding:8px 12px;margin-top:12px;align-items:flex-start}.privacy .pv-ic{width:18px;height:18px;margin-top:1px}}
 
 </style>
+<link rel="stylesheet" href="/gate.css">
+<script src="/gate.js"></script>
 </head>
 <body>
+<div class="gate-root" id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-title">
+  <div class="gate-card">
+    <div class="gate-brand"><span class="gate-seal" aria-hidden="true">磊</span><span>sunfulei.com</span></div>
+    <h1 id="gate-title">请先验证</h1>
+    <p class="gate-lead">认识的人输入后再看。这只是随手一挡，不是安全锁，页面源代码仍然公开。</p>
+    <form id="gate-form" method="post" action="#" autocomplete="off" onsubmit="event.preventDefault()">
+      <label class="gate-label" for="gate-input">验证</label>
+      <input id="gate-input" name="gate" type="password" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="done" inputmode="text" aria-describedby="gate-hint gate-error">
+      <p class="gate-hint-label">提示</p>
+      <p id="gate-hint" class="gate-hint">我的全名</p>
+      <button id="gate-submit" class="gate-submit" type="submit">进入</button>
+      <p id="gate-error" class="gate-error" role="alert" hidden></p>
+    </form>
+    <noscript>
+      <style>#gate-form{display:none!important}#gate-noscript{display:block!important}</style>
+      <div id="gate-noscript">
+        <p>需要启用 JavaScript 才能验证并查看这个页面。当前没有运行脚本，内容保持关闭，不会直接显示。</p>
+      </div>
+    </noscript>
+  </div>
+</div>
 <div class="wrap">
   <div class="topbar">
     <div class="brand"><div class="seal">活</div><div><h1>活着</h1><div class="sub">你已经活了多久</div></div></div>
     <div class="top-actions">
+      <a class="btn" id="homeLink" href="/">首页</a>
       <button class="btn" id="btnSettings" title="寿命与数据设置"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg><span class="lbl">设置</span></button>
       <button class="btn primary" id="btnAdd"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg><span class="lbl">添加人员</span></button>
     </div>

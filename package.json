@@ -1,0 +1,10 @@
+{
+  "name": "sunfulei-site",
+  "private": true,
+  "scripts": {
+    "test:gate": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.56.1"
+  }
+}
