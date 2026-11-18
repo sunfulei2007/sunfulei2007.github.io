@@ -6,9 +6,9 @@
 (function () {
   'use strict';
 
-  var KEY = 'sfl-gate-v1';
+  var KEY = 'sfl-gate-v2';
   var MARK = '1';
-  var REAL_DIGEST = 'd6bf3505438aa2fc64264878bac1355dcf9c08f6c622fb1978f8c52719fef429';
+  var REAL_DIGEST = '2e4779f9bc31f2d42190443bc47953353e0abc7c741c12595c2bfeabac2c702c';
 
   function fixture() {
     var t = window.__SUNFULEI_GATE_TEST__;
@@ -118,16 +118,21 @@
     var button = document.getElementById('gate-submit');
 
     function setError(msg) {
-      if (!error) return;
-      if (!msg) {
-        error.textContent = '';
-        error.hidden = true;
-        if (input) input.setAttribute('aria-invalid', 'false');
-        return;
+      var field = document.getElementById('gate-field');
+      var icon = document.getElementById('gate-status-icon');
+      if (error) error.textContent = msg || '';
+      if (input) {
+        input.setAttribute('aria-invalid', msg ? 'true' : 'false');
+        input.classList.toggle('gate-bad', !!msg);
       }
-      error.hidden = false;
-      error.textContent = msg;
-      if (input) input.setAttribute('aria-invalid', 'true');
+      if (icon) icon.hidden = !msg;
+      if (field) {
+        field.classList.remove('gate-shake');
+        if (msg) {
+          void field.offsetWidth;
+          field.classList.add('gate-shake');
+        }
+      }
     }
 
     form.addEventListener('submit', function (e) {
