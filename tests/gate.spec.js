@@ -6,7 +6,9 @@ const path = require('path');
 /* Throwaway verifier input. This is not the site password. */
 const FIXTURE_TEXT = 'fixture-测试-门';
 const FIXTURE_DIGEST = crypto.createHash('sha256').update(FIXTURE_TEXT, 'utf8').digest('hex');
-const REAL_DIGEST = 'd6bf3505438aa2fc64264878bac1355dcf9c08f6c622fb1978f8c52719fef429';
+const OLD_DIGEST = 'd6bf3505438aa2fc64264878bac1355dcf9c08f6c622fb1978f8c52719fef429';
+const REAL_DIGEST = '2e4779f9bc31f2d42190443bc47953353e0abc7c741c12595c2bfeabac2c702c';
+const SESSION_KEY = 'sfl-gate-v2';
 const ARTIFACTS = '/opt/cursor/artifacts';
 
 const PERSON = {
@@ -42,6 +44,34 @@ async function unlock(page) {
   await page.locator('#gate-input').fill(FIXTURE_TEXT);
   await page.locator('#gate-submit').click();
   await expect(page.locator('#gate')).toBeHidden();
+}
+
+async function visibleGateText(page) {
+  return page.locator('#gate').evaluate((el) => {
+    function hidden(node) {
+      if (!(node instanceof Element)) return false;
+      if (node.classList.contains('sr-only')) return true;
+      if (node.tagName === 'NOSCRIPT' || node.tagName === 'STYLE' || node.tagName === 'SCRIPT') return true;
+      if (node.getAttribute('aria-hidden') === 'true') return true;
+      if (node.hasAttribute('hidden')) return true;
+      const cs = getComputedStyle(node);
+      if (cs.display === 'none' || cs.visibility === 'hidden') return true;
+      return false;
+    }
+    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+    let out = '';
+    let n;
+    while ((n = walker.nextNode())) {
+      let p = n.parentElement;
+      let skip = false;
+      while (p) {
+        if (hidden(p)) { skip = true; break; }
+        p = p.parentElement;
+      }
+      if (!skip) out += n.textContent;
+    }
+    return out.replace(/\s+/g, '');
+  });
 }
 
 function watchPaint(page) {
@@ -80,15 +110,21 @@ test('source keeps the digest, memoir, hosting files, and no fixture secret', ()
     .concat(pages.map((file) => fs.readFileSync(file, 'utf8')))
     .join('\n');
   expect(gateJs).toContain(REAL_DIGEST);
+  expect(gateJs).not.toContain(OLD_DIGEST);
+  expect(gateJs).toContain(SESSION_KEY);
+  expect(gateJs).not.toContain('sfl-gate-v1');
   expect(gateJs).not.toMatch(/localStorage\s*\./);
   expect(joined).not.toContain(FIXTURE_TEXT);
   expect(joined).not.toContain(FIXTURE_DIGEST);
+  expect(joined).not.toContain('我的全名');
   expect(fs.readFileSync('CNAME', 'utf8').trim()).toBe('sunfulei.com');
   expect(fs.existsSync('.nojekyll')).toBe(true);
   for (const file of pages) {
     const html = fs.readFileSync(file, 'utf8');
-    expect(html).toContain('<p id="gate-hint" class="gate-hint">我的全名</p>');
-    expect(html).toContain('需要启用 JavaScript');
+    expect(html).toContain('>请先验证</h1>');
+    expect(html).toContain('aria-label="进入"');
+    expect(html).not.toContain('需要启用 JavaScript');
+    expect(html).not.toMatch(/id="gate-input"[^>]*placeholder/);
     expect(html).not.toMatch(/id="gate-input"[^>]*value=/);
     expect(html).toContain('src="/gate.js"');
   }
@@ -100,7 +136,7 @@ test('source keeps the digest, memoir, hosting files, and no fixture secret', ()
   expect(fs.readFileSync('cooking/index.html', 'utf8')).toContain('id="homeLink" href="/"');
 });
 
-test('locked homepage hides memoir, shows the hint, and does not flash content', async ({ page }) => {
+test('locked homepage shows only the four-character title and does not flash content', async ({ page }) => {
   const errors = trackErrors(page);
   const posts = [];
   page.on('request', (req) => {
@@ -109,12 +145,21 @@ test('locked homepage hides memoir, shows the hint, and does not flash content',
   await watchPaint(page);
   await page.goto('/');
   await expect(page.locator('#gate-form')).toBeVisible();
-  await expect(page.locator('#gate-hint')).toHaveText('我的全名');
   await expect(page.locator('#gate-title')).toHaveText('请先验证');
+  expect(await visibleGateText(page)).toBe('请先验证');
+  expect([...'请先验证']).toHaveLength(4);
+  await expect(page.locator('#gate-input')).not.toHaveAttribute('placeholder', /.+/);
+  const submit = page.getByRole('button', { name: '进入' });
+  await expect(submit).toBeVisible();
+  expect((await submit.innerText()).replace(/\s+/g, '')).toBe('');
+  await expect(submit.locator('svg')).toHaveCount(1);
+  await page.screenshot({ path: path.join(ARTIFACTS, 'gate_v2_desktop.png') });
+  await submit.focus();
+  await expect(submit).toBeFocused();
   await expect(page.locator('.hero')).toBeHidden();
   await expect(page.getByText('宋家台小学')).toBeHidden();
   const visible = await page.locator('body').innerText();
-  expect(visible).toContain('我的全名');
+  expect(visible).not.toContain('我的全名');
   expect(visible).not.toContain('宋家台小学');
   expect(visible).not.toContain('好好活吧');
   const source = await page.content();
@@ -127,7 +172,6 @@ test('locked homepage hides memoir, shows the hint, and does not flash content',
   }
   expect(posts).toEqual([]);
   expect(errors).toEqual([]);
-  await page.screenshot({ path: path.join(ARTIFACTS, 'gate_desktop_empty.png') });
 });
 
 test('blank, whitespace, wrong entry, and trimmed fixture', async ({ page }) => {
@@ -140,13 +184,23 @@ test('blank, whitespace, wrong entry, and trimmed fixture', async ({ page }) => 
   await page.goto('/');
 
   await page.locator('#gate-input').fill('   \n\t');
-  await page.locator('#gate-submit').click();
-  await expect(page.locator('#gate-error')).toHaveText('请先输入内容。');
+  await page.locator('#gate-input').press('Enter');
+  expect(await page.locator('#gate-error').textContent()).toBe('请先输入内容。');
+  expect(await visibleGateText(page)).toBe('请先验证');
+  await expect(page.locator('#gate-input')).toHaveClass(/gate-bad/);
+  await expect(page.locator('#gate-status-icon')).toBeVisible();
   await expect(page.locator('.hero')).toBeHidden();
+
+  const submit = page.getByRole('button', { name: '进入' });
+  await submit.focus();
+  await expect(submit).toBeFocused();
+  await page.keyboard.press('Enter');
+  expect(await page.locator('#gate-error').textContent()).toBe('请先输入内容。');
 
   await page.locator('#gate-input').fill('  不是名字  ');
   await page.locator('#gate-input').press('Enter');
-  await expect(page.locator('#gate-error')).toHaveText('不对，请再试一次。');
+  expect(await page.locator('#gate-error').textContent()).toBe('不对，请再试一次。');
+  expect(await visibleGateText(page)).toBe('请先验证');
   await expect(page.locator('.hero')).toBeHidden();
   await expect(page.locator('#gate-submit')).toBeEnabled();
   expect(page.url()).not.toContain('不是');
@@ -155,7 +209,7 @@ test('blank, whitespace, wrong entry, and trimmed fixture', async ({ page }) => 
   await page.evaluate(() => {
     document.getElementById('gate-input').value = '';
   });
-  await page.screenshot({ path: path.join(ARTIFACTS, 'gate_wrong_desktop.png') });
+  await page.screenshot({ path: path.join(ARTIFACTS, 'gate_v2_wrong_desktop.png') });
 
   await page.locator('#gate-input').fill('  ' + FIXTURE_TEXT + '\u3000');
   await page.locator('#gate-submit').click();
@@ -163,8 +217,9 @@ test('blank, whitespace, wrong entry, and trimmed fixture', async ({ page }) => 
   await expect(page.locator('.hero h1')).toContainText('孙福磊');
   await expect(page.locator('#days')).toHaveText(/\d/);
   await expect(page.locator('a[href="http://kanban.sunfulei.com/"]')).toHaveAttribute('target', '_blank');
-  const mark = await page.evaluate(() => sessionStorage.getItem('sfl-gate-v1'));
+  const mark = await page.evaluate((key) => sessionStorage.getItem(key), SESSION_KEY);
   expect(mark).toBe('1');
+  expect(await page.evaluate(() => sessionStorage.getItem('sfl-gate-v1'))).toBeNull();
   expect(page.url()).not.toContain('fixture');
   expect(posts).toEqual([]);
   expect(errors).toEqual([]);
@@ -176,23 +231,39 @@ test('fixture text does not open the real digest', async ({ page }) => {
   await expect(page.locator('#gate-form')).toBeVisible();
   await page.locator('#gate-input').fill(FIXTURE_TEXT);
   await page.locator('#gate-input').press('Enter');
-  await expect(page.locator('#gate-error')).toHaveText('不对，请再试一次。');
+  expect(await page.locator('#gate-error').textContent()).toBe('不对，请再试一次。');
+  expect(await visibleGateText(page)).toBe('请先验证');
   await expect(page.getByText('宋家台小学')).toBeHidden();
-  const stored = await page.evaluate(() => sessionStorage.getItem('sfl-gate-v1'));
+  const stored = await page.evaluate((key) => sessionStorage.getItem(key), SESSION_KEY);
   expect(stored).toBeNull();
 });
 
 test('localStorage and a wrong session value do not unlock', async ({ page }) => {
-  await page.addInitScript(() => {
+  await page.addInitScript((key) => {
+    localStorage.setItem(key, '1');
     localStorage.setItem('sfl-gate-v1', '1');
     localStorage.setItem('nutritionFridgeV1', JSON.stringify({ have: ['鸡蛋'], pantry: true }));
-    sessionStorage.setItem('sfl-gate-v1', 'yes');
-  });
+    sessionStorage.setItem('sfl-gate-v1', '1');
+    sessionStorage.setItem(key, 'yes');
+  }, SESSION_KEY);
   await page.goto('/');
   await expect(page.locator('#gate-form')).toBeVisible();
   await expect(page.locator('.hero')).toBeHidden();
+  expect(await visibleGateText(page)).toBe('请先验证');
   const fridge = await page.evaluate(() => localStorage.getItem('nutritionFridgeV1'));
   expect(fridge).toContain('鸡蛋');
+});
+
+test('a previous verified session does not bypass the rotated check', async ({ page }) => {
+  await page.addInitScript(() => {
+    sessionStorage.setItem('sfl-gate-v1', '1');
+  });
+  await page.goto('/cooking/');
+  await expect(page.locator('#gate-form')).toBeVisible();
+  expect(await visibleGateText(page)).toBe('请先验证');
+  expect(await page.evaluate((key) => sessionStorage.getItem(key), SESSION_KEY)).toBeNull();
+  const visible = await page.locator('body').innerText();
+  expect(visible).not.toContain('冰箱里有啥');
 });
 
 test('refresh keeps the same tab open and a new context asks again', async ({ browser }) => {
@@ -295,7 +366,6 @@ test('back and bfcache do not ask again after verification', async ({ page }) =>
   });
   await expect(page.locator('#gate')).toBeHidden();
   await expect(page.locator('.hero h1')).toContainText('孙福磊');
-  fs.writeFileSync(path.join(ARTIFACTS, 'bfcache-note.json'), JSON.stringify(nav));
 });
 
 test('storage failure still unlocks this view and leaves app data alone', async ({ page }) => {
@@ -319,17 +389,19 @@ test('storage failure still unlocks this view and leaves app data alone', async 
       comp: true,
       created: 1,
     }]));
-    sessionStorage.removeItem('sfl-gate-v1');
+    sessionStorage.removeItem('sfl-gate-v2');
+    sessionStorage.setItem('sfl-gate-v1', '1');
   }, FIXTURE_DIGEST);
   await page.goto('/cooking/');
   await expect(page.locator('#gate-form')).toBeVisible();
   await page.locator('#gate-input').fill(' \t ');
   await page.locator('#gate-submit').click();
-  await expect(page.locator('#gate-error')).toHaveText('请先输入内容。');
+  expect(await page.locator('#gate-error').textContent()).toBe('请先输入内容。');
+  expect(await visibleGateText(page)).toBe('请先验证');
   await unlock(page);
   await expect(page.locator('#gate-storage-banner')).toBeVisible();
   await expect(page.locator('#fridgeTags')).toContainText('鸡蛋');
-  expect(await page.evaluate(() => sessionStorage.getItem('sfl-gate-v1'))).toBeNull();
+  expect(await page.evaluate(() => sessionStorage.getItem('sfl-gate-v2'))).toBeNull();
   expect(await page.evaluate(() => localStorage.getItem('nutritionFridgeV1'))).toContain('鸡蛋');
   await page.reload();
   await expect(page.locator('#gate-form')).toBeVisible();
@@ -359,7 +431,8 @@ test('thrown sessionStorage does not break the gate or localStorage', async ({ p
   await expect(page.locator('#gate-form')).toBeVisible();
   await page.locator('#gate-input').fill('错的');
   await page.locator('#gate-submit').click();
-  await expect(page.locator('#gate-error')).toHaveText('不对，请再试一次。');
+  expect(await page.locator('#gate-error').textContent()).toBe('不对，请再试一次。');
+  expect(await visibleGateText(page)).toBe('请先验证');
   await unlock(page);
   await expect(page.locator('#gate-storage-banner')).toBeVisible();
   await expect(page.locator('#fridgeTags')).toContainText('豆腐');
@@ -393,17 +466,18 @@ test('disabled javascript fails closed', async ({ browser }) => {
   const page = await context.newPage();
   for (const url of ['/', '/huozhe/', '/cooking/']) {
     await page.goto(url);
-    await expect(page.locator('#gate-noscript')).toBeVisible();
-    await expect(page.locator('#gate-noscript')).toContainText('需要启用 JavaScript');
-    await expect(page.locator('#gate-noscript')).toContainText('不会直接显示');
+    await expect(page.locator('#gate-title')).toBeVisible();
+    await expect(page.locator('#gate-title')).toHaveText('请先验证');
     await expect(page.locator('#gate-form')).toBeHidden();
     await expect(page.locator('.wrap')).toBeHidden();
+    expect((await page.locator('#gate').innerText()).replace(/\s+/g, '')).toBe('请先验证');
     const visible = await page.locator('body').innerText();
     expect(visible).not.toContain('宋家台小学');
     expect(visible).not.toContain('数据只在本地电脑');
     expect(visible).not.toContain('冰箱里有啥');
+    expect(visible).not.toContain('我的全名');
   }
-  await page.screenshot({ path: path.join(ARTIFACTS, 'gate_noscript.png') });
+  await page.screenshot({ path: path.join(ARTIFACTS, 'gate_v2_noscript.png') });
   await context.close();
 });
 
@@ -412,18 +486,19 @@ test.describe('mobile', () => {
 
   test('gate fits and wrong entry stays on screen', async ({ page }) => {
     await page.goto('/');
-    await expect(page.locator('#gate-hint')).toHaveText('我的全名');
-    await expect(page.locator('#gate-submit')).toBeVisible();
+    expect(await visibleGateText(page)).toBe('请先验证');
+    await expect(page.getByRole('button', { name: '进入' })).toBeVisible();
     let overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
     expect(overflow).toBeLessThanOrEqual(1);
-    await page.screenshot({ path: path.join(ARTIFACTS, 'gate_mobile_empty.png') });
+    await page.screenshot({ path: path.join(ARTIFACTS, 'gate_v2_mobile_empty.png') });
     await page.locator('#gate-input').fill('错');
     await page.locator('#gate-submit').click();
-    await expect(page.locator('#gate-error')).toHaveText('不对，请再试一次。');
+    expect(await page.locator('#gate-error').textContent()).toBe('不对，请再试一次。');
+    expect(await visibleGateText(page)).toBe('请先验证');
     await page.evaluate(() => {
       document.getElementById('gate-input').value = '';
     });
-    await page.screenshot({ path: path.join(ARTIFACTS, 'gate_mobile_wrong.png') });
+    await page.screenshot({ path: path.join(ARTIFACTS, 'gate_v2_mobile_wrong.png') });
     await page.setViewportSize({ width: 320, height: 680 });
     overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
     expect(overflow).toBeLessThanOrEqual(1);
