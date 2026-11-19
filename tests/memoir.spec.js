@@ -136,6 +136,56 @@ test('public memoir text has no Work label or private details', async () => {
   }
 });
 
+test('education deeplink, stages, and no raw names', async ({ page }) => {
+  const errors = [];
+  page.on('pageerror', (err) => errors.push(String(err)));
+  await page.goto('/memoir/#education');
+  expect(await visibleGateText(page)).toBe('请先验证');
+  await expect(page.getByRole('heading', { name: '山上的那些年' })).toBeHidden();
+  await arm(page);
+  await page.reload();
+  await unlock(page);
+  await expect(page.locator('#panel-education')).toBeVisible();
+  await expect(page.locator('#panel-work')).toBeHidden();
+  await expect(page.getByRole('tab', { name: '求学' })).toHaveText('求学');
+  await expect(page.locator('#panel-education')).toContainText('大约1994—1999年');
+  await expect(page.locator('#panel-education')).toContainText('初一，也就是六年级');
+  await expect(page.locator('#panel-education')).toContainText('1997年香港回归');
+  await expect(page.locator('#panel-education')).toContainText('2010年领到毕业证');
+  await expect(page.locator('#panel-education')).toContainText('2024年开始用 AI、学 AI');
+  await expect(page.locator('.addendum')).toContainText('2026年11月补记');
+  await expect(page.locator('.addendum')).toContainText('2026年3月');
+  const edu = await page.locator('#panel-education').innerText();
+  for (const name of ['宋家台', '付家庄', '冶源', '华宇', '李新', '孙嘉妍']) {
+    expect(edu).not.toContain(name);
+  }
+  expect(edu).not.toContain('核对');
+  expect(edu).not.toContain('编辑注');
+  await page.screenshot({ path: path.join(ARTIFACTS, 'memoir_education_desktop.png') });
+  await page.setViewportSize({ width: 390, height: 844 });
+  const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+  expect(overflow).toBeLessThanOrEqual(1);
+  await page.screenshot({ path: path.join(ARTIFACTS, 'memoir_education_mobile.png') });
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.getByRole('tab', { name: '工作' }).focus();
+  await page.keyboard.press('ArrowRight');
+  await expect(page.locator('#panel-education')).toBeVisible();
+  await page.locator('.edu-nav button', { hasText: '大学' }).click();
+  const college = await page.locator('#edu-college').evaluate((el) => {
+    const r = el.getBoundingClientRect();
+    const max = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+    return { top: Math.round(r.top), bottom: Math.round(r.bottom), y: window.scrollY, max, vh: window.innerHeight };
+  });
+  expect(college.top).toBeGreaterThan(-8);
+  expect(college.bottom).toBeLessThanOrEqual(college.vh + 8);
+  expect(college.top < 140 || Math.abs(college.y - college.max) <= 2).toBe(true);
+  await page.locator('.edu-nav button', { hasText: '小学' }).click();
+  const primaryTop = await page.locator('#edu-primary').evaluate((el) => Math.round(el.getBoundingClientRect().top));
+  expect(primaryTop).toBeGreaterThan(-8);
+  expect(primaryTop).toBeLessThan(80);
+  expect(errors).toEqual([]);
+});
+
 test('old session key does not open the memoir', async ({ page }) => {
   await page.addInitScript(() => sessionStorage.setItem('sfl-gate-v1', '1'));
   await page.goto('/memoir/#aihao');
