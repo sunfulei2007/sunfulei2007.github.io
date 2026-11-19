@@ -10,7 +10,7 @@ html.gate-open .gate-root{display:none!important}
 #gate-noscript{display:none}
 </style>
 <meta name="theme-color" content="#0E131C">
-<meta name="description" content="孙福磊的人生分卷：按工作、情感、爱好留下的章节草稿。">
+<meta name="description" content="孙福磊的人生分卷：工作、情感、爱好。">
 <title>人生分卷 · 孙福磊</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23B5452F'/%3E%3Ctext x='16' y='23' font-size='20' text-anchor='middle' fill='%23FCEFE2' font-family='serif' font-weight='900'%3E%E5%88%86%3C/text%3E%3C/svg%3E">
 <style>
@@ -22,32 +22,42 @@ html.gate-open .gate-root{display:none!important}
   --sans:"PingFang SC","Hiragino Sans GB","Noto Sans CJK SC","Microsoft YaHei",system-ui,sans-serif;
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;font-family:var(--sans);color:var(--ink);background:var(--bg0);line-height:1.7;-webkit-font-smoothing:antialiased;
+body{margin:0;font-family:var(--sans);color:var(--ink);background:var(--bg0);line-height:1.75;-webkit-font-smoothing:antialiased;
   background-image:radial-gradient(1100px 620px at 78% -8%,rgba(242,182,97,.16),transparent 60%),radial-gradient(800px 600px at -10% 30%,rgba(229,137,74,.07),transparent 60%),linear-gradient(180deg,#121926,#0E131C 40%)}
 a{color:var(--lamp2);text-decoration:none}
 a:hover{text-decoration:underline}
-.wrap{max-width:880px;margin:0 auto;padding:0 28px 72px}
+.wrap{max-width:920px;margin:0 auto;padding:0 28px 80px}
 .top{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:22px 0 0}
 .brand{display:flex;align-items:center;gap:12px;font-family:var(--serif);font-weight:900;letter-spacing:.18em;font-size:18px;color:var(--ink)}
 .brand:hover{text-decoration:none}
 .seal{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;background:linear-gradient(145deg,#C9573A,#9C3A26);color:#FCEFE2;font-size:21px}
 .home{font-size:14px;color:var(--ink2)}
-.draft{display:inline-block;margin-top:28px;font-size:12px;letter-spacing:.18em;color:var(--ember);font-weight:600}
-h1{margin:10px 0 0;font-family:var(--serif);font-weight:900;font-size:48px;letter-spacing:.14em;line-height:1.25;
+h1{margin:22px 0 0;font-family:var(--serif);font-weight:900;font-size:48px;letter-spacing:.14em;line-height:1.25;
   background:linear-gradient(100deg,#FFE9BE,var(--lamp) 50%,var(--ember));-webkit-background-clip:text;background-clip:text;color:transparent}
-.lede{margin:14px 0 0;color:var(--ink2);font-size:15.5px;max-width:40em}
-.lede b{color:var(--ink);font-weight:600}
-.tabs{display:flex;gap:8px;margin:28px 0 8px;padding:0;flex-wrap:wrap}
-.tabs button{font:inherit;font-size:15px;color:var(--ink2);background:rgba(255,255,255,.03);border:1px solid var(--line2);border-radius:999px;padding:8px 16px;cursor:pointer;min-height:44px}
-.tabs button small{margin-left:6px;font-size:12px;letter-spacing:.08em;color:var(--ink3)}
+.lede{margin:12px 0 0;color:var(--ink2);font-size:15.5px;max-width:40em}
+.tabs{display:flex;gap:8px;margin:26px 0 0;flex-wrap:wrap}
+.tabs button,.years button{font:inherit;cursor:pointer}
+.tabs button{font-size:15px;color:var(--ink2);background:rgba(255,255,255,.03);border:1px solid var(--line2);border-radius:999px;padding:8px 18px;min-height:44px}
 .tabs button[aria-selected="true"]{color:#24170E;background:linear-gradient(180deg,#F2A55E,#E0803F);border-color:transparent;font-weight:700}
-.tabs button[aria-selected="true"] small{color:#5A3A22}
-.tabs button:focus-visible{outline:2px solid var(--lamp2);outline-offset:3px}
-.panel{margin-top:18px}
+.tabs button:focus-visible,.years button:focus-visible{outline:2px solid var(--lamp2);outline-offset:3px}
+.panel{margin-top:22px}
 .panel[hidden]{display:none}
-.panel h2{margin:8px 0 0;font-family:var(--serif);font-size:28px;letter-spacing:.12em}
-.panel .intro{color:var(--ink2);font-size:15px}
+.role{margin:0 0 14px;color:var(--ink2);font-size:14.5px}
+.years{display:flex;gap:8px;flex-wrap:wrap;position:sticky;top:0;z-index:2;padding:10px 0;background:linear-gradient(180deg,rgba(18,25,38,.96),rgba(18,25,38,.88) 70%,transparent)}
+.years button{color:var(--lamp2);background:rgba(14,19,28,.72);border:1px solid var(--line2);border-radius:999px;padding:6px 12px;min-height:36px;font-size:13px}
+.stage{display:grid;grid-template-columns:148px minmax(0,1fr);gap:8px 22px;padding:8px 0 26px;scroll-margin-top:72px}
+.year{font-family:var(--serif);font-weight:900;font-size:28px;letter-spacing:.04em;color:var(--lamp2);line-height:1.2;position:sticky;top:64px}
+.year small{display:block;margin-top:6px;font-family:var(--sans);font-size:13px;font-weight:600;letter-spacing:.08em;color:var(--ember)}
+.stage-body h2{margin:0;font-family:var(--serif);font-size:26px;letter-spacing:.08em}
+.shift{margin:8px 0 0;color:var(--ink);font-size:15.5px}
+.projects{display:flex;flex-direction:column;gap:12px;margin-top:14px}
+.proj{padding:14px 16px;border-radius:16px;background:var(--panel);border:1px solid var(--line)}
+.proj h3{margin:0;font-size:18px;letter-spacing:.02em}
+.when{margin:4px 0 0;color:var(--ember);font-size:12.5px;font-weight:700}
+.proj p{margin:8px 0 0;color:var(--ink2);font-size:15px}
+.closing-note{margin:8px 0 0;padding:16px 18px;border-radius:18px;border:1px solid rgba(242,182,97,.28);background:linear-gradient(160deg,rgba(242,182,97,.1),transparent 55%),var(--panel);color:var(--ink2)}
+.panel h2.sec{margin:8px 0 0;font-family:var(--serif);font-size:28px;letter-spacing:.1em}
+.intro{color:var(--ink2);font-size:15px}
 .chapters{display:flex;flex-direction:column;gap:12px;margin-top:18px}
 .piece{border:1px solid var(--line);border-radius:18px;background:var(--panel);overflow:hidden}
 .piece summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 18px;font-family:var(--serif);font-weight:900;letter-spacing:.08em;font-size:20px}
@@ -59,16 +69,14 @@ h1{margin:10px 0 0;font-family:var(--serif);font-weight:900;font-size:48px;lette
 .shape dt{color:var(--ink3);font-size:13px}
 .shape dd{margin:0;font-size:15px}
 .shape dd.gap{color:var(--rose)}
-.index{margin:0 18px 16px;padding:12px 14px;border-radius:12px;background:rgba(255,255,255,.03);color:var(--ink2);font-size:14px}
-.index ul{margin:8px 0 0;padding-left:1.2em}
-.index li{margin:4px 0}
-footer{margin-top:36px;color:var(--ink3);font-size:13px}
-@media (max-width:560px){
-  .wrap{padding:0 16px 56px}
+footer{margin-top:28px;color:var(--ink3);font-size:13px}
+@media (max-width:700px){
+  .wrap{padding:0 16px 64px}
   h1{font-size:36px}
-  .panel h2{font-size:24px}
+  .stage{grid-template-columns:1fr;gap:4px}
+  .year{position:static;font-size:26px}
+  .stage-body h2{font-size:22px}
   .shape div{grid-template-columns:1fr;gap:2px}
-  .piece summary{font-size:18px;padding:14px}
 }
 </style>
 <link rel="stylesheet" href="/gate.css">
@@ -96,77 +104,121 @@ footer{margin-top:36px;color:var(--ink3);font-size:13px}
     <a class="brand" href="/"><span class="seal">分</span>人生分卷</a>
     <a class="home" id="homeLink" href="/">返回首页</a>
   </div>
-  <div class="draft">章节草稿 · 不是加密</div>
   <h1>人生分卷</h1>
-  <p class="lede">首页<a href="/#timeline">前半生</a>按时间记里程碑。这一页按主题留出章节，方便以后把故事写开。<b>现在多数段落是待补充的提纲</b>，不是已经写好的回忆。</p>
+  <p class="lede">首页<a href="/#timeline">前半生</a>按一生的顺序记里程碑。这里按工作、情感、爱好分开来看。工作这一卷写到 2026 年上半年已经发生的事。</p>
   <div class="tabs" role="tablist" aria-label="人生分卷">
-    <button type="button" role="tab" id="tab-work" aria-controls="panel-work" aria-selected="true" tabindex="0">工作<small>Work</small></button>
+    <button type="button" role="tab" id="tab-work" aria-controls="panel-work" aria-selected="true" tabindex="0">工作</button>
     <button type="button" role="tab" id="tab-qinggan" aria-controls="panel-qinggan" aria-selected="false" tabindex="-1">情感</button>
     <button type="button" role="tab" id="tab-aihao" aria-controls="panel-aihao" aria-selected="false" tabindex="-1">爱好</button>
   </div>
 
   <section class="panel" id="panel-work" role="tabpanel" aria-labelledby="tab-work">
-    <h2>工作</h2>
-    <p class="intro">职业上的年月，首页已经按顺序记下。这里不把整条时间线再抄一遍，只留以后可以写开的章节。</p>
-    <div class="chapters">
-      <details class="piece" open>
-        <summary><span>职业经历</span><span class="wait">部分待补充</span></summary>
-        <div class="index">已在<a href="/#timeline">首页前半生</a>记下、这里不再逐年展开：
-          <ul>
-            <li>潍坊、西安、烟台的工地，以及平面设计、婚纱照修图</li>
-            <li>中国人寿银保渠道，保险代理</li>
-            <li>2010 年 11 月至 2013 年底，淄博悦江装饰公司，设计师</li>
-            <li>2014 年 6 月 9 日起，济南林海</li>
-          </ul>
+    <p class="role">2014 年 6 月 9 日入职济南林海装饰工程有限公司，2025 年公司更名为济南林海建设发展有限公司。岗位是施工员，在项目上对外担任技术负责人，没有建造师证书。2019 年 5 月 31 日评为工程技术专业中级职称。2026 年已报评副高，这批材料未记载评审结果。</p>
+    <nav class="years" aria-label="年份">
+      <button type="button" data-jump="y2014">2014</button>
+      <button type="button" data-jump="y2016">2015–2016</button>
+      <button type="button" data-jump="y2018">2017–2018</button>
+      <button type="button" data-jump="y2020">2019–2020</button>
+      <button type="button" data-jump="y2023">2021–2023</button>
+      <button type="button" data-jump="y2025">2024–2025</button>
+      <button type="button" data-jump="y2026">2026</button>
+    </nav>
+
+    <article class="stage" id="y2014">
+      <div class="year">2014<small>入职</small></div>
+      <div class="stage-body">
+        <h2>从设计走到现场</h2>
+        <p class="shift">入职第一个月在设计部协助，随后转到现场学工艺、估工估料和项目协调。这一年，岗位从设计师转到施工员。</p>
+        <div class="projects">
+          <div class="proj"><h3>山东行政学院改造</h3><p class="when">2014-07-06 进场</p><p>工种多，工期紧。开始补消防间距，也知道进场时就要确认防护和原有损坏。</p></div>
+          <div class="proj"><h3>药谷云平台</h3><p class="when">2014-09-15 进场，12 月交钥匙</p><p>各厅材料不同，吊顶要和空调、消防、信号一起排。12 月 8 日综合验收，12 月 11 日整改后交钥匙。</p></div>
+          <div class="proj"><h3>天龙办公室</h3><p class="when">起止未写清</p><p>直接对甲方。增加和变更先报价、出设计变更，再签字。</p></div>
         </div>
-        <dl class="shape">
-          <div><dt>年份</dt><dd>2014-06-09 入职。2025 年公司更名。</dd></div>
-          <div><dt>地点</dt><dd>济南。2014 年曾在东营待了一个多月，之后回到济南。</dd></div>
-          <div><dt>人物</dt><dd>孙福磊。同事与项目上的其他人，待补充。</dd></div>
-          <div><dt>经过</dt><dd>入职时公司名为济南林海装饰工程有限公司，2025 年更名为济南林海建设发展有限公司。职务是施工员，对外在项目上担任技术负责人。没有建造师证书。</dd></div>
-          <div><dt>当时的感受</dt><dd class="gap">待补充</dd></div>
-          <div><dt>如今的理解</dt><dd class="gap">待补充</dd></div>
-        </dl>
-      </details>
-      <details class="piece">
-        <summary><span>更早几份工作的故事</span><span class="wait">待补充</span></summary>
-        <dl class="shape">
-          <div><dt>年份</dt><dd class="gap">待补充。年月见首页。</dd></div>
-          <div><dt>地点</dt><dd class="gap">待补充</dd></div>
-          <div><dt>人物</dt><dd class="gap">待补充</dd></div>
-          <div><dt>经过</dt><dd class="gap">待补充</dd></div>
-          <div><dt>当时的感受</dt><dd class="gap">待补充</dd></div>
-          <div><dt>如今的理解</dt><dd class="gap">待补充</dd></div>
-        </dl>
-      </details>
-      <details class="piece">
-        <summary><span>项目故事</span><span class="wait">待补充</span></summary>
-        <p class="index">对外在项目上担任技术负责人。具体工程的名称、甲方和地点都还没写，下面不代填任何一项工程。</p>
-        <dl class="shape">
-          <div><dt>年份</dt><dd class="gap">待补充</dd></div>
-          <div><dt>地点</dt><dd class="gap">待补充</dd></div>
-          <div><dt>人物</dt><dd class="gap">待补充</dd></div>
-          <div><dt>经过</dt><dd class="gap">待补充</dd></div>
-          <div><dt>当时的感受</dt><dd class="gap">待补充</dd></div>
-          <div><dt>如今的理解</dt><dd class="gap">待补充</dd></div>
-        </dl>
-      </details>
-      <details class="piece">
-        <summary><span>成长与转折</span><span class="wait">部分待补充</span></summary>
-        <dl class="shape">
-          <div><dt>年份</dt><dd>2006–2009 读装潢艺术设计。2019-05-31 中级职称。2026 年报评副高。</dd></div>
-          <div><dt>地点</dt><dd class="gap">待补充</dd></div>
-          <div><dt>人物</dt><dd>孙福磊。</dd></div>
-          <div><dt>经过</dt><dd>华宇职业技术学院，装潢艺术设计专业。2019 年 5 月 31 日评为中级职称，专业是工程技术。2026 年报评副高职称。没有建造师证书。</dd></div>
-          <div><dt>当时的感受</dt><dd class="gap">待补充</dd></div>
-          <div><dt>如今的理解</dt><dd class="gap">待补充</dd></div>
-        </dl>
-      </details>
-    </div>
+      </div>
+    </article>
+
+    <article class="stage" id="y2016">
+      <div class="year">2015–2016<small>独立负责</small></div>
+      <div class="stage-body">
+        <h2>开始独自把一件事做完</h2>
+        <p class="shift">软件学院的 3D 影音室，是第一次独立负责。方案、预算、样品和运输要放在一起算。</p>
+        <div class="projects">
+          <div class="proj"><h3>山东大学齐鲁软件学院 3D 影音室</h3><p class="when">2015 年 11 月</p><p>在法官学院开工的间隙独立负责。年底时，结算等后续已经做完。它和后来的学生公寓不是同一个项目。</p></div>
+          <div class="proj"><h3>山东法官培训学院</h3><p class="when">2015 年开工，其后数年分段</p><p>2016 年还有未完和增加维修，2017 年有办公楼，2018 年仍有后期增加。2017 年那次是设计施工一体，但没有明确的设计任务书，图纸也未经甲方签字，范围后来不好划清。</p></div>
+          <div class="proj"><h3>山大中心校区改造</h3><p class="when">2016，楼栋名称未记</p><p>不能写成 2019 年的生命北楼或电教北楼。同年 8 月还有济南市历下区民政局项目，地处市中心，白天不能施工。</p></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="stage" id="y2018">
+      <div class="year">2017–2018<small>多方对接</small></div>
+      <div class="stage-body">
+        <h2>办公室与银行改造</h2>
+        <p class="shift">现场不再只是自己这一侧。设计边界、材料档次，以及楼里楼外要对接的单位，都得先说清。</p>
+        <div class="projects">
+          <div class="proj"><h3>日新传媒办公室 · 中智山东人力资源办公室</h3><p class="when">2017，另有法官学院办公楼</p><p>日新传媒来自前一年的转介绍。中智任务书清楚，后期甲方对设计并不满意。设计范围和材料档次，要在开工前说定。</p></div>
+          <div class="proj"><h3>平安银行解放路支行</h3><p class="when">2018</p><p>长期合作单位的一次新风格装修。图纸和现场有出入，楼上有渗漏，楼下是高压变电站，紧邻解放路，对接的单位也多。</p></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="stage" id="y2020">
+      <div class="year">2019–2020<small>校园与奥体</small></div>
+      <div class="stage-body">
+        <h2>旧楼改造和精装变更</h2>
+        <p class="shift">在项目经理带领下做山大旧楼和奥体新建。变更尽量写成字据，口头说过的当天整理。</p>
+        <div class="projects">
+          <div class="proj"><h3>山大中心校区生命北楼 · 电教北楼</h3><p class="when">2019</p><p>都是旧楼改造。生命北楼使用要求不同，变更多，现场分楼层推进。电教北楼赶在暑假，中标后建设方又要求整体变更，目标是 9 月开学能用。</p></div>
+          <div class="proj"><h3>保税大厦 7 层样板间 · 奥体金融中心 C 栋</h3><p class="when">2019</p><p>保税 7 层是样板房的二次拆改。C 栋是新建，后来的零星工作还穿到 2020 年。</p></div>
+          <div class="proj"><h3>奥体金融中心 B 栋</h3><p class="when">2020，建设方为历下控股</p><p>年初疫情后开工，变更很多，图纸常常对不上现场。每天催方案，现场补图再送确认，材料进场做开箱抽检。</p></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="stage" id="y2023">
+      <div class="year">2021–2023<small>样板与深化</small></div>
+      <div class="stage-body">
+        <h2>公寓、展厅、两处实验楼</h2>
+        <p class="shift">颜色和造型不再等装完再改。先做色板和样板，再下大单。同名的项目分开写。</p>
+        <div class="projects">
+          <div class="proj"><h3>金宇大厦城发办公室</h3><p class="when">2021 年年后，现场大约 15 天</p><p>木门第一次到场和原有门颜色差得大，只能拉回去重喷。接近原有颜色时，先对照原物做色板。</p></div>
+          <div class="proj"><h3>软件学院 1 号公寓 · 3 号学生公寓</h3><p class="when">2021、2022，与 3D 影音室分开</p><p>拆除和小空间作业里，交底和防护要讲到具体理由，不能只靠处罚。2022 年的专项总结里，职务写的是施工员。</p></div>
+          <div class="proj"><h3>637 小展厅 · 创新成果展室</h3><p class="when">小展厅 2022 年 5 月；展室跨到 2023</p><p>两件不并成一个项目。小展厅的铝板先到工厂试拼复尺。展室的异形墙面和地台，先做样板再加工。</p></div>
+          <div class="proj"><h3>637 西所 1 号综合实验楼 · 兴隆山实验楼 5 层</h3><p class="when">西所中标后进场；兴隆山为 2023 年暑假</p><p>这是两处实验楼。西所工期大约两个月，走廊玻璃后来改为隔热耐火玻璃，木作改为现场定尺。兴隆山要保证开学，样品在现场试装后再下大单。</p></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="stage" id="y2025">
+      <div class="year">2024–2025<small>下单之前</small></div>
+      <div class="stage-body">
+        <h2>教室、展厅、产业社区</h2>
+        <p class="shift">样板、喷绘和清单放到大批量之前。中孚和汉峪的月份有重叠，不写成同一个现场。</p>
+        <div class="projects">
+          <div class="proj"><h3>山大千佛山校区教学六楼</h3><p class="when">2024 年夏</p><p>组织现场，对接建设、监理、物业和信息办。铝扣板先做一间样板，再铺开。</p></div>
+          <div class="proj"><h3>中孚展厅</h3><p class="when">2024–2025，精确月份未写死</p><p>2024 年终总结已写施工中，2025 年上半年写到收尾。异形铝板后来改为不锈钢，发光字用一比一的喷绘看实际大小。</p></div>
+          <div class="proj"><h3>汉峪金谷</h3><p class="when">2025 年 3 月底拆大厅高吊顶，4 月初大面积施工</p><p>文中也称金谷产业社区，有多份合同，不与中孚合并。进场前读图、理主材，并用样品去接近原设计。</p></div>
+          <div class="proj"><h3>雁栖台样板间</h3><p class="when">2025</p><p>上半年合同尚未签订，后来按建设方要求先做样板，并跟踪木作和石材加工。</p></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="stage" id="y2026">
+      <div class="year">2026<small>上半年</small></div>
+      <div class="stage-body">
+        <h2>新的教室，和新的示范区</h2>
+        <p class="shift">知新楼要把做法讲给不熟悉装修的对方。章锦这一段，只写到上半年已经开始的下单和设计对接。</p>
+        <div class="projects">
+          <div class="proj"><h3>山大中心校区知新楼 B218</h3><p class="when">2026 年上半年，工期 30 个日历天</p><p>对接管理学院。过程中把做法讲清楚，留下关键节点的影像和沟通。效果图调整过多次。</p></div>
+          <div class="proj"><h3>章锦片区售楼处</h3><p class="when">2026 年上半年</p><p>示范区。上半年已开展不锈钢、木作、瓷砖等材料下单，以及现场设计对接。后续过程待补充。</p></div>
+        </div>
+      </div>
+    </article>
+    <p class="closing-note">这些年先是跟着学工艺，后来能独立负责一个房间；再往后，更多时间用在多方对接、事先打样，以及把变更写成字据。2025 年以后，书面往来和提料开始用 AI 与在线文档留痕。</p>
   </section>
 
   <section class="panel" id="panel-qinggan" role="tabpanel" aria-labelledby="tab-qinggan" hidden>
-    <h2>情感</h2>
+    <h2 class="sec">情感</h2>
     <p class="intro">日期以首页为准。亲人的姓名、相处的经过和心里的话，凡是首页没写的，一律待补充，不在这里编。</p>
     <div class="chapters">
       <details class="piece" open>
@@ -217,7 +269,7 @@ footer{margin-top:36px;color:var(--ink3);font-size:13px}
   </section>
 
   <section class="panel" id="panel-aihao" role="tabpanel" aria-labelledby="tab-aihao" hidden>
-    <h2>爱好</h2>
+    <h2 class="sec">爱好</h2>
     <p class="intro">只写首页已经出现过的学习。阅读和生活里的其他兴趣，还没有记录，就空着。</p>
     <div class="chapters">
       <details class="piece" open>
@@ -255,7 +307,7 @@ footer{margin-top:36px;color:var(--ink3);font-size:13px}
       </details>
     </div>
   </section>
-  <footer>里程碑仍在<a href="/#timeline">首页前半生</a>。这一页只是提纲。</footer>
+  <footer>整段人生的里程碑仍在<a href="/#timeline">首页前半生</a>。</footer>
 </div>
 <script>
 (function () {
@@ -294,6 +346,16 @@ footer{margin-top:36px;color:var(--ink3);font-size:13px}
     e.preventDefault();
     show(order[next], true);
   });
+  var years = document.querySelector('.years');
+  if (years) {
+    years.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-jump]');
+      if (!b) return;
+      show('work', false);
+      var el = document.getElementById(b.getAttribute('data-jump'));
+      if (el && el.scrollIntoView) el.scrollIntoView({ behavior: 'auto', block: 'start' });
+    });
+  }
   window.addEventListener('hashchange', fromHash);
   fromHash();
 })();

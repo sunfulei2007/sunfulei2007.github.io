@@ -77,13 +77,22 @@ test('tabs, deeplinks, and only confirmed facts', async ({ page }) => {
   await page.goto('/memoir/#work');
   await expect(page.locator('#gate')).toBeHidden();
   await expect(page.locator('#panel-work')).toBeVisible();
-  await expect(page.locator('#panel-work')).toContainText('2014-06-09');
+  await expect(page.getByRole('tab', { name: '工作' })).toHaveText('工作');
+  await expect(page.locator('#panel-work')).toContainText('2014 年 6 月 9 日');
   await expect(page.locator('#panel-work')).toContainText('济南林海建设发展有限公司');
   await expect(page.locator('#panel-work')).toContainText('施工员');
   await expect(page.locator('#panel-work')).toContainText('技术负责人');
   await expect(page.locator('#panel-work')).toContainText('没有建造师证书');
-  await expect(page.locator('#panel-work')).toContainText('2019-05-31');
-  await expect(page.getByRole('link', { name: '首页前半生' }).first()).toHaveAttribute('href', '/#timeline');
+  await expect(page.locator('#panel-work')).toContainText('2019 年 5 月 31 日');
+  await expect(page.locator('#panel-work')).toContainText('这批材料未记载评审结果');
+  await expect(page.locator('#y2026')).toContainText('知新楼 B218');
+  await expect(page.locator('#y2026')).toContainText('后续过程待补充');
+  await expect(page.locator('#panel-work')).not.toContainText('尚未取得');
+  await expect(page.locator('#panel-work')).not.toContainText('第一次完整');
+  await expect(page.getByRole('link', { name: '前半生' }).first()).toHaveAttribute('href', '/#timeline');
+  await page.locator('.years button', { hasText: '2019–2020' }).click();
+  const yearTop = await page.locator('#y2020').evaluate((el) => Math.round(el.getBoundingClientRect().top));
+  expect(yearTop).toBeLessThan(90);
 
   await page.getByRole('tab', { name: '情感' }).click();
   await page.getByText('父女时光').click();
@@ -113,6 +122,20 @@ test('homepage entry, back, and the three existing cards', async ({ page }) => {
   await expect(page.getByRole('heading', { name: '人生分卷' })).toBeVisible();
 });
 
+test('public memoir text has no Work label or private details', async () => {
+  const fs = require('fs');
+  const html = fs.readFileSync('memoir/index.html', 'utf8');
+  const home = fs.readFileSync('index.html', 'utf8');
+  expect(html).not.toMatch(/>\s*Work\s*</);
+  expect(html).not.toContain('私下审阅');
+  expect(html).not.toContain('未上线');
+  expect(html).not.toContain('未加密');
+  expect(home).not.toContain('>Work<');
+  for (const word of ['受伤', '轻伤', '家装', '鲁商', '东悦府', '回款', '尾款', '质保', '投诉', '万元']) {
+    expect(html).not.toContain(word);
+  }
+});
+
 test('old session key does not open the memoir', async ({ page }) => {
   await page.addInitScript(() => sessionStorage.setItem('sfl-gate-v1', '1'));
   await page.goto('/memoir/#aihao');
@@ -128,17 +151,17 @@ test.describe('memoir layout', () => {
     await unlock(page);
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
     expect(overflow).toBeLessThanOrEqual(1);
-    await page.screenshot({ path: path.join(ARTIFACTS, 'memoir_desktop.png') });
+    await page.screenshot({ path: path.join(ARTIFACTS, 'memoir_timeline_desktop.png') });
   });
 
   test('mobile unlocked preview', async ({ page }) => {
     await arm(page);
     await page.setViewportSize({ width: 390, height: 844 });
-    await page.goto('/memoir/#qinggan');
+    await page.goto('/memoir/#work');
     await unlock(page);
-    await page.getByText('父女时光').click();
+    await expect(page.locator('#y2014')).toBeVisible();
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
     expect(overflow).toBeLessThanOrEqual(1);
-    await page.screenshot({ path: path.join(ARTIFACTS, 'memoir_mobile.png'), fullPage: true });
+    await page.screenshot({ path: path.join(ARTIFACTS, 'memoir_timeline_mobile.png') });
   });
 });
